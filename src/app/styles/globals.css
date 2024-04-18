@@ -8,3 +8,14 @@ body {
   display: flex;
   justify-content: center;
 }
+
+@font-face {
+  font-family: 'Waguri';
+  src: url('/fonts/Waguri.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.custom-waguri-font {
+  font-family: 'Waguri', sans-serif;
+}
