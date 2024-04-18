@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import '../app/styles/globals.css';
+import DrawingOrder from './DrawingOrder';
 export default function Main() {
   return (
     <div
