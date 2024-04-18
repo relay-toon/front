@@ -1,5 +1,6 @@
+import Header from '@/src/components/header';
 import { ReactNode } from 'react';
-
+import '../styles/globals.css';
 interface LayoutProps {
   children?: ReactNode;
 }
@@ -7,9 +8,7 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   return (
     <div>
-      <header>
-        <h1>relay-toon</h1>
-      </header>
+      <Header />
       <main>{children}</main>
     </div>
   );

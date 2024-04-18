@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  min-width: 390px;
+  background-color: rgb(230, 230, 230);
+  display: flex;
+  justify-content: center;
+}
+
+@font-face {
+  font-family: 'Waguri';
+  src: url('/fonts/Waguri.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.custom-waguri-font {
+  font-family: 'Waguri', sans-serif;
+}
