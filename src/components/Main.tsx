@@ -130,7 +130,6 @@ export default function Main() {
           </div>
         </div>
       </div>
-      <SmallBtn text="완성" counting={false} />
     </div>
   );
 }
