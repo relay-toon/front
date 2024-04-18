@@ -7,7 +7,6 @@ export default function Main() {
       className="mt-[23.5px] p-5"
       style={{ backgroundColor: `rgb(246,246,246)` }}
     >
-      <DrawingOrder />
       <div className="flex justify-center">
         <Image
           src="/img/main-image.png"
