@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import '../app/styles/globals.css';
 export default function Main() {
   return (
     <div
@@ -13,7 +14,7 @@ export default function Main() {
           height={306}
         />
       </div>
-      <span className="flex text-xl mt-9 justify-center font-normal">
+      <span className="flex text-xl mt-9 justify-center font-normal custom-waguri-font">
         다함께 완성하는 릴레이툰!
       </span>
       <button className="flex w-[349px] h-[58px] rounded-[10px] bg-[#E0FF68] justify-center items-center mt-5 ml-auto mr-auto text-xl font-normal">
@@ -22,18 +23,20 @@ export default function Main() {
       {/* 나중에 버튼 컴포넌트로 변령 */}
       <div className="flex flew-row  mt-[62.5px]">
         <Image src="/svg/star.svg" alt="star" width={37} height={39} />
-        <span className="flex items-center ml-[4.5px] text-xl font-normal">
+        <span className="flex items-center ml-[4.5px] text-xl font-normal custom-waguri-font">
           릴레이툰이란?
         </span>
       </div>
-      <div className="text-base">
-        릴레이툰은 여러명이서 릴레이로 이어그리는 그림을 말<br />
+      <div className="text-base mt-4">
+        릴레이툰은 여러명이서 릴레이로{' '}
+        <span className="font-bold text-[#464646]">이어그리는 그림</span>을 말
+        <br />
         해요! 다같이 재미있는 그림을 완성해보세요!
       </div>
       <div className="flex items-center w-[350px] h-[180px] bg-white mt-10 rounded-xl">
         <div className="flex flex-col p-5 w-full">
           <div className="flex flex-row">
-            <span className="flex">1. 그림 주제 정하기</span>
+            <span className="flex custom-waguri-font">1. 그림 주제 정하기</span>
             <span className="flex bg-[#E0FF68] rounded-[10px] font-bold ml-[6px] text-xs items-center px-2.5 py-0.5">
               주제는 마스터가 직접 선정해요!
             </span>
@@ -64,7 +67,9 @@ export default function Main() {
       <div className="flex items-center w-[350px] h-[180px] bg-white mt-4 rounded-xl">
         <div className="flex flex-col p-5 w-full h-full">
           <div className="flex flex-row">
-            <span className="flex">2. 함께할 멤버 수 정하기</span>
+            <span className="flex custom-waguri-font">
+              2. 함께할 멤버 수 정하기
+            </span>
             <span className="flex bg-[#E0FF68] rounded-[10px] font-bold ml-[6px] text-xs items-center px-2.5 py-0.5">
               최대 8명까지
             </span>
@@ -99,7 +104,9 @@ export default function Main() {
       <div className="flex items-center w-[350px] h-[180px] bg-white mt-4 rounded-xl mb-[116px]">
         <div className="flex flex-col p-5 w-full h-full">
           <div className="flex flex-row">
-            <span className="flex">3. 그림은 타임어택! 초 정하기</span>
+            <span className="flex custom-waguri-font">
+              3. 그림은 타임어택! 초 정하기
+            </span>
             <span className="flex bg-[#E0FF68] rounded-[10px] font-bold ml-[9px] text-xs items-center px-2.5 py-0.5">
               맞춤 시간 추천!
             </span>
