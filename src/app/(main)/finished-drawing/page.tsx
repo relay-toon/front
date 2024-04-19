@@ -1,6 +1,8 @@
 import DrawingOrder from '@/src/components/DrawingOrder';
 import Image from 'next/image';
 import '../../styles/globals.css';
+import SaveButton from '@/src/components/SaveButton';
+import ShareButton from '@/src/components/ShareButton';
 
 export default function FinishedDrawing() {
   return (
@@ -31,12 +33,8 @@ export default function FinishedDrawing() {
         />
       </div>
       <div className="flex flex-row mt-9 gap-[14px] justify-center mb-[116px]">
-        <button className=" w-[168px] h-[58px] rounded-[10px] bg-black text-white custom-waguri-font">
-          저장하기
-        </button>
-        <button className="w-[168px] h-[58px] rounded-[10px] bg-[#E0FF68] text-black custom-waguri-font">
-          공유하기
-        </button>
+        <SaveButton />
+        <ShareButton />
       </div>
     </div>
   );
