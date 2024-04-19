@@ -7,7 +7,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div>
+    <div style={{ backgroundColor: `rgb(246,246,246)` }}>
       <Header />
       <main>{children}</main>
     </div>
