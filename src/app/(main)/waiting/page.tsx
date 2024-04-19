@@ -1,4 +1,5 @@
 import LargeButton from '@/src/components/LargeButton';
+import StartModal from '@/src/components/StartModal';
 import Image from 'next/image';
 
 export default function WaitingPage() {
