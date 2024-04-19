@@ -1,13 +1,12 @@
 import DrawingOrder from '@/src/components/DrawingOrder';
 import Image from 'next/image';
-import '../../styles/globals.css';
 import SaveButton from '@/src/components/SaveButton';
 import ShareButton from '@/src/components/ShareButton';
 
 export default function FinishedDrawing() {
   return (
     <div>
-      <div className="flex justify-center  text-2xl custom-waguri-font mt-4">
+      <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
         1번째&nbsp;<span className="text-[#9B9B9B]">그림 완성!</span>
       </div>
       <div className="mt-3 text-lg">
@@ -32,7 +31,7 @@ export default function FinishedDrawing() {
           height={364}
         />
       </div>
-      <div className="flex flex-row mt-9 gap-[14px] justify-center mb-[116px]">
+      <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
         <ShareButton />
       </div>
