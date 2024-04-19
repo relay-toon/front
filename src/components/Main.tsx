@@ -1,12 +1,9 @@
 import Image from 'next/image';
 import '../app/styles/globals.css';
-import DrawingOrder from './DrawingOrder';
+
 export default function Main() {
   return (
-    <div
-      className="mt-[23.5px] p-5"
-      style={{ backgroundColor: `rgb(246,246,246)` }}
-    >
+    <div className="mt-[23.5px] p-5">
       <div className="flex justify-center">
         <Image
           src="/img/main-image.png"
