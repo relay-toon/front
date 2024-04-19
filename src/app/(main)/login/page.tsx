@@ -1,7 +1,7 @@
 import Image from 'next/image';
 export default function LoginPage() {
   return (
-    <div className="flex flex-col mt-[97px] w-[370px] justify-center items-center">
+    <div className="flex flex-col mt-[97px] w-[390px] justify-center items-center">
       <Image src="/img/login-image.png" alt="login" width={260} height={205} />
       <div className="flex justify-center text-[#828282] mt-20">
         소셜로 시작하기
