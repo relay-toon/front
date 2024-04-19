@@ -11,11 +11,11 @@ export default function HeaderSmallButton({
   return (
     <div>
       {isComplete ? (
-        <button className="w-[70px] h-[36px] rounded-[6px] bg-[#E0FF68] text-black">
+        <button className="h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black">
           완료
         </button>
       ) : (
-        <button className="w-[70px] h-[36px] rounded-[6px] text-[#E0FF68] bg-black">
+        <button className="h-[36px] w-[70px] rounded-[6px] bg-black text-[#E0FF68]">
           <Image
             src="/svg/timer.svg"
             alt="timer"

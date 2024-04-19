@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import '../app/styles/globals.css';
 
 export default function Main() {
   return (
