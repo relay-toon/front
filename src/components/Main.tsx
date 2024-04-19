@@ -1,9 +1,7 @@
 import Image from 'next/image';
 import '../app/styles/globals.css';
 import DrawingOrder from './DrawingOrder';
-import LargeBtn from './LargeBtn';
-import MediumBtn from './MediumBtn';
-import SmallBtn from './SmallBtn';
+
 export default function Main() {
   return (
     <div
