@@ -1,8 +1,17 @@
 import Image from 'next/image';
+import Link from 'next/link';
+
 export default function LoginPage() {
   return (
     <div className="mt-[97px] flex flex-col items-center justify-center">
-      <Image src="/img/login-image.png" alt="login" width={260} height={205} />
+      <Link href="/">
+        <Image
+          src="/img/login-image.png"
+          alt="login"
+          width={260}
+          height={205}
+        />
+      </Link>
       <div className="mt-20 flex justify-center text-[#828282]">
         소셜로 시작하기
       </div>
