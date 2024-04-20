@@ -11,19 +11,23 @@ export default function HeaderSmallButton({
   return (
     <div>
       {isComplete ? (
-        <button className="h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black">
-          완료
-        </button>
+        <div className="mr-5 py-[6px]">
+          <button className="custom-waguri-font h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black">
+            완성
+          </button>
+        </div>
       ) : (
-        <button className="h-[36px] w-[70px] rounded-[6px] bg-black text-[#E0FF68]">
+        <div className="mr-5 flex flex-row py-[6px]">
           <Image
             src="/svg/timer.svg"
             alt="timer"
             width={31.15}
             height={27.97}
           />
-          {timeLeft}초
-        </button>
+          <button className="custom-waguri-font ml-[13.85px] h-[36px] w-[70px] rounded-[6px] bg-black text-[#E0FF68]">
+            {timeLeft}초
+          </button>
+        </div>
       )}
     </div>
   );
