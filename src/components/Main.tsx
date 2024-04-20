@@ -1,7 +1,5 @@
 import Image from 'next/image';
 import '../app/styles/globals.css';
-import DrawingOrder from './DrawingOrder';
-import LoginModal from './login-modal';
 
 export default function Main() {
   return (
@@ -128,7 +126,7 @@ export default function Main() {
             <div className="text-base ml-[19.28px]">총 40초!</div>
           </div>
         </div>
-      </div>      
+      </div>            
     </div>
   );
 }
