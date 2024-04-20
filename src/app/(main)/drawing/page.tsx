@@ -15,7 +15,7 @@ export default function DrawingPage() {
     <div>
       <div className="flex flex-row justify-between">
         <OnlyLogoHeader />
-        <HeaderFinishedButton timeLeft={10} isComplete={false} />
+        <HeaderFinishedButton time={12} isComplete={false} />
       </div>
       <div className="flex flex-row px-5 py-3">
         <div className="text-xl font-bold">그림 주제</div>

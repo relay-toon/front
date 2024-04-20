@@ -1,11 +1,11 @@
 import Image from 'next/image';
 
 interface HeaderSmallButtonProps {
-  timeLeft: number;
+  time: number;
   isComplete: boolean;
 }
 export default function HeaderSmallButton({
-  timeLeft,
+  time,
   isComplete,
 }: HeaderSmallButtonProps) {
   return (
@@ -25,7 +25,7 @@ export default function HeaderSmallButton({
             height={27.97}
           />
           <button className="custom-waguri-font ml-[13.85px] h-[36px] w-[70px] rounded-[6px] bg-black text-[#E0FF68]">
-            {timeLeft}초
+            {time}초
           </button>
         </div>
       )}
