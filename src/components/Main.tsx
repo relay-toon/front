@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import '../app/styles/globals.css';
 import DrawingOrder from './DrawingOrder';
+import LoginModal from './login-modal';
 
 export default function Main() {
   return (
@@ -128,6 +129,7 @@ export default function Main() {
           </div>
         </div>
       </div>
+      <LoginModal buttonText='로그인 하기' />
     </div>
   );
 }
