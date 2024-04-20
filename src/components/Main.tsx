@@ -1,8 +1,12 @@
+'use client';
+
 import Image from 'next/image';
 import MenuHeader from './header/MenuHeader';
 import LargeButton from './LargeButton';
-
+import Link from 'next/link';
+import Cookie from 'js-cookie';
 export default function Main() {
+  const isLoggedIn = Cookie.get('isLoggedIn') === 'true';
   return (
     <>
       <MenuHeader />
@@ -19,7 +23,15 @@ export default function Main() {
           다함께 완성하는 릴레이툰!
         </span>
         <div className="mt-5">
-          <LargeButton buttonText="릴레이툰 시작하기" />
+          {isLoggedIn ? (
+            <Link href="/create-room">
+              <LargeButton buttonText="릴레이툰 시작하기" />
+            </Link>
+          ) : (
+            <Link href="/login">
+              <LargeButton buttonText="릴레이툰 시작하기" />
+            </Link>
+          )}
         </div>
         <div className="flew-row mt-[62.5px]  flex">
           <Image src="/svg/star.svg" alt="star" width={37} height={39} />
