@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { fabric } from 'fabric';
 
-const CanvasComponent = () => {
+export default function CanvasComponent() {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [color, setColor] = useState('#000000');
   const [lineWidth, setLineWidth] = useState(2);
@@ -77,6 +77,4 @@ const CanvasComponent = () => {
       </div>
     </div>
   );
-};
-
-export default CanvasComponent;
+}
