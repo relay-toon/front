@@ -1,7 +1,7 @@
 'use client';
 import LargeBtn from '@/src/components/LargeBtn';
 import { useEffect, useRef, useState } from 'react';
-import { start } from 'repl';
+import { moseoverHandler, timeSetMoseoverHandler } from './action';
 
 export default function CreateRoom() {
   const [subjectText, setSubjectText] = useState('');
@@ -10,6 +10,8 @@ export default function CreateRoom() {
   let drawingTime = ['제한없음', '12초', '16초', '20초'];
   let memberNumArr = new Array(6).fill(0);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const timeSetSliderRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleMouseOver = () => {
       const slider = sliderRef.current;
@@ -30,27 +32,31 @@ export default function CreateRoom() {
     };
   }, []);
 
-  const moseoverHandler = () => {
-    const item = document.getElementById('item');
-    const slider = document.getElementById('slider');
-    const clientWidth = item?.clientWidth;
-
-    slider?.addEventListener('wheel', (e) => {
-      if (e.deltaY < 0 && clientWidth) {
-        slider.scrollLeft -= clientWidth * 2;
-        console.log(slider.scrollLeft);
-      } else if (e.deltaY > 0 && clientWidth) {
-        slider.scrollLeft += clientWidth * 2;
-        console.log(slider.scrollLeft);
+  useEffect(() => {
+    const handleTimeSetMouseOver = () => {
+      const timeSetSlider = timeSetSliderRef.current;
+      if (timeSetSlider) {
+        timeSetSlider.addEventListener('wheel', (e) => {
+          e.preventDefault();
+        });
       }
-    });
-  };
+    };
+    const timeSetSlider = sliderRef.current;
+    if (timeSetSlider) {
+      timeSetSlider.addEventListener('mouseover', handleTimeSetMouseOver);
+    }
+    return () => {
+      if (timeSetSlider) {
+        timeSetSlider.removeEventListener('mouseover', handleTimeSetMouseOver);
+      }
+    };
+  }, []);
 
   return (
     <div className="max-w-sm mt-[23.5px] p-5 bg-white custom-waguri-font">
       <div className="flex flex-col">
         <div className="flex justify-between">
-          <span>그림 주제</span>
+          <span>드로잉 주제</span>
           <span>
             {subjectText.length}/{maxLength}
           </span>
@@ -77,38 +83,63 @@ export default function CreateRoom() {
           <span>최대 6명</span>
         </div>
         <div
-          className="mt-[16px] flex gap-[10px] overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth"
+          className="mt-[16px] flex gap-[10px] overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth scrollbar-hide"
           id="slider"
           ref={sliderRef}
         >
-          {memberNumArr.map((num, i) => (
-            <div
-              key={`${num}-${i}`}
-              id="item"
-              className="w-[84px] flex justify-aroundabsolute"
-            >
-              <button className="w-[84px] h-[48px] rounded-lg border border-[#DEDEDE] ease-in-out focus:bg-black focus:text-white">
-                {i + 1}명
-              </button>
-            </div>
-          ))}
+          <form
+            className="mt-[16px] w-full flex h-fit gap-[10px] overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth scrollbar-hide"
+            id="drawingTimeSlider"
+          >
+            {memberNumArr.map((num, i) => (
+              <div className="w-[40rem]" key={`${i}`}>
+                <input
+                  type="radio"
+                  className="peer hidden"
+                  id={`${num}-${i}`}
+                  value={num}
+                  name="answer"
+                />
+                <label
+                  htmlFor={`${num}-${i}`}
+                  className="block cursor-pointer select-none rounded-lg px-[25px] py-[10px] border border-[#DEDEDE] text-center peer-checked:bg-black peer-checked:text-white"
+                >
+                  {i + 1}명
+                </label>
+              </div>
+            ))}
+          </form>
         </div>
       </div>
-
-      <div className="h-[125px] mt-[36px] mb-[59px] relative">
+      <div
+        className="h-[125px] mt-[36px] mb-[59px] relative"
+        onWheel={timeSetMoseoverHandler}
+      >
         <div className="flex justify-between">
           <span>드로잉 시간</span>
         </div>
         <div>
-          {/* 기본12초 멕시멈 40초, 제한없음 까지 */}
-          <div className="mt-[16px] flex gap-[10px] absolute">
+          <div
+            className="mt-[16px] flex gap-[10px] overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth scrollbar-hide"
+            id="drawingTimeSlider"
+            ref={timeSetSliderRef}
+          >
             {drawingTime.map((time, i) => (
-              <button
-                key={`${time}-${i}`}
-                className="w-[84px] h-[48px] rounded-lg border border-[#DEDEDE] ease-in-out focus:bg-black focus:text-white"
-              >
-                {time}
-              </button>
+              <div className="w-[40rem]" key={`${time}-${i}`}>
+                <input
+                  type="radio"
+                  className="peer hidden"
+                  id={`${time}-${i}`}
+                  value={time}
+                  name="answer"
+                />
+                <label
+                  htmlFor={`${time}-${i}`}
+                  className="block cursor-pointer select-none rounded-lg p-3 border border-[#DEDEDE] text-center peer-checked:bg-black peer-checked:text-white"
+                >
+                  {time}
+                </label>
+              </div>
             ))}
           </div>
         </div>
