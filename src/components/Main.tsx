@@ -128,8 +128,7 @@ export default function Main() {
             <div className="text-base ml-[19.28px]">총 40초!</div>
           </div>
         </div>
-      </div>
-      <LoginModal buttonText='로그인 하기' />
+      </div>      
     </div>
   );
 }
