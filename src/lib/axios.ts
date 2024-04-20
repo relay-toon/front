@@ -8,5 +8,5 @@ export const useAxios = () => {
     },
     withCredentials: true,
   });
-  return axiosInstance;
+  return { axiosInstance };
 };
