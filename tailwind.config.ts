@@ -17,6 +17,19 @@ const config: Config = {
         'large-button': '#E1FF68',
         'share-button': '#E0FF68',
       },
+      keyframes: {
+        spin: {
+          from: {
+            transform: 'rotate(0deg)',
+          },
+          to: {
+            transform: 'rotate(360deg)',
+          },
+        },
+      },
+    },
+    animation: {
+      'spin-2s': 'spin 2s linear infinite',
     },
   },
   plugins: [],
