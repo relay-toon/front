@@ -1,10 +1,11 @@
 import LargeButton from '@/src/components/LargeButton';
-import StartModal from '@/src/components/StartModal';
+import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import Image from 'next/image';
 
 export default function WaitingPage() {
   return (
     <div>
+      <OnlyLogoHeader />
       <div className="custom-waguri-font mt-32 flex justify-center text-2xl">
         현재 누가 그리고 있어요!
       </div>
