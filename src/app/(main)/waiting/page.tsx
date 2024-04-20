@@ -1,11 +1,18 @@
+'use client';
+
 import LargeButton from '@/src/components/LargeButton';
-import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
+import MenuHeader from '@/src/components/header/MenuHeader';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function WaitingPage() {
+  const router = useRouter();
+  const onClick = () => {
+    router.refresh();
+  };
   return (
     <div>
-      <OnlyLogoHeader />
+      <MenuHeader />
       <div className="custom-waguri-font mt-32 flex justify-center text-2xl">
         현재 누가 그리고 있어요!
       </div>
@@ -46,7 +53,7 @@ export default function WaitingPage() {
         className="mx-auto mt-[89px]"
       />
       <div className="mb-[108px] mt-[13px] flex justify-center px-5 py-2">
-        <LargeButton buttonText="새로 고침" />
+        <LargeButton buttonText="새로 고침" onClick={onClick} />
       </div>
     </div>
   );
