@@ -1,5 +1,5 @@
 'use client';
-import LargeButton from '@/src/components/LargeButton';
+import LargeBtn from '@/src/components/LargeBtn';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -32,7 +32,7 @@ export default function ComingSoonPage() {
         </span>
       </div>
       <div className="mb-8 mt-[194.43px] flex justify-center text-xl">
-        <LargeButton buttonText="뒤로가기" onClick={onClick} />
+        <LargeBtn text="뒤로가기" onClick={onClick} active={true} />
       </div>
     </div>
   );
