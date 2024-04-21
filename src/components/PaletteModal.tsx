@@ -23,10 +23,13 @@ export default function PaletteModal({
       </div>
       <div className="ml-auto mr-auto mt-[60px] flex flex-col">
         <div>
-          <button className="h-10 w-10 rounded-full bg-black"></button>
+          <button
+            className="h-10 w-10 rounded-full bg-black"
+            onClick={() => onColorSelect('#000000')}
+          ></button>
           <button
             className="ml-5 h-10 w-10 rounded-full bg-[#5D5D5D]"
-            onClick={() => onColorSelect('#000000')}
+            onClick={() => onColorSelect('#5D5D5D')}
           ></button>
           <button
             className="ml-5 h-10 w-10 rounded-full bg-[#A1A1A1]"
@@ -36,7 +39,10 @@ export default function PaletteModal({
             className="ml-5 h-10 w-10 rounded-full bg-[#D4D4D4]"
             onClick={() => onColorSelect('#D4D4D4')}
           ></button>
-          <button className="ml-5 h-10 w-10 rounded-full border-[1px] border-black bg-white"></button>
+          <button
+            className="ml-5 h-10 w-10 rounded-full border-[1px] border-black bg-white"
+            onClick={() => onColorSelect('#FFFFFF')}
+          ></button>
         </div>
         <div className="ml-auto mr-auto mt-[28px] flex">
           <button

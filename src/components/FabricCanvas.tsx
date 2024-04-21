@@ -50,6 +50,7 @@ export default function CanvasComponent() {
       case 'eraser':
         brush = new fabric.PencilBrush(canvas);
         brush.width = lineWidth;
+        brush.color = 'white';
         brush.globalCompositeOperation = 'destination-out';
         break;
       default:
