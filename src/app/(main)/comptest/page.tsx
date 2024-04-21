@@ -1,13 +1,9 @@
-import Mypage from "@/src/components/Mypage";
-import MyPageSideBar from "@/src/components/Mypage-sidebar";
-
+import ModalNickname from "@/src/components/Modal-nickname";
 
 export default function CompTest (){
     return (
-      
       <div>
-        <MyPageSideBar />
-      </div>  
-      
+        <ModalNickname />
+      </div>
     );
 }
