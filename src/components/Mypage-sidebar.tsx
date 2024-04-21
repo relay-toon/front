@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function MyPageSideBar() {
   return (
-    <div className="custom-pretendard-font relative flex h-screen flex-col items-center bg-[#F7F7F7]">
+    <div className="custom-pretendard-font relative flex h-screen flex-col items-center bg-[#F7F7F7] w-[310px]">
       <div className="mt-[58px] flex h-[48px] items-center justify-center text-lg ">
         <div className="absolute left-[25px] flex h-[26px] w-[26px] items-center justify-center">
           <Image src="/img/close.png" alt="close" width={26} height={26} />
