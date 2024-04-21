@@ -1,6 +1,6 @@
 interface BtnText {
   text: string;
-  active?: boolean;
+  active: boolean;
   onClick?: () => void;
 }
 export default function LargeBtn({ text, active, onClick }: BtnText) {
