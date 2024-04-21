@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { fabric } from 'fabric';
 import Image from 'next/image';
-
+import PaletteModal from './PaletteModal';
 // 캔버스에서 지금 붓도 연필이랑 똑같은 것 같고 지우개도 작동이 안됨 알아보고 수정예정
 export default function CanvasComponent() {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
@@ -10,13 +10,13 @@ export default function CanvasComponent() {
   const [brushType, setBrushType] = useState('pencil');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasInstance = useRef<fabric.Canvas | null>(null);
-
+  const [showPalette, setShowPalette] = useState(false);
   useEffect(() => {
     if (!canvasRef.current) return;
 
     const canvas = new fabric.Canvas(canvasRef.current, {
       width: 350,
-      height: 455,
+      height: 407,
       backgroundColor: 'white',
       isDrawingMode: isDrawingMode,
     });
@@ -79,13 +79,21 @@ export default function CanvasComponent() {
     const canvas = canvasInstance.current;
     canvas!.freeDrawingBrush.width = size;
   };
+
+  const handleOpenPalette = () => {
+    setShowPalette(true);
+  };
+  const handleClosePalette = () => {
+    setShowPalette(false);
+  };
+
   return (
     <div>
       <canvas
         ref={canvasRef}
         id="canvas"
         width={350}
-        height={455}
+        height={407}
         className=" rounded-lg"
       />
       <div className="ml-auto mr-auto mt-3 flex h-[45px] w-[350px] rounded-lg bg-[#EAEAEA]">
@@ -104,8 +112,8 @@ export default function CanvasComponent() {
           {lineWidth}
         </span>
       </div>
-      <div className=" mb-14 ml-auto mr-auto mt-[13px] flex h-16 w-[350px] flex-row items-center  rounded-lg bg-[#EAEAEA] px-[19px] py-[14px]">
-        <div id="colorPalette" className="flex flex-grow">
+      <div className=" mb-8 ml-auto mr-auto mt-[13px] flex h-16 w-[350px] flex-row items-center  rounded-lg bg-[#EAEAEA] px-[19px] py-[14px]">
+        <div id="colorPalette" className="flex">
           <button
             className="h-9 w-9 rounded-md"
             onClick={() => setBrushType('pencil')}
@@ -131,9 +139,18 @@ export default function CanvasComponent() {
             <Image src="/svg/reset.svg" alt="reset" width={36} height={36} />
           </button>
           <button
-            className="ml-auto  flex h-[28px] w-[28px] self-center rounded-full border-[2px]  border-[#C4C4C4]"
+            className="ml-[100px]  flex h-[28px] w-[28px] self-center rounded-full border-[2px]  border-[#C4C4C4]"
             style={{ backgroundColor: `${color}` }}
+            onClick={handleOpenPalette}
           ></button>
+          <div className="relative w-[390px]">
+            {showPalette && (
+              <PaletteModal
+                onClose={handleClosePalette}
+                onColorSelect={handleColorChange}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>
