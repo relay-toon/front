@@ -13,6 +13,23 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      colors: {
+        'large-button': '#E1FF68',
+        'share-button': '#E0FF68',
+      },
+      keyframes: {
+        spin: {
+          from: {
+            transform: 'rotate(0deg)',
+          },
+          to: {
+            transform: 'rotate(360deg)',
+          },
+        },
+      },
+    },
+    animation: {
+      'spin-2s': 'spin 2s linear infinite',
     },
   },
   plugins: [],
