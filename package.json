@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.29.2",
+    "fabric": "^5.3.0",
+    "js-cookie": "^3.0.5",
     "next": "14.2.1",
     "react": "^18",
     "react-dom": "^18",
@@ -16,6 +19,8 @@
     "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
+    "@types/fabric": "^5.3.7",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
