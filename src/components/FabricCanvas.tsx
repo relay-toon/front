@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { fabric } from 'fabric';
+import Image from 'next/image';
 
+// 캔버스에서 지금 붓도 연필이랑 똑같은 것 같고 지우개도 작동이 안됨 알아보고 수정예정
 export default function CanvasComponent() {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [color, setColor] = useState('#000000');
-  const [lineWidth, setLineWidth] = useState(2);
+  const [lineWidth, setLineWidth] = useState(4);
   const [brushType, setBrushType] = useState('pencil');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasInstance = useRef<fabric.Canvas | null>(null);
@@ -37,9 +39,27 @@ export default function CanvasComponent() {
     const canvas = canvasInstance.current;
     if (!canvas) return;
 
-    let brush = new fabric.PencilBrush(canvas);
+    let brush;
+    switch (brushType) {
+      case 'pencil':
+        brush = new fabric.PencilBrush(canvas);
+        break;
+      case 'circle':
+        brush = new fabric.CircleBrush();
+        break;
+      case 'eraser':
+        brush = new fabric.PencilBrush(canvas);
+        brush.width = lineWidth;
+        brush.globalCompositeOperation = 'destination-out';
+        break;
+      default:
+        brush = new fabric.PencilBrush(canvas);
+        break;
+    }
 
-    brush.color = color;
+    if (brushType !== 'eraser') {
+      brush.color = color;
+    }
     brush.width = lineWidth;
     canvas.freeDrawingBrush = brush;
   }
@@ -47,6 +67,17 @@ export default function CanvasComponent() {
     const canvas = canvasInstance.current;
     if (!canvas) return;
     canvas.clear();
+  };
+  const handleColorChange = (color: string) => {
+    setColor(color);
+    const canvas = canvasInstance.current;
+    canvas!.freeDrawingBrush.color = color;
+  };
+
+  const handleSizeChange = (size: number) => {
+    setLineWidth(size);
+    const canvas = canvasInstance.current;
+    canvas!.freeDrawingBrush.width = size;
   };
   return (
     <div>
@@ -57,22 +88,52 @@ export default function CanvasComponent() {
         height={455}
         className=" rounded-lg"
       />
-      <div className="mb-16  mt-[13px]  flex w-[350px] justify-center rounded-lg bg-[#EAEAEA] px-[19px]  py-[14px]">
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-        />
-        <span className="ml-auto mr-1">펜 굵기</span>
+      <div className="ml-auto mr-auto mt-3 flex h-[45px] w-[350px] rounded-lg bg-[#EAEAEA]">
+        <span className=" ml-[18.5px] flex items-center text-base font-extrabold">
+          크기
+        </span>
         <input
           type="range"
-          min="1"
-          max="10"
+          min={1}
+          max={30}
           value={lineWidth}
-          onChange={(e) => setLineWidth(parseInt(e.target.value))}
+          onChange={(e) => handleSizeChange(Number(e.target.value))}
+          className="ml-[10px] flex h-[12px] w-[243px] self-center"
         />
-        <div className="ml-auto flex">
-          <button onClick={handleClear}>지우기</button>
+        <span className="ml-[10px] flex items-center text-base font-extrabold">
+          {lineWidth}
+        </span>
+      </div>
+      <div className=" mb-14 ml-auto mr-auto mt-[13px] flex h-16 w-[350px] flex-row items-center  rounded-lg bg-[#EAEAEA] px-[19px] py-[14px]">
+        <div id="colorPalette" className="flex flex-grow">
+          <button
+            className="h-9 w-9 rounded-md"
+            onClick={() => setBrushType('pencil')}
+          >
+            <Image src="/svg/pencil.svg" alt="pencil" width={36} height={36} />
+          </button>
+          <button
+            className="ml-[13px] h-9 w-9 rounded-md"
+            onClick={() => setBrushType('brush')}
+          >
+            <Image src="/svg/brush.svg" alt="brush" width={36} height={36} />
+          </button>
+          <button
+            className="ml-[13px] h-9 w-9 rounded-md"
+            onClick={() => setBrushType('eraser')}
+          >
+            <Image src="/svg/eraser.svg" alt="eraser" width={36} height={36} />
+          </button>
+          <button
+            className="ml-[13px] h-9 w-9 rounded-md"
+            onClick={handleClear}
+          >
+            <Image src="/svg/reset.svg" alt="reset" width={36} height={36} />
+          </button>
+          <button
+            className="ml-auto  flex h-[28px] w-[28px] self-center rounded-full border-[2px]  border-[#C4C4C4]"
+            style={{ backgroundColor: `${color}` }}
+          ></button>
         </div>
       </div>
     </div>
