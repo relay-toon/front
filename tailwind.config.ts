@@ -32,6 +32,6 @@ const config: Config = {
       'spin-2s': 'spin 2s linear infinite',
     },
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 };
 export default config;

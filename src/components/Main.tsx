@@ -6,6 +6,10 @@ import LargeButton from './LargeButton';
 import Link from 'next/link';
 import Cookie from 'js-cookie';
 import LoadingSpinner from './LoadingSpinner';
+import '../app/styles/globals.css';
+import DrawingOrder from './DrawingOrder';
+import LoginModal from './login-modal';
+
 export default function Main() {
   const isLoggedIn = Cookie.get('isLoggedIn') === 'true';
   return (
