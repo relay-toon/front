@@ -1,15 +1,17 @@
 'use client';
-import LargeBtn from '@/src/components/LargeBtn';
+
 import { useEffect, useRef, useState } from 'react';
 import { moseoverHandler, timeSetMoseoverHandler } from './action';
-import { useForm, SubmitHandler } from 'react-hook-form';
+
+import LargeBtn from '@/src/components/LargeBtn';
+import PainterName from '@/src/components/Modal-painterName';
 
 interface subjectValue {
   drawingSubject: string;
 }
 
 export default function CreateRoom() {
-  const { register, handleSubmit } = useForm<subjectValue>();
+  
   const [subjectText, setSubjectText] = useState('');
   const [memberOption, setMemberOption] = useState(false);
   const [timeOption, setTimeOption] = useState(false);
@@ -63,7 +65,7 @@ export default function CreateRoom() {
   const handleSubjectTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubjectText(e.target.value);
   };
-  const onSubmit: SubmitHandler<subjectValue> = ({ drawingSubject }) => {};
+  
 
   const handleMemberCheck = () => [setMemberOption(true)];
   const handleTimeCheck = () => [setTimeOption(true)];
@@ -77,9 +79,8 @@ export default function CreateRoom() {
             {subjectText.length}/{maxLength}
           </span>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-screen mt-[16px]">
-          <input
-            {...register('drawingSubject', { required: true })}
+        <form className="w-screen mt-[16px]">
+          <input           
             className="w-[350px] p-3 rounded-lg border border-[#9B9B9B] placeholder:text-[#9B9B9B] "
             type="text"
             value={subjectText}
@@ -160,7 +161,7 @@ export default function CreateRoom() {
             ))}
           </form>
         </div>
-      </div>
+      </div>      
       <LargeBtn
         text="시작하기"
         active={subjectText.length && memberOption && timeOption ? true : false}
