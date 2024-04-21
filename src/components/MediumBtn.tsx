@@ -1,13 +1,17 @@
-interface BtnText {
-  text: string;
-  active: boolean;
+interface MediumButtonProps {
+  buttonText: string;
+  onClick?: () => void;
 }
-export default function MediumBtn({ text, active }: BtnText) {
+export default function CompleteButton({
+  buttonText,
+  onClick,
+}: MediumButtonProps) {
   return (
     <button
-      className={`w-[168px] h-[58px] ${active ? 'bg-[#E0FF68]' : 'bg-[#D9D9D9]'} text-black text-[20px] rounded-md text-center flex justify-center items-center `}
+      className="h-[50px] w-[140px] rounded-[6px] bg-black text-white"
+      onClick={onClick}
     >
-      {text}
+      {buttonText}
     </button>
   );
 }

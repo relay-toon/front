@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import MenuHeader from './header/MenuHeader';
-import LargeButton from './LargeButton';
+import LargeBtn from './LargeBtn';
 import Link from 'next/link';
 import Cookie from 'js-cookie';
 import '../app/styles/globals.css';
@@ -27,11 +27,11 @@ export default function Main() {
         <div className="mt-5">
           {isLoggedIn ? (
             <Link href="/create-room">
-              <LargeButton buttonText="릴레이툰 시작하기" />
+              <LargeBtn text="릴레이툰 시작하기" />
             </Link>
           ) : (
             <Link href="/login">
-              <LargeButton buttonText="릴레이툰 시작하기" />
+              <LargeBtn text="릴레이툰 시작하기" />
             </Link>
           )}
         </div>
