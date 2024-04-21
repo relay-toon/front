@@ -1,9 +1,10 @@
-import ModalNickname from "@/src/components/Modal-nickname";
 
-export default function CompTest (){
-    return (
-      <div>
-        <ModalNickname />
-      </div>
-    );
+import ModalCancelAccount from '@/src/components/Modal-CancelAccount';
+
+export default function CompTest() {
+  return (
+    <div>
+      <ModalCancelAccount />
+    </div>
+  );
 }
