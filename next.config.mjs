@@ -1,4 +1,13 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+export default {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.externals = config.externals.filter(
+        (external) =>
+          typeof external !== 'function' ||
+          external.toString().indexOf('fabric') === -1,
+      );
+    }
+    return config;
+  },
+};
