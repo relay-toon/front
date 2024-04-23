@@ -2,13 +2,17 @@
 
 import Image from 'next/image';
 import MenuHeader from './header/MenuHeader';
-import LargeButton from './LargeButton';
+import LargeBtn from './LargeBtn';
 import Link from 'next/link';
 import Cookie from 'js-cookie';
 import '../app/styles/globals.css';
+import { useEffect, useState } from 'react';
 
 export default function Main() {
-  const isLoggedIn = Cookie.get('isLoggedIn') === 'true';
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(Cookie.get('isLoggedIn') === 'true');
+  }, []);
   return (
     <>
       <MenuHeader />
@@ -27,11 +31,11 @@ export default function Main() {
         <div className="mt-5">
           {isLoggedIn ? (
             <Link href="/create-room">
-              <LargeButton buttonText="릴레이툰 시작하기" />
+              <LargeBtn text="릴레이툰 시작하기" active={true} />
             </Link>
           ) : (
             <Link href="/login">
-              <LargeButton buttonText="릴레이툰 시작하기" />
+              <LargeBtn text="릴레이툰 시작하기" active={true} />
             </Link>
           )}
         </div>
