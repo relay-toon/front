@@ -2,13 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { moseoverHandler, timeSetMoseoverHandler } from './action';
-
 import LargeBtn from '@/src/components/LargeBtn';
-import PainterName from '@/src/components/Modal-painterName';
-
-interface subjectValue {
-  drawingSubject: string;
-}
 
 export default function CreateRoom() {
   const [subjectText, setSubjectText] = useState('');
