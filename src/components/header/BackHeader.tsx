@@ -15,7 +15,7 @@ export default function BackHeader({ text }: BackHeaderProps) {
         <Image src="/svg/header-back.svg" alt="back" width={26} height={26} />
       </button>
       <span className="flex-grow text-center text-lg font-bold">{text}</span>
-      <div style={{ width: 26, flexShrink: 0 }} />{' '}
+      <div style={{ width: 44, flexShrink: 0 }} />{' '}
     </div>
   );
 }
