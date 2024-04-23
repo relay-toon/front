@@ -2,7 +2,10 @@ import { useEffect, useState, useRef } from 'react';
 import { fabric } from 'fabric';
 import Image from 'next/image';
 import PaletteModal from './PaletteModal';
-// 캔버스에서 지금 붓도 연필이랑 똑같은 것 같고 지우개도 작동이 안됨 알아보고 수정예정
+//모달밖에 어둡게 처리해야하고 모달 밖 클릭시 닫히게 해야하는데 지금 설정하면 모달 창 위치문제가 생김 포지션때문에
+//추후 수정 예정 그리고 fabric.js가 지우개 기능 구현이 된다고는 하는데 아무리 해봐도 안됨
+//그래서 지우개를 펜 색깔 흰색으로 칠하게끔 구현해놓음
+//그리고 브러쉬 종류 찾아보고 수정예정
 export default function CanvasComponent() {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [color, setColor] = useState('#000000');
