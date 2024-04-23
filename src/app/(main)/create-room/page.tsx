@@ -84,6 +84,7 @@ export default function CreateRoom() {
             value={subjectText}
             onChange={handleSubjectTextChange}
             placeholder="멤버들과 그릴 그림 주제를 입력해주세요!"
+            maxLength={25}
           />
         </form>
         <div className="mt-[14px] flex gap-[10px] text-sm">
@@ -104,7 +105,7 @@ export default function CreateRoom() {
           <span>최대 6명</span>
         </div>
         <form
-          className="scrollbar-hide mt-[16px] flex h-fit w-full gap-[10px] overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap"
+          className="mt-[16px] flex h-fit w-full gap-[10px] overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap scrollbar-hide"
           id="slider"
         >
           {memberNumArr.map((num, i) => (
@@ -115,7 +116,7 @@ export default function CreateRoom() {
                 id={`${num}-${i}`}
                 value={num}
                 name="answer"
-                onClick={handleMemberCheck}
+                onClick={handleMemberCheck}                
               />
               <label
                 htmlFor={`${num}-${i}`}
@@ -136,7 +137,7 @@ export default function CreateRoom() {
         </div>
         <div>
           <form
-            className="scrollbar-hide mt-[16px] flex gap-[10px] overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap"
+            className="mt-[16px] flex gap-[10px] overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap scrollbar-hide"
             id="drawingTimeSlider"
           >
             {drawingTime.map((time, i) => (
