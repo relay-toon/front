@@ -13,7 +13,7 @@ export default function FinishedDrawing() {
         <div className="flex justify-center">다음 순서로 그릴 멤버들에게</div>
         <div className="flex justify-center">
           <span className="font-bold">링크를 공유</span>
-          {''}해주세요!
+          해주세요!
         </div>
       </div>
       <div className="mt-8">
