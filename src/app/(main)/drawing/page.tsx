@@ -1,8 +1,9 @@
 'use client';
 import DrawingOrder from '@/src/components/DrawingOrder';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
-import HeaderFinishedButton from '@/src/components/header/_component/HeaderFinishedButton';
+import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
+import { useRef } from 'react';
 
 const FabricCanvasWithNoSSR = dynamic(
   () => import('@/src/components/FabricCanvas'),
@@ -11,11 +12,17 @@ const FabricCanvasWithNoSSR = dynamic(
   },
 );
 export default function DrawingPage() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const onClick = () => {
+    const canvas = canvasRef.current;
+    const data = canvas?.toDataURL();
+    console.log(data);
+  };
   return (
     <div>
       <div className="flex flex-row justify-between">
         <OnlyLogoHeader />
-        <HeaderFinishedButton time={12} isComplete={false} />
+        <HeaderFinishedButton time={12} isComplete={true} onClick={onClick} />
       </div>
       <div className="flex flex-row px-5 py-3">
         <div className="text-xl font-bold">그림 주제</div>

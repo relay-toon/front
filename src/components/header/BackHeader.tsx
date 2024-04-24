@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 interface BackHeaderProps {
-  text: string;
+  text?: string;
 }
 export default function BackHeader({ text }: BackHeaderProps) {
   const router = useRouter();
