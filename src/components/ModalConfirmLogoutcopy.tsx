@@ -1,5 +1,5 @@
 'use client';
-export default function ModalConfirmLogout() {
+export default function ModalConfirmLogout() {  
   const onClick = () => {};
   return (
     <div className="*:custom-pretendard-font flex h-[189px] w-[300px] flex-col items-center rounded-[12px] bg-white">

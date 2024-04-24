@@ -1,12 +1,36 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function MyPageSideBar() {
+interface IsLoggedIn {
+  isLoggedIn: boolean;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function MyPageSideBar({
+  isLoggedIn,
+  isOpen,
+  setIsOpen,
+}: IsLoggedIn) {
+  const onXClick = () => {
+    setIsOpen(false);
+  };
   return (
-    <div className="custom-pretendard-font relative flex h-screen flex-col items-center bg-[#F7F7F7] w-[310px]">
-      <div className="mt-[58px] flex h-[48px] items-center justify-center text-lg ">
-        <div className="absolute left-[25px] flex h-[26px] w-[26px] items-center justify-center">
-          <Image src="/img/close.png" alt="close" width={26} height={26} />
+    <div
+      className={`custom-pretendard-font absolute w-[310px] ${isOpen ? `right-0 transform transition-all duration-500` : `right-[-310px] transform transition-all duration-500`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
+    >
+      <div className="relative mt-[58px] flex h-[48px] items-center justify-center text-lg ">
+        <div
+          className="absolute left-[-87px] flex h-[26px] w-[26px] items-center justify-center"
+          onClick={onXClick}
+        >
+          <Image
+            src="/img/close.png"
+            alt="close"
+            width={26}
+            height={26}
+            className="cursor-pointer"
+          />
         </div>
         <div className="flex justify-center text-center font-bold">
           <span>MY페이지</span>
@@ -14,7 +38,15 @@ export default function MyPageSideBar() {
       </div>
 
       <div className="mt-[19px] flex h-[82px] w-[266px] items-center justify-between rounded-[12px] bg-white px-[20px]">
-        <span className="text-[20px] font-bold">유저20</span>
+        <span className="text-[20px] font-bold">
+          {isLoggedIn ? (
+            '유저20'
+          ) : (
+            <Link href="/login">
+              <span>로그인하기</span>
+            </Link>
+          )}
+        </span>
         <Image src="/img/shareIcon.png" alt="share" width={20} height={20} />
       </div>
 

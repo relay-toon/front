@@ -2,16 +2,22 @@
 
 import Image from 'next/image';
 import MenuHeader from './header/MenuHeader';
-import LargeButton from './LargeButton';
+import LargeBtn from './LargeBtn';
 import Link from 'next/link';
 import Cookie from 'js-cookie';
 import '../app/styles/globals.css';
+import { useEffect, useState } from 'react';
+import MyPageSideBar from './MypageSidebar';
 
 export default function Main() {
-  const isLoggedIn = Cookie.get('isLoggedIn') === 'true';
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    setIsLoggedIn(Cookie.get('isLoggedIn') === 'true');
+  }, []);
   return (
-    <>
-      <MenuHeader />
+    <div className="relative overflow-hidden">
+      <MenuHeader isLoggedIn={isLoggedIn} />
+      {/* <MyPageSideBar isLoggedIn={isLoggedIn} /> */}
       <div className="mt-[23.5px] p-5">
         <div className="flex justify-center">
           <Image
@@ -27,11 +33,11 @@ export default function Main() {
         <div className="mt-5">
           {isLoggedIn ? (
             <Link href="/create-room">
-              <LargeButton buttonText="릴레이툰 시작하기" />
+              <LargeBtn text="릴레이툰 시작하기" active={true} />
             </Link>
           ) : (
             <Link href="/login">
-              <LargeButton buttonText="릴레이툰 시작하기" />
+              <LargeBtn text="릴레이툰 시작하기" active={true} />
             </Link>
           )}
         </div>
@@ -150,6 +156,6 @@ export default function Main() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

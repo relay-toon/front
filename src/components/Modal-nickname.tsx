@@ -8,6 +8,7 @@ export default function ModalNickname() {
   const onNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
   };
+  const onCompleteClick = () => {};
   return (
     <div className="flex h-[273px] w-[296px] flex-col items-center justify-center rounded-[12px] bg-white">
       <div className="custom-waguri-font text-[20px]">
@@ -25,12 +26,16 @@ export default function ModalNickname() {
             value={nickname}
             placeholder="이름/닉네임을 입력해주세요!"
             required
+            maxLength={12}
             onChange={onNicknameChange}
           />
         </div>
       </div>
       <div className="mt-[40px]">
-        <button className="custom-pretendard-font h-[50px] w-[140px] rounded-[6px] bg-black font-bold text-white">
+        <button
+          className="custom-pretendard-font h-[50px] w-[140px] rounded-[6px] bg-black font-bold text-white"
+          onClick={onCompleteClick}
+        >
           완료
         </button>
       </div>

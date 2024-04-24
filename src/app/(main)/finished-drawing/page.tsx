@@ -2,10 +2,12 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import Image from 'next/image';
 import SaveButton from '@/src/components/SaveButton';
 import ShareButton from '@/src/components/ShareButton';
+import MenuHeader from '@/src/components/header/MenuHeader';
 
 export default function FinishedDrawing() {
   return (
     <div>
+      <MenuHeader />
       <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
         1번째&nbsp;<span className="text-[#9B9B9B]">그림 완성!</span>
       </div>
@@ -13,7 +15,7 @@ export default function FinishedDrawing() {
         <div className="flex justify-center">다음 순서로 그릴 멤버들에게</div>
         <div className="flex justify-center">
           <span className="font-bold">링크를 공유</span>
-          {''}해주세요!
+          해주세요!
         </div>
       </div>
       <div className="mt-8">

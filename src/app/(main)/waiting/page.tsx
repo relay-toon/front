@@ -1,6 +1,6 @@
 'use client';
 
-import LargeButton from '@/src/components/LargeButton';
+import LargeBtn from '@/src/components/LargeBtn';
 import MenuHeader from '@/src/components/header/MenuHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -53,7 +53,7 @@ export default function WaitingPage() {
         className="mx-auto mt-[89px]"
       />
       <div className="mb-[108px] mt-[13px] flex justify-center px-5 py-2">
-        <LargeButton buttonText="새로 고침" onClick={onClick} />
+        <LargeBtn text="새로 고침" onClick={onClick} active={true} />
       </div>
     </div>
   );

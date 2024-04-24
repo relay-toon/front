@@ -3,16 +3,21 @@ import Image from 'next/image';
 interface HeaderSmallButtonProps {
   time: number;
   isComplete: boolean;
+  onClick: () => void;
 }
 export default function HeaderSmallButton({
   time,
   isComplete,
+  onClick,
 }: HeaderSmallButtonProps) {
   return (
     <div>
       {isComplete ? (
         <div className="mr-5 py-[6px]">
-          <button className="custom-waguri-font h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black">
+          <button
+            className="custom-waguri-font h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black"
+            onClick={onClick}
+          >
             완성
           </button>
         </div>

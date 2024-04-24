@@ -2,16 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { moseoverHandler, timeSetMoseoverHandler } from './action';
-
 import LargeBtn from '@/src/components/LargeBtn';
-import PainterName from '@/src/components/Modal-painterName';
-
-interface subjectValue {
-  drawingSubject: string;
-}
+import BackHeader from '@/src/components/header/BackHeader';
 
 export default function CreateRoom() {
-  
   const [subjectText, setSubjectText] = useState('');
   const [memberOption, setMemberOption] = useState(false);
   const [timeOption, setTimeOption] = useState(false);
@@ -65,107 +59,111 @@ export default function CreateRoom() {
   const handleSubjectTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubjectText(e.target.value);
   };
-  
 
   const handleMemberCheck = () => [setMemberOption(true)];
   const handleTimeCheck = () => [setTimeOption(true)];
 
   return (
-    <div className="w-[390px] mt-[23.5px] p-5 bg-white custom-waguri-font h-[844px]">
-      <div className="flex flex-col">
-        <div className="flex justify-between">
-          <span>드로잉 주제</span>
-          <span>
-            {subjectText.length}/{maxLength}
-          </span>
+    <div className="bg-white">
+      <BackHeader />
+      <div className=" h-[844px] w-[390px] bg-white p-5">
+        <div className="flex flex-col">
+          <div className="flex justify-between">
+            <span className="text-xl font-bold">드로잉 주제</span>
+            <span>
+              {subjectText.length}/{maxLength}
+            </span>
+          </div>
+          <form className="mt-[16px] w-screen">
+            <input
+              className="w-[350px] rounded-lg border border-[#9B9B9B] p-3 placeholder:text-[#9B9B9B] "
+              type="text"
+              value={subjectText}
+              onChange={handleSubjectTextChange}
+              placeholder="멤버들과 그릴 그림 주제를 입력해주세요!"
+            />
+          </form>
+          <div className="mt-[14px] flex gap-[10px] text-sm">
+            {hashtagArr.map((hashtag, index) => (
+              <div key={`${hashtag}-${index}`}>
+                <span>{hashtag}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-[20px] flex h-[31px] w-[93px] items-center justify-center rounded-[4px] bg-[#F2F2F2] text-sm">
+            <button className="text-[#9B9B9B]">예시문장보기</button>
+            {/* 예시문장 들어갈 곳 */}
+          </div>
         </div>
-        <form className="w-screen mt-[16px]">
-          <input           
-            className="w-[350px] p-3 rounded-lg border border-[#9B9B9B] placeholder:text-[#9B9B9B] "
-            type="text"
-            value={subjectText}
-            onChange={handleSubjectTextChange}
-            placeholder="멤버들과 그릴 그림 주제를 입력해주세요!"
-          />
-        </form>
-        <div className="flex gap-[10px] text-sm mt-[14px]">
-          {hashtagArr.map((hashtag, index) => (
-            <div key={`${hashtag}-${index}`}>
-              <span>{hashtag}</span>
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-center items-center w-[93px] h-[31px] rounded-[4px] bg-[#F2F2F2] text-sm mt-[20px]">
-          <button className="text-[#9B9B9B]">예시문장보기</button>
-          {/* 예시문장 들어갈 곳 */}
-        </div>
-      </div>
-      <div className="h-[94px] mt-[64px] " onWheel={moseoverHandler}>
-        <div className="flex justify-between relative">
-          <span>참여 멤버 수</span>
-          <span>최대 6명</span>
-        </div>
-        <form
-          className="mt-[16px] w-full flex h-fit gap-[10px] overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth scrollbar-hide"
-          id="slider"
-        >
-          {memberNumArr.map((num, i) => (
-            <div className="w-[40rem]" key={`${i}`} id="item">
-              <input
-                type="radio"
-                className="peer hidden"
-                id={`${num}-${i}`}
-                value={num}
-                name="answer"
-                onClick={handleMemberCheck}
-              />
-              <label
-                htmlFor={`${num}-${i}`}
-                className="block cursor-pointer select-none rounded-lg px-[29.53px] py-[11px] border border-[#DEDEDE] text-center peer-checked:bg-black peer-checked:text-white"
-              >
-                {i + 1}명
-              </label>
-            </div>
-          ))}
-        </form>
-      </div>
-      <div
-        className="h-[125px] mt-[36px] mb-[59px] relative"
-        onWheel={timeSetMoseoverHandler}
-      >
-        <div className="flex justify-between">
-          <span>드로잉 시간</span>
-        </div>
-        <div>
+        <div className="mt-[64px] h-[94px] " onWheel={moseoverHandler}>
+          <div className="relative flex justify-between">
+            <span>참여 멤버 수</span>
+            <span>최대 6명</span>
+          </div>
           <form
-            className="mt-[16px] flex gap-[10px] overflow-x-auto overflow-y-hidden whitespace-nowrap scroll-smooth scrollbar-hide"
-            id="drawingTimeSlider"
+            className="mt-[16px] flex h-fit w-full gap-[10px] overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap scrollbar-hide"
+            id="slider"
           >
-            {drawingTime.map((time, i) => (
-              <div className="w-[40rem]" key={`${time}-${i}`} id="timeItem">
+            {memberNumArr.map((num, i) => (
+              <div className="w-[40rem]" key={`${i}`} id="item">
                 <input
                   type="radio"
                   className="peer hidden"
-                  id={`${time}-${i}`}
-                  value={time}
+                  id={`${num}-${i}`}
+                  value={num}
                   name="answer"
-                  onClick={handleTimeCheck}
+                  onClick={handleMemberCheck}
                 />
                 <label
-                  htmlFor={`${time}-${i}`}
-                  className="block cursor-pointer select-none rounded-lg px-[30.5px] py-[11px] border border-[#DEDEDE] text-center peer-checked:bg-black peer-checked:text-white"
+                  htmlFor={`${num}-${i}`}
+                  className="block cursor-pointer select-none rounded-lg border border-[#DEDEDE] px-[29.53px] py-[11px] text-center peer-checked:bg-black peer-checked:text-white"
                 >
-                  {time}
+                  {i + 1}명
                 </label>
               </div>
             ))}
           </form>
         </div>
-      </div>      
-      <LargeBtn
-        text="시작하기"
-        active={subjectText.length && memberOption && timeOption ? true : false}
-      />
+        <div
+          className="relative mb-[59px] mt-[36px] h-[125px]"
+          onWheel={timeSetMoseoverHandler}
+        >
+          <div className="flex justify-between">
+            <span>드로잉 시간</span>
+          </div>
+          <div>
+            <form
+              className="mt-[16px] flex gap-[10px] overflow-x-auto overflow-y-hidden scroll-smooth whitespace-nowrap scrollbar-hide"
+              id="drawingTimeSlider"
+            >
+              {drawingTime.map((time, i) => (
+                <div className="w-[40rem]" key={`${time}-${i}`} id="timeItem">
+                  <input
+                    type="radio"
+                    className="peer hidden"
+                    id={`${time}-${i}`}
+                    value={time}
+                    name="answer"
+                    onClick={handleTimeCheck}
+                  />
+                  <label
+                    htmlFor={`${time}-${i}`}
+                    className="block cursor-pointer select-none rounded-lg border border-[#DEDEDE] px-[30.5px] py-[11px] text-center peer-checked:bg-black peer-checked:text-white"
+                  >
+                    {time}
+                  </label>
+                </div>
+              ))}
+            </form>
+          </div>
+        </div>
+        <LargeBtn
+          text="시작하기"
+          active={
+            subjectText.length && memberOption && timeOption ? true : false
+          }
+        />
+      </div>
     </div>
   );
 }

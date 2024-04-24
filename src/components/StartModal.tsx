@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import LargeButton from './LargeButton';
+import LargeBtn from './LargeBtn';
 
 export default function StartModal() {
   return (
@@ -23,7 +23,7 @@ export default function StartModal() {
         </div>
       </div>
       <div className="mb-[33px] mt-[40px] flex justify-center">
-        <LargeButton buttonText="시작하기" />
+        <LargeBtn text="시작하기" active={true} />
       </div>
     </div>
   );
