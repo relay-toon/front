@@ -2,10 +2,12 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import Image from 'next/image';
 import SaveButton from '@/src/components/SaveButton';
 import ShareButton from '@/src/components/ShareButton';
+import MenuHeader from '@/src/components/header/MenuHeader';
 
 export default function FinishedDrawing() {
   return (
     <div>
+      <MenuHeader />
       <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
         1번째&nbsp;<span className="text-[#9B9B9B]">그림 완성!</span>
       </div>

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 export default function MenuHeader() {
+
   return (
     <div className="flex flex-row px-5 py-[10px]">
       <Link href="/">
@@ -11,7 +12,8 @@ export default function MenuHeader() {
         alt="menu"
         width={26}
         height={26}
-        className=" ml-auto"
+        className=" ml-auto cursor-pointer"
+
       />
     </div>
   );
