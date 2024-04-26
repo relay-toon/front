@@ -16,7 +16,7 @@ export default function Main() {
   return (
     <>
       <MenuHeader />
-      <div className="mt-[23.5px] p-5">
+      <div className="custom-pretendard-font mt-[23.5px] p-5">
         <div className="flex justify-center">
           <Image
             src="/img/main-image.png"
@@ -41,7 +41,7 @@ export default function Main() {
         </div>
         <div className="flew-row mt-[62.5px]  flex">
           <Image src="/svg/star.svg" alt="star" width={37} height={39} />
-          <span className="custom-waguri-font ml-[4.5px] flex items-center text-xl font-normal">
+          <span className="custom-waguri-font ml-[0.2813rem] flex items-center text-xl font-normal">
             릴레이툰이란?
           </span>
         </div>
