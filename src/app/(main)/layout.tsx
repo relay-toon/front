@@ -10,7 +10,7 @@ export default function Layout({ children }: LayoutProps) {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="w-[390px] bg-[#F7F7F7]">
+      <div className="w-[24.375rem] bg-[#F7F7F7]">
         <main>{children}</main>
       </div>
     </QueryClientProvider>
