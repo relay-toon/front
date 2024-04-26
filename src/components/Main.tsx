@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Cookie from 'js-cookie';
 import '../app/styles/globals.css';
 import { useEffect, useState } from 'react';
+import MyPageSideBar from './MypageSidebar';
 
 export default function Main() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,9 +15,13 @@ export default function Main() {
     setIsLoggedIn(Cookie.get('isLoggedIn') === 'true');
   }, []);
   return (
-    <>
-      <MenuHeader />
-      <div className="custom-pretendard-font mt-[23.5px] p-5">
+
+    <div className="relative overflow-hidden">
+      <MenuHeader isLoggedIn={isLoggedIn} />
+      {/* <MyPageSideBar isLoggedIn={isLoggedIn} /> */}
+      <div className="mt-[23.5px] p-5">
+
+
         <div className="flex justify-center">
           <Image
             src="/img/main-image.png"
@@ -154,6 +159,6 @@ export default function Main() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
