@@ -15,6 +15,7 @@ export default function MyPageSideBar({
   const onXClick = () => {
     setIsOpen(false);
   };
+
   return (
     <div
       className={`custom-pretendard-font absolute w-[310px] ${isOpen ? `right-0 transform transition-all duration-500` : `right-[-310px] transform transition-all duration-500`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
@@ -51,7 +52,7 @@ export default function MyPageSideBar({
       </div>
 
       <div className="mt-[28px] flex h-[254px] w-[266px] flex-col items-center justify-center rounded-[12px] bg-white">
-        <Link href="/gallery">
+        <Link href="/my-gallery">
           <div className="border-b-[1.5px flex h-[60px] w-[218px] items-center justify-start border-b-[1.5px] border-b-[#F7F7F7]">
             <div className="flex items-center justify-center">
               <Image
@@ -67,7 +68,7 @@ export default function MyPageSideBar({
           </div>
         </Link>
 
-        <Link href="/store">
+        <Link href="/coming-soon">
           <div className="flex h-[60px] w-[218px] items-center justify-start border-b-[1.5px] border-b-[#F7F7F7]">
             <div className="flex items-center justify-center">
               <Image

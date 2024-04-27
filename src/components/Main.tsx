@@ -6,16 +6,17 @@ import LargeBtn from './LargeBtn';
 import Link from 'next/link';
 import Cookie from 'js-cookie';
 import '../app/styles/globals.css';
-import { useEffect, useState } from 'react';
+import { useAuthStore } from '../store/authStore';
 
 export default function Main() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(Cookie.get('isLoggedIn') === 'true');
-  }, []);
+  const isLoggedIn = useAuthStore((state) => ({
+    isLoggedIn: state.isLoggedIn,
+    setIsLoggedIn: state.setIsLoggedIn,
+  }));
+
   return (
     <div className="relative overflow-hidden">
-      <MenuHeader isLoggedIn={isLoggedIn} />
+      <MenuHeader />
       <div className="mt-[23.5px] p-5">
         <div className="flex justify-center">
           <Image

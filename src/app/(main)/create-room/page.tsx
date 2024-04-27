@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { moseoverHandler, timeSetMoseoverHandler } from './action';
 import LargeBtn from '@/src/components/LargeBtn';
 import BackHeader from '@/src/components/header/BackHeader';
-
+import { usePostToon } from '@/src/hooks/usePostToon';
+import { CreateToonData } from '@/src/types/CreateToon';
 export default function CreateRoom() {
   const [subjectText, setSubjectText] = useState('');
-  const [memberOption, setMemberOption] = useState(false);
-  const [timeOption, setTimeOption] = useState(false);
+  const [memberOption, setMemberOption] = useState(0);
+  const [timeOption, setTimeOption] = useState(0);
 
   const maxLength = 25;
   let hashtagArr = ['#어디에서', '#누가', '#무엇을', '#어떻게', '#하는것'];
@@ -16,6 +17,20 @@ export default function CreateRoom() {
   let drawingTime = ['제한없음', '12초', '16초', '20초'];
   const sliderRef = useRef<HTMLDivElement>(null);
   const timeSetSliderRef = useRef<HTMLDivElement>(null);
+  const createMutation = usePostToon();
+  const handleSubmit = async () => {
+    try {
+      const data: CreateToonData = {
+        title: subjectText,
+        headCount: memberOption,
+        timer: timeOption,
+      };
+      const result = await createMutation.mutateAsync(data);
+      window.location.href = `/`;
+    } catch (error) {
+      console.error('에러:', error);
+    }
+  };
 
   useEffect(() => {
     const handleMouseOver = () => {
@@ -60,9 +75,15 @@ export default function CreateRoom() {
     setSubjectText(e.target.value);
   };
 
-  const handleMemberCheck = () => [setMemberOption(true)];
-  const handleTimeCheck = () => [setTimeOption(true)];
+  const handleMemberCheck = (num: number) => {
+    setMemberOption(num);
+  };
 
+  const handleTimeCheck = (time: string) => {
+    const numericTime =
+      time === '제한없음' ? 0 : parseInt(time.replace('초', ''), 10);
+    setTimeOption(numericTime);
+  };
   return (
     <div className="bg-white">
       <BackHeader />
@@ -112,7 +133,7 @@ export default function CreateRoom() {
                   id={`${num}-${i}`}
                   value={num}
                   name="answer"
-                  onClick={handleMemberCheck}
+                  onClick={() => handleMemberCheck(i + 1)}
                 />
                 <label
                   htmlFor={`${num}-${i}`}
@@ -144,7 +165,7 @@ export default function CreateRoom() {
                     id={`${time}-${i}`}
                     value={time}
                     name="answer"
-                    onClick={handleTimeCheck}
+                    onChange={(e) => handleTimeCheck(e.target.value)}
                   />
                   <label
                     htmlFor={`${time}-${i}`}
@@ -162,6 +183,7 @@ export default function CreateRoom() {
           active={
             subjectText.length && memberOption && timeOption ? true : false
           }
+          onClick={handleSubmit}
         />
       </div>
     </div>
