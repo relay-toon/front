@@ -26,7 +26,7 @@ export default function CreateRoom() {
         timer: timeOption,
       };
       const result = await createMutation.mutateAsync(data);
-      window.location.href = `/room/${result.id}`;
+      window.location.href = `/`;
     } catch (error) {
       console.error('에러:', error);
     }
