@@ -113,7 +113,7 @@ export default function MyPageSideBar({
             공지사항
           </button>
         </Link>
-        <Link href="setting">
+        <Link href="/setting">
           <button className="flex h-[48px] w-[168px] items-center justify-center rounded-[8px] bg-[#EAEAEA]">
             설정
           </button>
