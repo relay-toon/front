@@ -12,9 +12,10 @@ export default function MenuHeader({ isLoggedIn }: IsLoggedIn) {
 
   const onClick = () => {
     setIsOpen((prev) => !prev);
+    console.log(isOpen);
   };
   return (
-    <div className="relative flex flex-row px-5 py-[10px]">
+    <div className="relative flex w-[390px] flex-row px-5 py-[10px] ">
       <Link href="/">
         <Image src="/svg/logo.svg" alt="logo" width={75} height={28} priority />
       </Link>
@@ -26,11 +27,13 @@ export default function MenuHeader({ isLoggedIn }: IsLoggedIn) {
         className=" ml-auto cursor-pointer"
         onClick={onClick}
       />
-
+      {isOpen && (
+        <div className="absolute right-0 top-0 h-[100vh] w-full bg-black opacity-50" />
+      )}
       <MyPageSideBar
         setIsOpen={setIsOpen}
-        isOpen={isOpen}
         isLoggedIn={isLoggedIn}
+        isOpen={isOpen}
       />
     </div>
   );

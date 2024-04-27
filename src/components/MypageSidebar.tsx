@@ -17,7 +17,7 @@ export default function MyPageSideBar({
   };
   return (
     <div
-      className={`custom-pretendard-font absolute w-[310px] ${isOpen ? `right-0 transform transition-all duration-500` : `right-[-310px] transform transition-all duration-500`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
+      className={`custom-pretendard-font absolute top-0 w-[310px] ${isOpen ? `fixed right-0 transform transition-all duration-500 scrollbar-hide` : `right-[-320px] transform transition-all duration-200`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
     >
       <div className="relative mt-[58px] flex h-[48px] items-center justify-center text-lg ">
         <div
@@ -51,7 +51,7 @@ export default function MyPageSideBar({
       </div>
 
       <div className="mt-[28px] flex h-[254px] w-[266px] flex-col items-center justify-center rounded-[12px] bg-white">
-        <Link href="/gallery">
+        <Link href="/my-gallery">
           <div className="border-b-[1.5px flex h-[60px] w-[218px] items-center justify-start border-b-[1.5px] border-b-[#F7F7F7]">
             <div className="flex items-center justify-center">
               <Image
