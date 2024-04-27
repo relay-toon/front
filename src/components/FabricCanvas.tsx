@@ -1,11 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import { fabric } from 'fabric';
 import Image from 'next/image';
 import PaletteModal from './PaletteModal';
-import { usePostToon } from '../hooks/usePostToon';
-//모달밖에 어둡게 처리해야하고 모달 밖 클릭시 닫히게 해야하는데 지금 설정하면 모달 창 위치문제가 생김 포지션때문에
-//그리고 브러쉬 종류 찾아보고 수정예정
-export default function CanvasComponent(props: any, ref: any) {
+
+const FabricCanvas = forwardRef((props: any, ref: any) => {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [color, setColor] = useState('#000000');
   const [lineWidth, setLineWidth] = useState(4);
@@ -13,7 +17,6 @@ export default function CanvasComponent(props: any, ref: any) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasInstance = useRef<fabric.Canvas | null>(null);
   const [showPalette, setShowPalette] = useState(false);
-  const { mutate: postToon } = usePostToon();
   useEffect(() => {
     if (!canvasRef.current) return;
 
@@ -30,6 +33,28 @@ export default function CanvasComponent(props: any, ref: any) {
       canvas.dispose();
     };
   }, [ref]);
+
+  const exportImage = () => {
+    return new Promise((resolve, reject) => {
+      if (canvasRef.current) {
+        resolve(canvasRef.current.toDataURL());
+      } else {
+        reject('Canvas is not initialized');
+      }
+    });
+  };
+
+  useImperativeHandle(ref, () => ({
+    exportImage,
+    postImage: async () => {
+      try {
+        const imageData = await exportImage();
+        console.log('Posting image:', imageData);
+      } catch (error) {
+        console.error('Error exporting image:', error);
+      }
+    },
+  }));
 
   useEffect(() => {
     if (canvasInstance.current) {
@@ -147,7 +172,7 @@ export default function CanvasComponent(props: any, ref: any) {
             style={{ backgroundColor: `${color}` }}
             onClick={handleOpenPalette}
           ></button>
-          <div className="relative w-[390px]">
+          <div className=" relative w-[390px]">
             {showPalette && (
               <PaletteModal
                 onClose={handleClosePalette}
@@ -159,4 +184,6 @@ export default function CanvasComponent(props: any, ref: any) {
       </div>
     </div>
   );
-}
+});
+
+export default FabricCanvas;

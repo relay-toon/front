@@ -10,6 +10,7 @@ import ModalPainterName from '@/src/components/ModalPainterName';
 export default function CompTest() {
   return (
     <div>
+      <ModalCancelAccount />
     </div>
   );
 }
