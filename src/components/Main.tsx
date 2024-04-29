@@ -4,19 +4,24 @@ import Image from 'next/image';
 import MenuHeader from './header/MenuHeader';
 import LargeBtn from './LargeBtn';
 import Link from 'next/link';
-import Cookie from 'js-cookie';
 import '../app/styles/globals.css';
 import { useAuthStore } from '../store/authStore';
+import { useState } from 'react';
+import MyPageSideBar from './MypageSidebar';
 
 export default function Main() {
   const isLoggedIn = useAuthStore((state) => ({
     isLoggedIn: state.isLoggedIn,
     setIsLoggedIn: state.setIsLoggedIn,
   }));
+  const [isOpen, setIsOpen] = useState(false);
+  const onClick = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <div className="relative overflow-hidden">
-      <MenuHeader />
+    <div className="relative overflow-x-hidden">
+      <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="mt-[23.5px] p-5">
         <div className="flex justify-center">
           <Image
@@ -155,6 +160,19 @@ export default function Main() {
           </div>
         </div>
       </div>
+      {isOpen && (
+        <div
+          className={`fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out`}
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+          onClick={onClick}
+        >
+          <MyPageSideBar
+            setIsOpen={setIsOpen}
+            isOpen={isOpen}
+            isLoggedIn={isLoggedIn ? true : false}
+          />
+        </div>
+      )}
     </div>
   );
 }

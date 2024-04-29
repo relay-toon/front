@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html,
-body {
+body {  
   min-width: 24.375rem;
   background-color: rgb(230, 230, 230);
   display: flex;
@@ -41,3 +41,4 @@ body {
     'Segoe UI Symbol',
     sans-serif;
 }
+

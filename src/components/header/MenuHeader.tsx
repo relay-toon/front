@@ -5,9 +5,13 @@ import MyPageSideBar from '../MypageSidebar';
 import { useState } from 'react';
 import { useAuthStore } from '@/src/store/authStore';
 
-export default function MenuHeader() {
-  const [isOpen, setIsOpen] = useState(false);
-  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+interface IsOpen {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function MenuHeader({ isOpen, setIsOpen }: IsOpen) {
+  
   const onClick = () => {
     setIsOpen((prev) => !prev);
     console.log(isOpen);
@@ -25,14 +29,7 @@ export default function MenuHeader() {
         className=" ml-auto cursor-pointer"
         onClick={onClick}
       />
-      {isOpen && (
-        <div className="absolute right-0 top-0 h-[100vh] w-full bg-black opacity-50" />
-      )}
-      <MyPageSideBar
-        setIsOpen={setIsOpen}
-        isOpen={isOpen}
-        isLoggedIn={isLoggedIn ? true : false}
-      />
+      
     </div>
   );
 }

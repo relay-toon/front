@@ -14,6 +14,7 @@ export default function MyPageSideBar({
 }: IsLoggedIn) {
   const onXClick = () => {
     setIsOpen(false);
+    console.log(isOpen)
   };
   const suggestBody = encodeURIComponent('건의내용을 적어주세요.');
   const mailto = () => {
@@ -21,7 +22,7 @@ export default function MyPageSideBar({
   };
   return (
     <div
-      className={`custom-pretendard-font absolute top-0 w-[310px] ${isOpen ? `fixed right-0 transform transition-all duration-500 scrollbar-hide` : `right-[-320px] transform transition-all duration-200`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
+      className={`custom-pretendard-font absolute top-0 z-20 w-[310px] ${isOpen ? `right-0 transition-all duration-200 ease-in-out` : `right-[-320px] transition-transform duration-200 ease-in-out`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
     >
       <div className="relative mt-[58px] flex h-[48px] items-center justify-center text-lg ">
         <div
