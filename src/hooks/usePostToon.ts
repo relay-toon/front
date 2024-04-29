@@ -1,27 +1,34 @@
 import { AxiosInstance } from 'axios';
 import { useAxios } from '../lib/axios';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+
+interface ToonData {
+  title: string;
+  headCount: number;
+  timer: number;
+}
 
 const postToon = async (
   axiosInstance: AxiosInstance,
-  toonData: string,
+  toonData: ToonData,
 ): Promise<any> => {
-  const response = await axiosInstance.post('/toons', { image: toonData });
+  const formData = new FormData();
+  formData.append('title', toonData.title);
+  formData.append('headCount', toonData.headCount.toString());
+  formData.append('timer', toonData.timer.toString());
+
+  const response = await axiosInstance.post('/toons', formData);
   return response.data;
 };
 
 export const usePostToon = () => {
   const { axiosInstance } = useAxios();
 
-  const mutation = useMutation<any, Error, string, unknown>({
-    mutationFn: (toonData) => postToon(axiosInstance, toonData),
-    onSuccess: (data) => {
-      console.log('Image posted successfully:', data);
-    },
-    onError: (error) => {
-      console.error('Failed to post image:', error);
-    },
-  });
+  const mutationFn = (toonData: ToonData) => postToon(axiosInstance, toonData);
 
-  return mutation;
+  const options: UseMutationOptions<any, Error, ToonData, unknown> = {
+    mutationFn,
+  };
+
+  return useMutation<any, Error, ToonData, unknown>(options);
 };

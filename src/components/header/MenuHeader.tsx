@@ -3,13 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import MyPageSideBar from '../MypageSidebar';
 import { useState } from 'react';
+import { useAuthStore } from '@/src/store/authStore';
 
-interface IsLoggedIn {
-  isLoggedIn: boolean;
-}
-export default function MenuHeader({ isLoggedIn }: IsLoggedIn) {
+export default function MenuHeader() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const onClick = () => {
     setIsOpen((prev) => !prev);
     console.log(isOpen);
@@ -32,8 +30,8 @@ export default function MenuHeader({ isLoggedIn }: IsLoggedIn) {
       )}
       <MyPageSideBar
         setIsOpen={setIsOpen}
-        isLoggedIn={isLoggedIn}
         isOpen={isOpen}
+        isLoggedIn={isLoggedIn ? true : false}
       />
     </div>
   );
