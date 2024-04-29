@@ -1,9 +1,6 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import MyPageSideBar from '../MypageSidebar';
-import { useState } from 'react';
-import { useAuthStore } from '@/src/store/authStore';
 
 interface IsOpen {
   isOpen: boolean;
@@ -11,7 +8,6 @@ interface IsOpen {
 }
 
 export default function MenuHeader({ isOpen, setIsOpen }: IsOpen) {
-  
   const onClick = () => {
     setIsOpen((prev) => !prev);
     console.log(isOpen);
@@ -29,7 +25,6 @@ export default function MenuHeader({ isOpen, setIsOpen }: IsOpen) {
         className=" ml-auto cursor-pointer"
         onClick={onClick}
       />
-      
     </div>
   );
 }
