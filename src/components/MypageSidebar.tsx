@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-
+import { useGetMyInfo } from '../hooks/useGetMyInfo';
 interface IsLoggedIn {
   isLoggedIn: boolean;
   isOpen: boolean;
@@ -19,6 +19,7 @@ export default function MyPageSideBar({
   const mailto = () => {
     window.location.href = `mailto:${process.env.NEXT_PUBLIC_SUGGEST_EMAIL}?body=${suggestBody}`;
   };
+  const { data: myInfo } = useGetMyInfo();
   return (
     <div
       className={`custom-pretendard-font absolute w-[310px] ${isOpen ? `right-0 transform transition-all duration-500` : `right-[-310px] transform transition-all duration-500`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
@@ -44,7 +45,7 @@ export default function MyPageSideBar({
       <div className="mt-[19px] flex h-[82px] w-[266px] items-center justify-between rounded-[12px] bg-white px-[20px]">
         <span className="text-[20px] font-bold">
           {isLoggedIn ? (
-            '유저20'
+            <span>{myInfo?.nickname}</span>
           ) : (
             <Link href="/login">
               <span>로그인하기</span>
