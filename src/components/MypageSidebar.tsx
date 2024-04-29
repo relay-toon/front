@@ -21,7 +21,7 @@ export default function MyPageSideBar({
   };
   return (
     <div
-      className={`custom-pretendard-font absolute w-[310px] ${isOpen ? `right-0 transform transition-all duration-500` : `right-[-310px] transform transition-all duration-500`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
+      className={`custom-pretendard-font absolute top-0 w-[310px] ${isOpen ? `fixed right-0 transform transition-all duration-500 scrollbar-hide` : `right-[-320px] transform transition-all duration-200`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
     >
       <div className="relative mt-[58px] flex h-[48px] items-center justify-center text-lg ">
         <div
