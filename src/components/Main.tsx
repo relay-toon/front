@@ -15,8 +15,8 @@ export default function Main() {
     setIsLoggedIn: state.setIsLoggedIn,
   }));
   const [isOpen, setIsOpen] = useState(false);
-  const onClick = () => {
-    setIsOpen(false);
+  const onClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) setIsOpen(false);
   };
 
   return (
