@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { useAuthStore } from '../store/authStore';
 
 export const useLogout = (axiosInstance: AxiosInstance) => {
   const handleLogout = async () => {
@@ -8,6 +9,7 @@ export const useLogout = (axiosInstance: AxiosInstance) => {
           'Content-Type': 'application/json',
         },
       });
+      useAuthStore.getState().setIsLoggedIn(false);
       console.log('로그아웃 성공:', serverLogoutResponse.data);
       window.location.href = '/';
     } catch (error) {

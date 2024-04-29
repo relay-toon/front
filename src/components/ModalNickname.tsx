@@ -1,16 +1,29 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
+import { usePutMyName } from '../hooks/usePutMyName';
 
-export default function ModalNickname() {
+export default function ModalNickname({ closeModal }: { closeModal: any }) {
   const [nickname, setNickname] = useState('');
-
-  const onNicknameChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const { mutate: putMyName } = usePutMyName();
+  const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
   };
-  const onCompleteClick = () => {};
+
+  const handleUpdateNickname = () => {
+    putMyName(nickname, {
+      onSuccess: () => {
+        alert('닉네임이 변경되었습니다.');
+        closeModal();
+      },
+      onError: () => {
+        alert('닉네임 변경에 실패했습니다.');
+      },
+    });
+  };
+
   return (
-    <div className="flex h-[273px] w-[296px] flex-col items-center justify-center rounded-[12px] bg-white">
+    <div className="absolute  z-[60] flex h-[273px] w-[296px] flex-col items-center justify-center rounded-[12px] bg-white">
       <div className="custom-waguri-font text-[20px]">
         <span>닉네임 설정</span>
       </div>
@@ -21,7 +34,8 @@ export default function ModalNickname() {
         </div>
         <div>
           <input
-            className="border-[#DEDEDE h-[54px] w-[216px] rounded-[8px] border px-[16px] placeholder:text-[14px] placeholder:text-[#9B9B9B]"
+            aria-label="닉네임 입력"
+            className="h-[54px] w-[216px] rounded-[8px] border border-[#DEDEDE] px-[16px] placeholder:text-[14px] placeholder:text-[#9B9B9B]"
             type="text"
             value={nickname}
             placeholder="이름/닉네임을 입력해주세요!"
@@ -34,7 +48,7 @@ export default function ModalNickname() {
       <div className="mt-[40px]">
         <button
           className="custom-pretendard-font h-[50px] w-[140px] rounded-[6px] bg-black font-bold text-white"
-          onClick={onCompleteClick}
+          onClick={handleUpdateNickname}
         >
           완료
         </button>
