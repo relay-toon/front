@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { moseoverHandler, timeSetMoseoverHandler } from './action';
+import { mouseOverHandler, timeSetMouseOverHandler } from './action';
 import LargeBtn from '@/src/components/LargeBtn';
 import BackHeader from '@/src/components/header/BackHeader';
 import { usePostToon } from '@/src/hooks/usePostToon';
@@ -26,7 +26,7 @@ export default function CreateRoom() {
         timer: timeOption,
       };
       const result = await createMutation.mutateAsync(data);
-      window.location.href = `/`;
+      console.log(result);
     } catch (error) {
       console.error('에러:', error);
     }
@@ -116,7 +116,7 @@ export default function CreateRoom() {
             {/* 예시문장 들어갈 곳 */}
           </div>
         </div>
-        <div className="mt-[64px] h-[94px] " onWheel={moseoverHandler}>
+        <div className="mt-[64px] h-[94px] " onWheel={mouseOverHandler}>
           <div className="relative flex justify-between">
             <span>참여 멤버 수</span>
             <span>최대 6명</span>
@@ -147,7 +147,7 @@ export default function CreateRoom() {
         </div>
         <div
           className="relative mb-[59px] mt-[36px] h-[125px]"
-          onWheel={timeSetMoseoverHandler}
+          onWheel={timeSetMouseOverHandler}
         >
           <div className="flex justify-between">
             <span>드로잉 시간</span>

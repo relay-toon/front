@@ -6,19 +6,16 @@ import ModalNickname from './ModalNickname';
 import { useState } from 'react';
 import { useLogout } from '../hooks/useLogout';
 import { useAxios } from '../lib/axios';
+import { useAuthStore } from '../store/authStore';
 
 interface IsLoggedIn {
-  isLoggedIn: boolean;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function MyPageSideBar({
-  isLoggedIn,
-  isOpen,
-  setIsOpen,
-}: IsLoggedIn) {
+export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
   const [showNicknameModal, setShowNicknameModal] = useState(false);
+  const { isLoggedIn } = useAuthStore();
   const onXClick = () => {
     setIsOpen(false);
   };
@@ -72,7 +69,7 @@ export default function MyPageSideBar({
       <div className="mt-[19px] flex h-[82px] w-[266px] items-center justify-between rounded-[12px] bg-white px-[20px]">
         <span className="text-[20px] font-bold">
           {isLoggedIn ? (
-            <span>{myInfo?.nickname}</span>
+            <span>{myInfo?.name}</span>
           ) : (
             <Link href="/login">
               <span>로그인하기</span>

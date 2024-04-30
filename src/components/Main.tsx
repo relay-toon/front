@@ -4,16 +4,12 @@ import Image from 'next/image';
 import MenuHeader from './header/MenuHeader';
 import LargeBtn from './LargeBtn';
 import Link from 'next/link';
-import '../app/styles/globals.css';
 import { useAuthStore } from '../store/authStore';
 import { useState } from 'react';
 import MyPageSideBar from './MypageSidebar';
 
 export default function Main() {
-  const isLoggedIn = useAuthStore((state) => ({
-    isLoggedIn: state.isLoggedIn,
-    setIsLoggedIn: state.setIsLoggedIn,
-  }));
+  const { isLoggedIn } = useAuthStore();
   const [isOpen, setIsOpen] = useState(false);
   const onClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) setIsOpen(false);
@@ -166,11 +162,7 @@ export default function Main() {
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
           onClick={onClick}
         >
-          <MyPageSideBar
-            setIsOpen={setIsOpen}
-            isOpen={isOpen}
-            isLoggedIn={isLoggedIn ? true : false}
-          />
+          <MyPageSideBar setIsOpen={setIsOpen} isOpen={isOpen} />
         </div>
       )}
     </div>
