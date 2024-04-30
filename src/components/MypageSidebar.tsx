@@ -142,10 +142,7 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
 
         <div>
           <div className="flex h-[60px] w-[218px] items-center justify-start border-b-[1.5px] border-b-[#F7F7F7]">
-            <div
-              className="flex cursor-pointer"
-              onClick={(e) => handleLinkClick(e, '/inquiry')}
-            >
+            <div className="flex cursor-pointer" onClick={mailto}>
               <div className="flex items-center justify-center">
                 <Image
                   src="/img/inquiry.png"
@@ -163,7 +160,10 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
 
         <div>
           <div className="flex h-[60px] w-[218px] items-center justify-start">
-            <div className="flex cursor-pointer" onClick={mailto}>
+            <div
+              className="flex cursor-pointer"
+              onClick={(e) => handleLinkClick(e, '/inquiry')}
+            >
               <div className="flex items-center justify-center">
                 <Image
                   src="/img/suggest.png"

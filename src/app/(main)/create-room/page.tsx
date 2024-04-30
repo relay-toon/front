@@ -19,20 +19,14 @@ export default function CreateRoom() {
   const timeSetSliderRef = useRef<HTMLDivElement>(null);
   const createMutation = usePostToon();
   const handleSubmit = async () => {
-    try {      
+    try {
       const data: CreateToonData = {
         title: subjectText,
         headCount: memberOption,
         timer: timeOption,
-<<<<<<< HEAD
-      };      
-      const result = await createMutation.mutateAsync(data);      
-      window.location.href = `/`;
-=======
       };
       const result = await createMutation.mutateAsync(data);
       console.log(result);
->>>>>>> 0013534166345c1f016bee57991aab06f1cceb9a
     } catch (error) {
       console.error('에러:', error);
     }
@@ -134,7 +128,7 @@ export default function CreateRoom() {
           >
             {memberNumArr.map((num, i) => (
               <div className="w-[40rem]" key={`${i}`} id="item">
-                <input                
+                <input
                   type="radio"
                   className="peer hidden"
                   id={`${num}-${i}`}
