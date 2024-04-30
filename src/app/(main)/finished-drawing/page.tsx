@@ -55,11 +55,7 @@ export default function FinishedDrawing() {
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
           onClick={onClick}
         >
-          <MyPageSideBar
-            setIsOpen={setIsOpen}
-            isOpen={isOpen}
-            isLoggedIn={isLoggedIn ? true : false}
-          />
+          <MyPageSideBar setIsOpen={setIsOpen} isOpen={isOpen} />
         </div>
       )}
     </div>
