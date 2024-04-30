@@ -1,22 +1,17 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import MyPageSideBar from '../MypageSidebar';
-import { useState } from 'react';
-import { useAuthStore } from '@/src/store/authStore';
 
 interface IsOpen {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function MenuHeader({ setIsOpen }: IsOpen) {
-  
+export default function MenuHeader({ isOpen, setIsOpen }: IsOpen) {
   const onClick = () => {
     setIsOpen((prev) => !prev);
+    console.log(isOpen);
   };
-
-  
   return (
     <div className="relative flex w-[390px] flex-row px-5 py-[10px] ">
       <Link href="/">
@@ -30,7 +25,6 @@ export default function MenuHeader({ setIsOpen }: IsOpen) {
         className=" ml-auto cursor-pointer"
         onClick={onClick}
       />
-      
     </div>
   );
 }

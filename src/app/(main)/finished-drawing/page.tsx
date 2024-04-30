@@ -1,13 +1,25 @@
+'use client';
 import DrawingOrder from '@/src/components/DrawingOrder';
 import Image from 'next/image';
 import SaveButton from '@/src/components/SaveButton';
 import ShareButton from '@/src/components/ShareButton';
 import MenuHeader from '@/src/components/header/MenuHeader';
+import { useState } from 'react';
+import MyPageSideBar from '@/src/components/MypageSidebar';
+import { useAuthStore } from '@/src/store/authStore';
 
 export default function FinishedDrawing() {
+  const isLoggedIn = useAuthStore((state) => ({
+    isLoggedIn: state.isLoggedIn,
+    setIsLoggedIn: state.setIsLoggedIn,
+  }));
+  const [isOpen, setIsOpen] = useState(false);
+  const onClick = () => {
+    setIsOpen(false);
+  };
   return (
     <div>
-      <MenuHeader />
+      <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
         1번째&nbsp;<span className="text-[#9B9B9B]">그림 완성!</span>
       </div>
@@ -37,6 +49,19 @@ export default function FinishedDrawing() {
         <SaveButton />
         <ShareButton />
       </div>
+      {isOpen && (
+        <div
+          className={`fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out`}
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+          onClick={onClick}
+        >
+          <MyPageSideBar
+            setIsOpen={setIsOpen}
+            isOpen={isOpen}
+            isLoggedIn={isLoggedIn ? true : false}
+          />
+        </div>
+      )}
     </div>
   );
 }

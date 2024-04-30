@@ -1,5 +1,11 @@
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useGetMyInfo } from '../hooks/useGetMyInfo';
+import ModalNickname from './ModalNickname';
+import { useState } from 'react';
+import { useLogout } from '../hooks/useLogout';
+import { useAxios } from '../lib/axios';
 
 interface IsLoggedIn {
   isLoggedIn: boolean;
@@ -12,13 +18,33 @@ export default function MyPageSideBar({
   isOpen,
   setIsOpen,
 }: IsLoggedIn) {
+  const [showNicknameModal, setShowNicknameModal] = useState(false);
   const onXClick = () => {
     setIsOpen(false);
   };
+  const handleCloseModal = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      setShowNicknameModal(false);
+    }
+  };
+
+  const onNicknameClick = () => {
+    setShowNicknameModal(!showNicknameModal);
+  };
+  const closeNicknameModal = () => {
+    setShowNicknameModal(false);
+  };
+  const { axiosInstance } = useAxios();
+  const onLogout = useLogout(axiosInstance);
 
   const suggestBody = encodeURIComponent('건의내용을 적어주세요.');
   const mailto = () => {
     window.location.href = `mailto:${process.env.NEXT_PUBLIC_SUGGEST_EMAIL}?body=${suggestBody}`;
+  };
+
+  const { data: myInfo } = useGetMyInfo();
+  const myInfoClick = () => {
+    console.log(myInfo);
   };
   return (
     <div
@@ -41,7 +67,8 @@ export default function MyPageSideBar({
           <span>MY페이지</span>
         </div>
       </div>
-
+      <button onClick={onLogout}>임시 로그아웃버튼</button>
+      <button onClick={myInfoClick}>내정보 확인 임시버튼</button>
       <div className="mt-[19px] flex h-[82px] w-[266px] items-center justify-between rounded-[12px] bg-white px-[20px]">
         <span className="text-[20px] font-bold">
           {isLoggedIn ? (
@@ -52,7 +79,14 @@ export default function MyPageSideBar({
             </Link>
           )}
         </span>
-        <Image src="/img/shareIcon.png" alt="share" width={20} height={20} />
+        <Image
+          src="/img/shareIcon.png"
+          alt="share"
+          width={20}
+          height={20}
+          onClick={onNicknameClick}
+          className="cursor-pointer"
+        />
       </div>
 
       <div className="mt-[28px] flex h-[254px] w-[266px] flex-col items-center justify-center rounded-[12px] bg-white">
@@ -128,6 +162,14 @@ export default function MyPageSideBar({
           </button>
         </Link>
       </div>
+      {showNicknameModal && (
+        <div
+          className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50"
+          onClick={handleCloseModal}
+        >
+          <ModalNickname closeModal={closeNicknameModal} />
+        </div>
+      )}
     </div>
   );
 }
