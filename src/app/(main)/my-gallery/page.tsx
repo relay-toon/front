@@ -57,24 +57,6 @@ export default function MyGallery() {
       <hr className="border-1 border-solid border-[#C7C7C7]" />
       {tab === '만든 그림' ? (
         <>
-          <div className="ml-5 mt-[29px] font-bold">총 20장</div>
-          <div className="flex flex-col items-center">
-            {images.map((image, index) => (
-              <div key={index}>
-                <img
-                  src={image}
-                  alt={`${index}`}
-                  width={350}
-                  height={204}
-                  className=""
-                />
-                <span className="mt-[16px] flex">{onlyAlt(image)}</span>
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
           <div className="ml-5 mt-[29px] font-bold">
             <span>총 {myCreatedToon.length}장</span>
           </div>
@@ -101,6 +83,24 @@ export default function MyGallery() {
                 </div>
               );
             })}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="ml-5 mt-[29px] font-bold">총 20장</div>
+          <div className="flex flex-col items-center">
+            {images.map((image, index) => (
+              <div key={index}>
+                <img
+                  src={image}
+                  alt={`${index}`}
+                  width={350}
+                  height={204}
+                  className=""
+                />
+                <span className="mt-[16px] flex">{onlyAlt(image)}</span>
+              </div>
+            ))}
           </div>
         </>
       )}
