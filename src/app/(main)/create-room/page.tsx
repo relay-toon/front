@@ -19,13 +19,13 @@ export default function CreateRoom() {
   const timeSetSliderRef = useRef<HTMLDivElement>(null);
   const createMutation = usePostToon();
   const handleSubmit = async () => {
-    try {
+    try {      
       const data: CreateToonData = {
         title: subjectText,
         headCount: memberOption,
         timer: timeOption,
-      };
-      const result = await createMutation.mutateAsync(data);
+      };      
+      const result = await createMutation.mutateAsync(data);      
       window.location.href = `/`;
     } catch (error) {
       console.error('에러:', error);
@@ -101,6 +101,7 @@ export default function CreateRoom() {
               type="text"
               value={subjectText}
               onChange={handleSubjectTextChange}
+              maxLength={maxLength}
               placeholder="멤버들과 그릴 그림 주제를 입력해주세요!"
             />
           </form>
@@ -127,7 +128,7 @@ export default function CreateRoom() {
           >
             {memberNumArr.map((num, i) => (
               <div className="w-[40rem]" key={`${i}`} id="item">
-                <input
+                <input                
                   type="radio"
                   className="peer hidden"
                   id={`${num}-${i}`}

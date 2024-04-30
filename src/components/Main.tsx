@@ -6,7 +6,7 @@ import LargeBtn from './LargeBtn';
 import Link from 'next/link';
 import '../app/styles/globals.css';
 import { useAuthStore } from '../store/authStore';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import MyPageSideBar from './MypageSidebar';
 
 export default function Main() {
@@ -15,9 +15,7 @@ export default function Main() {
     setIsLoggedIn: state.setIsLoggedIn,
   }));
   const [isOpen, setIsOpen] = useState(false);
-  const onClick = () => {
-    setIsOpen(false);
-  };
+  const sidebarBgRef = useRef(null);
 
   return (
     <div className="relative overflow-x-hidden">
@@ -164,7 +162,6 @@ export default function Main() {
         <div
           className={`fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out`}
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
-          onClick={onClick}
         >
           <MyPageSideBar
             setIsOpen={setIsOpen}
