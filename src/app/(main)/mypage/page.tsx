@@ -1,12 +1,20 @@
 'use client';
+import { useLogout } from '@/src/hooks/useLogout';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAxios } from '@/src/lib/axios';
 
 export default function Mypage() {
   const router = useRouter();
+  const { axiosInstance } = useAxios();
   const onClick = () => {
     router.back();
+  };
+  const logout = useLogout(axiosInstance);
+
+  const onLogoutClick = async () => {
+    await logout();
   };
   return (
     <div className="relative mt-[47px] h-screen bg-[#F7F7F7]">
@@ -41,8 +49,10 @@ export default function Mypage() {
         <div className="flex h-[183px] flex-col gap-6 bg-white px-5 py-[28px]">
           <span className="text-[14px] text-[#9B9B9B]">계정관리</span>
           <div className="flex flex-col gap-[20px] text-[18px] font-semibold">
-            <span>로그이웃</span>
-            <span>탈퇴하기</span>
+            <p onClick={onLogoutClick} className="cursor-pointer">
+              로그아웃
+            </p>
+            <p className="cursor-pointer">탈퇴하기</p>
           </div>
         </div>
 

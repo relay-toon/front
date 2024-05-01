@@ -46,7 +46,7 @@ export default function Inquiry() {
               placeholder="문의 제목을 입력해주세요"
             />
             <label className="text-[16px] font-bold" htmlFor="title">
-              문의내용
+              건의내용
             </label>
             <textarea
               value={content}
