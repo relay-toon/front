@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useLogout } from '../hooks/useLogout';
 import { useAxios } from '../lib/axios';
 import { useAuthStore } from '../store/authStore';
+import { useRouter } from 'next/navigation';
 
 interface IsLoggedIn {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface IsLoggedIn {
 export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
   const [showNicknameModal, setShowNicknameModal] = useState(false);
   const { isLoggedIn } = useAuthStore();
+  const router = useRouter();
   const onXClick = () => {
     setIsOpen(false);
   };
@@ -36,9 +38,20 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
 
   const suggestBody = encodeURIComponent('건의내용을 적어주세요.');
   const mailto = () => {
-    window.location.href = `mailto:${process.env.NEXT_PUBLIC_SUGGEST_EMAIL}?body=${suggestBody}`;
+    if (isLoggedIn) {
+      window.location.href = `mailto:${process.env.NEXT_PUBLIC_SUGGEST_EMAIL}?body=${suggestBody}`;
+    } else {
+      router.push('/login');
+    }
   };
-
+  const handleLinkClick = (e: React.MouseEvent, path: string) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      router.push('/login');
+    } else {
+      router.push(path);
+    }
+  };
   const { data: myInfo } = useGetMyInfo();
   const myInfoClick = () => {
     console.log(myInfo);
@@ -87,51 +100,70 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
       </div>
 
       <div className="mt-[28px] flex h-[254px] w-[266px] flex-col items-center justify-center rounded-[12px] bg-white">
-        <Link href="/my-gallery">
-          <div className="border-b-[1.5px flex h-[60px] w-[218px] items-center justify-start border-b-[1.5px] border-b-[#F7F7F7]">
-            <div className="flex items-center justify-center">
-              <Image
-                src="/img/pictureGaller.png"
-                alt="picture-gallery"
-                width={28}
-                height={28}
-              />
+        <div>
+          <div className="flex h-[60px] w-[218px] items-center justify-start border-b-[1.5px] border-b-[#F7F7F7]">
+            <div
+              className="flex cursor-pointer"
+              onClick={(e) => handleLinkClick(e, '/my-gallery')}
+            >
+              <div className="flex items-center justify-center">
+                <Image
+                  src="/img/pictureGaller.png"
+                  alt="picture-gallery"
+                  width={28}
+                  height={28}
+                />
+              </div>
+              <span className="pl-[2px] text-[16px] font-semibold">
+                그림 갤러리
+              </span>
             </div>
-            <span className="pl-[2px] text-[16px] font-semibold">
-              그림 갤러리
-            </span>
           </div>
-        </Link>
+        </div>
 
-        <Link href="/coming-soon">
+        <div>
           <div className="flex h-[60px] w-[218px] items-center justify-start border-b-[1.5px] border-b-[#F7F7F7]">
-            <div className="flex items-center justify-center">
-              <Image
-                src="/img/store.png"
-                alt="picture-gallery"
-                width={28}
-                height={28}
-              />
+            <div
+              className="flex cursor-pointer"
+              onClick={(e) => handleLinkClick(e, '/coming-soon')}
+            >
+              <div className="flex items-center justify-center">
+                <Image
+                  src="/img/store.png"
+                  alt="store"
+                  width={28}
+                  height={28}
+                />
+              </div>
+              <span className="pl-[2px] text-[16px] font-semibold">스토어</span>
             </div>
-            <span className="pl-[2px] text-[16px] font-semibold">스토어</span>
           </div>
-        </Link>
-        <Link href="/inquiry">
+        </div>
+
+        <div>
           <div className="flex h-[60px] w-[218px] items-center justify-start border-b-[1.5px] border-b-[#F7F7F7]">
-            <div className="flex items-center justify-center">
-              <Image
-                src="/img/inquiry.png"
-                alt="picture-gallery"
-                width={28}
-                height={28}
-              />
+            <div className="flex cursor-pointer" onClick={mailto}>
+              <div className="flex items-center justify-center">
+                <Image
+                  src="/img/inquiry.png"
+                  alt="inquiry"
+                  width={28}
+                  height={28}
+                />
+              </div>
+              <span className="pl-[2px] text-[16px] font-semibold">
+                문의하기
+              </span>
             </div>
-            <span className="pl-[2px] text-[16px] font-semibold">문의하기</span>
           </div>
-        </Link>
+        </div>
+
         <div>
           <div className="flex h-[60px] w-[218px] items-center justify-start">
-            <div className="flex cursor-pointer" onClick={mailto}>
+            <div
+              className="flex cursor-pointer"
+              onClick={(e) => handleLinkClick(e, '/inquiry')}
+            >
               <div className="flex items-center justify-center">
                 <Image
                   src="/img/suggest.png"
@@ -148,16 +180,16 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
         </div>
       </div>
       <div className="mt-[56px] flex h-[141px] flex-col gap-[32px] *:font-semibold">
-        <Link href="/info">
-          <button className="flex h-[48px] w-[168px] items-center justify-center rounded-[8px] bg-[#EAEAEA]">
+        <button onClick={(e) => handleLinkClick(e, '/info')}>
+          <div className="flex h-[48px] w-[168px] items-center justify-center rounded-[8px] bg-[#EAEAEA]">
             공지사항
-          </button>
-        </Link>
-        <Link href="/setting">
-          <button className="flex h-[48px] w-[168px] items-center justify-center rounded-[8px] bg-[#EAEAEA]">
+          </div>
+        </button>
+        <button onClick={(e) => handleLinkClick(e, '/setting')}>
+          <div className="flex h-[48px] w-[168px] items-center justify-center rounded-[8px] bg-[#EAEAEA]">
             설정
-          </button>
-        </Link>
+          </div>
+        </button>
       </div>
       {showNicknameModal && (
         <div

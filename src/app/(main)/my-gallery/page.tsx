@@ -1,18 +1,14 @@
 'use client';
 import BackHeader from '@/src/components/header/BackHeader';
-import { useState } from 'react';
+import { useGetMyCreatedToon } from '@/src/hooks/useGetMyCreatedToon';
+import { useGetMyParticipatedToon } from '@/src/hooks/useGetMyParticipatedToon';
+import { useEffect, useState } from 'react';
 
 export default function MyGallery() {
   const [tab, setTab] = useState<'만든 그림' | '참여 그림'>('만든 그림');
-  let images = [
-    '/img/main-image.png ',
-    '/img/draw-example.png',
-    '/img/example-input.png',
-  ];
-  const onlyAlt = (path: string): string => {
-    const fileName = path.substring(path.lastIndexOf('/') + 1);
-    return fileName.substring(0, fileName.lastIndexOf('.'));
-  };
+  const { data: myCreatedToon = [] } = useGetMyCreatedToon();
+  const { data: myParticipatedToon = [] } = useGetMyParticipatedToon();
+
   return (
     <div>
       <div className="flex">
@@ -51,38 +47,62 @@ export default function MyGallery() {
       <hr className="border-1 border-solid border-[#C7C7C7]" />
       {tab === '만든 그림' ? (
         <>
-          <div className="ml-5 mt-[29px] font-bold">총 20장</div>
+          <div className="ml-5 mt-[29px] font-bold">
+            <span>총 {myCreatedToon.length}장</span>
+          </div>
           <div className="flex flex-col items-center">
-            {images.map((image, index) => (
-              <div key={index}>
-                <img
-                  src={image}
-                  alt={`${index}`}
-                  width={350}
-                  height={204}
-                  className=""
-                />
-                <span className="mt-[16px] flex">{onlyAlt(image)}</span>
-              </div>
-            ))}
+            {myCreatedToon.map((toon: any, index: number) => {
+              const date = new Date(toon.createdAt);
+              const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+
+              return (
+                <div key={index}>
+                  <img
+                    src={toon.image ? toon.image : '/img/empty.webp'}
+                    alt={toon.title}
+                    width={350}
+                    height={204}
+                    className="mt-5 rounded-xl"
+                  />
+                  <div className="align-center mt-4 flex flex-row justify-between">
+                    <div className="text-base font-semibold">{toon.title}</div>
+                    <div className="text-base font-semibold text-[#9E9E9E]">
+                      {formattedDate}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </>
       ) : (
         <>
-          <div className="ml-5 mt-[29px] font-bold">총 20장</div>
+          <div className="ml-5 mt-[29px] font-bold">
+            총 {myParticipatedToon.length}장
+          </div>
           <div className="flex flex-col items-center">
-            {images.map((image, index) => (
-              <div key={index}>
-                <img
-                  src={image}
-                  alt={`${index}`}
-                  width={350}
-                  height={204}
-                  className="bg-black"
-                />
-                <span className="mt-[16px] flex">{onlyAlt(image)}</span>
-              </div>
-            ))}
+            {myParticipatedToon.map((toon: any, index: number) => {
+              const date = new Date(toon.createdAt);
+              const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
+
+              return (
+                <div key={index}>
+                  <img
+                    src={toon.image ? toon.image : '/img/empty.webp'}
+                    alt={toon.title}
+                    width={350}
+                    height={204}
+                    className="mt-5 rounded-xl"
+                  />
+                  <div className="align-center mt-4 flex flex-row justify-between">
+                    <div className="text-base font-semibold">{toon.title}</div>
+                    <div className="text-base font-semibold text-[#9E9E9E]">
+                      {formattedDate}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </>
       )}
