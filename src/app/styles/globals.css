@@ -2,11 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  min-width: 390px;
+html,
+body {  
+  min-width: 24.375rem;
   background-color: rgb(230, 230, 230);
   display: flex;
   justify-content: center;
+  font-family: 'Pretendard Variable', sans-serif;
 }
 
 @font-face {
@@ -14,11 +16,29 @@ body {
   src: url('/fonts/Waguri.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 .custom-waguri-font {
   font-family: 'Waguri', sans-serif;
 }
-.cusom-pretendard-font {
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+.custom-pretendard-font {
+  font-family:
+    'Pretendard Variable',
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol',
+    sans-serif;
 }
+

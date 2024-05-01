@@ -4,18 +4,20 @@ import Image from 'next/image';
 import MenuHeader from './header/MenuHeader';
 import LargeBtn from './LargeBtn';
 import Link from 'next/link';
-import Cookie from 'js-cookie';
-import '../app/styles/globals.css';
-import { useEffect, useState } from 'react';
+import { useAuthStore } from '../store/authStore';
+import { useState } from 'react';
+import MyPageSideBar from './MypageSidebar';
 
 export default function Main() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(Cookie.get('isLoggedIn') === 'true');
-  }, []);
+  const { isLoggedIn } = useAuthStore();
+  const [isOpen, setIsOpen] = useState(false);
+  const onClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) setIsOpen(false);
+  };
+
   return (
-    <>
-      <MenuHeader />
+    <div className="relative overflow-x-hidden">
+      <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="mt-[23.5px] p-5">
         <div className="flex justify-center">
           <Image
@@ -41,7 +43,7 @@ export default function Main() {
         </div>
         <div className="flew-row mt-[62.5px]  flex">
           <Image src="/svg/star.svg" alt="star" width={37} height={39} />
-          <span className="custom-waguri-font ml-[4.5px] flex items-center text-xl font-normal">
+          <span className="custom-waguri-font ml-[0.2813rem] flex items-center text-xl font-normal">
             릴레이툰이란?
           </span>
         </div>
@@ -154,6 +156,15 @@ export default function Main() {
           </div>
         </div>
       </div>
-    </>
+      {isOpen && (
+        <div
+          className={`fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out`}
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+          onClick={onClick}
+        >
+          <MyPageSideBar setIsOpen={setIsOpen} isOpen={isOpen} />
+        </div>
+      )}
+    </div>
   );
 }

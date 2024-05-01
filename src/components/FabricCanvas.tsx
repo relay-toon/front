@@ -1,9 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
+import {
+  useEffect,
+  useState,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import { fabric } from 'fabric';
 import Image from 'next/image';
 import PaletteModal from './PaletteModal';
-// 캔버스에서 지금 붓도 연필이랑 똑같은 것 같고 지우개도 작동이 안됨 알아보고 수정예정
-export default function CanvasComponent() {
+
+const FabricCanvas = forwardRef((props: any, ref: any) => {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [color, setColor] = useState('#000000');
   const [lineWidth, setLineWidth] = useState(4);
@@ -26,7 +32,29 @@ export default function CanvasComponent() {
     return () => {
       canvas.dispose();
     };
-  }, []);
+  }, [ref]);
+
+  const exportImage = () => {
+    return new Promise((resolve, reject) => {
+      if (canvasRef.current) {
+        resolve(canvasRef.current.toDataURL());
+      } else {
+        reject('Canvas is not initialized');
+      }
+    });
+  };
+
+  useImperativeHandle(ref, () => ({
+    exportImage,
+    postImage: async () => {
+      try {
+        const imageData = await exportImage();
+        console.log('Posting image:', imageData);
+      } catch (error) {
+        console.error('Error exporting image:', error);
+      }
+    },
+  }));
 
   useEffect(() => {
     if (canvasInstance.current) {
@@ -144,7 +172,7 @@ export default function CanvasComponent() {
             style={{ backgroundColor: `${color}` }}
             onClick={handleOpenPalette}
           ></button>
-          <div className="relative w-[390px]">
+          <div className=" relative w-[390px]">
             {showPalette && (
               <PaletteModal
                 onClose={handleClosePalette}
@@ -156,4 +184,6 @@ export default function CanvasComponent() {
       </div>
     </div>
   );
-}
+});
+
+export default FabricCanvas;

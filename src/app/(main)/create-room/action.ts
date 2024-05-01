@@ -1,4 +1,4 @@
-export const moseoverHandler = () => {
+export const mouseOverHandler = () => {
   const item = document.getElementById('item');
   const slider = document.getElementById('slider');
   const clientWidth = item?.clientWidth;
@@ -12,7 +12,7 @@ export const moseoverHandler = () => {
   });
 };
 
-export const timeSetMoseoverHandler = () => {
+export const timeSetMouseOverHandler = () => {
   const timeItem = document.getElementById('timeItem');
   const drawingTimeSlider = document.getElementById('drawingTimeSlider');
   const clientWidth = timeItem?.clientWidth;
