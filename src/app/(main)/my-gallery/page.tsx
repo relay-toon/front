@@ -68,10 +68,7 @@ export default function MyGallery() {
                         className="mt-5 rounded-xl"
                       />
                     ) : (
-                      <div
-                        className="mt-5 rounded-xl bg-white"
-                        style={{ width: '350px', height: '204px' }}
-                      ></div>
+                      <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
                     )}
                     <div className="align-center mt-4 flex flex-row justify-between">
                       <div className="text-base font-semibold">
@@ -88,8 +85,8 @@ export default function MyGallery() {
           </div>
         </>
       ) : (
-        <>
-          <div className="ml-5 mt-[29px] font-bold">
+        <div>
+          <div className="ml-5 mt-[29px] font-bold ">
             총 {myParticipatedToon.length}장
           </div>
           <div className="flex flex-col items-center">
@@ -100,13 +97,17 @@ export default function MyGallery() {
               return (
                 <Link href={`/item/${toon.id}`} key={index}>
                   <div key={index}>
-                    <img
-                      src={toon.image ? toon.image : '/img/empty.webp'}
-                      alt={toon.title}
-                      width={350}
-                      height={204}
-                      className="mt-5 rounded-xl"
-                    />
+                    {toon.image ? (
+                      <img
+                        src={toon.image}
+                        alt={toon.title}
+                        width={350}
+                        height={204}
+                        className="mt-5 rounded-xl"
+                      />
+                    ) : (
+                      <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
+                    )}
                     <div className="align-center mt-4 flex flex-row justify-between">
                       <div className="text-base font-semibold">
                         {toon.title}
@@ -120,7 +121,7 @@ export default function MyGallery() {
               );
             })}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
