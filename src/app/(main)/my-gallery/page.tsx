@@ -2,7 +2,8 @@
 import BackHeader from '@/src/components/header/BackHeader';
 import { useGetMyCreatedToon } from '@/src/hooks/useGetMyCreatedToon';
 import { useGetMyParticipatedToon } from '@/src/hooks/useGetMyParticipatedToon';
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useState } from 'react';
 
 export default function MyGallery() {
   const [tab, setTab] = useState<'만든 그림' | '참여 그림'>('만든 그림');
@@ -56,21 +57,32 @@ export default function MyGallery() {
               const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
               return (
-                <div key={index}>
-                  <img
-                    src={toon.image ? toon.image : '/img/empty.webp'}
-                    alt={toon.title}
-                    width={350}
-                    height={204}
-                    className="mt-5 rounded-xl"
-                  />
-                  <div className="align-center mt-4 flex flex-row justify-between">
-                    <div className="text-base font-semibold">{toon.title}</div>
-                    <div className="text-base font-semibold text-[#9E9E9E]">
-                      {formattedDate}
+                <Link href={`/item/${toon.id}`} key={index}>
+                  <div key={index}>
+                    {toon.image ? (
+                      <img
+                        src={toon.image}
+                        alt={toon.title}
+                        width={350}
+                        height={204}
+                        className="mt-5 rounded-xl"
+                      />
+                    ) : (
+                      <div
+                        className="mt-5 rounded-xl bg-white"
+                        style={{ width: '350px', height: '204px' }}
+                      ></div>
+                    )}
+                    <div className="align-center mt-4 flex flex-row justify-between">
+                      <div className="text-base font-semibold">
+                        {toon.title}
+                      </div>
+                      <div className="text-base font-semibold text-[#9E9E9E]">
+                        {formattedDate}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
@@ -86,21 +98,25 @@ export default function MyGallery() {
               const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
               return (
-                <div key={index}>
-                  <img
-                    src={toon.image ? toon.image : '/img/empty.webp'}
-                    alt={toon.title}
-                    width={350}
-                    height={204}
-                    className="mt-5 rounded-xl"
-                  />
-                  <div className="align-center mt-4 flex flex-row justify-between">
-                    <div className="text-base font-semibold">{toon.title}</div>
-                    <div className="text-base font-semibold text-[#9E9E9E]">
-                      {formattedDate}
+                <Link href={`/item/${toon.id}`} key={index}>
+                  <div key={index}>
+                    <img
+                      src={toon.image ? toon.image : '/img/empty.webp'}
+                      alt={toon.title}
+                      width={350}
+                      height={204}
+                      className="mt-5 rounded-xl"
+                    />
+                    <div className="align-center mt-4 flex flex-row justify-between">
+                      <div className="text-base font-semibold">
+                        {toon.title}
+                      </div>
+                      <div className="text-base font-semibold text-[#9E9E9E]">
+                        {formattedDate}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>
