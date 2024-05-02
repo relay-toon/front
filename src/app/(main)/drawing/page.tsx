@@ -3,15 +3,22 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
-import { useRef } from 'react';
-import '@/src/app/styles/globals.css';
+import { forwardRef, useEffect, useRef } from 'react';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
 
 const FabricCanvasWithNoSSR = dynamic(
   () => import('@/src/components/FabricCanvas'),
   {
     ssr: false,
+    loading: () => <LoadingSpinner />,
   },
 );
+
+const ForwardFabricCanvas = forwardRef((props: any, ref: any) => {
+  console.log('Forwarding ref:', ref);
+  return <FabricCanvasWithNoSSR {...props} ref={ref} />;
+});
+
 export default function DrawingPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const onClick = () => {
@@ -20,6 +27,9 @@ export default function DrawingPage() {
     console.log(data);
     console.log(canvas);
   };
+  useEffect(() => {
+    console.log('Accessing canvas ref from parent:', ForwardFabricCanvas);
+  }, []);
   return (
     <div>
       <div className="mb-[1rem] flex flex-row justify-between">
@@ -35,10 +45,10 @@ export default function DrawingPage() {
         />
       </div>
       <div className="ml-auto mr-auto flex w-[350px] rounded-lg bg-white px-5 py-3 text-base">
-        가나다라마바사아자차카타파하 가나다라마바사아
+        <span>주제</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <FabricCanvasWithNoSSR />
+        <ForwardFabricCanvas />
       </div>
     </div>
   );
