@@ -17,7 +17,12 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasInstance = useRef<fabric.Canvas | null>(null);
   const [showPalette, setShowPalette] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    getCanvas: () => canvasRef.current,
+  }));
   useEffect(() => {
+    console.log('Canvas ref:', canvasRef.current);
     if (!canvasRef.current) return;
 
     const canvas = new fabric.Canvas(canvasRef.current, {
@@ -32,29 +37,7 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     return () => {
       canvas.dispose();
     };
-  }, [ref]);
-
-  const exportImage = () => {
-    return new Promise((resolve, reject) => {
-      if (canvasRef.current) {
-        resolve(canvasRef.current.toDataURL());
-      } else {
-        reject('Canvas is not initialized');
-      }
-    });
-  };
-
-  useImperativeHandle(ref, () => ({
-    exportImage,
-    postImage: async () => {
-      try {
-        const imageData = await exportImage();
-        console.log('Posting image:', imageData);
-      } catch (error) {
-        console.error('Error exporting image:', error);
-      }
-    },
-  }));
+  }, []);
 
   useEffect(() => {
     if (canvasInstance.current) {
@@ -73,7 +56,8 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
         brush = new fabric.PencilBrush(canvas);
         break;
       case 'circle':
-        brush = new fabric.CircleBrush();
+        //@ts-ignore
+        brush = new fabric.CircleBrush(canvas);
         break;
       case 'eraser':
         brush = new fabric.PencilBrush(canvas);
@@ -151,7 +135,7 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
           </button>
           <button
             className="ml-[13px] h-9 w-9 rounded-md"
-            onClick={() => setBrushType('brush')}
+            onClick={() => setBrushType('circle')}
           >
             <Image src="/svg/brush.svg" alt="brush" width={36} height={36} />
           </button>
