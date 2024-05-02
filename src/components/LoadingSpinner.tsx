@@ -7,7 +7,7 @@ export default function LoadingSpinner() {
       alt="loading"
       width={82}
       height={79}
-      className=" animate-spin-2s"
+      className=" ml-auto mr-auto flex animate-spin-2s items-center justify-center"
     />
   );
 }
