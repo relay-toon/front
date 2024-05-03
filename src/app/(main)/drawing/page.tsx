@@ -15,21 +15,28 @@ const FabricCanvasWithNoSSR = dynamic(
 );
 
 const ForwardFabricCanvas = forwardRef((props: any, ref: any) => {
-  console.log('Forwarding ref:', ref);
+  console.log('ref: ', ref);
   return <FabricCanvasWithNoSSR {...props} ref={ref} />;
 });
 
 export default function DrawingPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const onClick = () => {
-    const canvas = canvasRef.current;
-    const data = canvas?.toDataURL();
-    console.log(data);
-    console.log(canvas);
+    if (canvasRef.current) {
+      const data = canvasRef.current.toDataURL();
+      console.log(data);
+    } else {
+      console.log('Canvas is not initialized yet.');
+    }
   };
+
   useEffect(() => {
-    console.log('Accessing canvas ref from parent:', ForwardFabricCanvas);
-  }, []);
+    if (canvasRef.current) {
+      console.log('Canvas ref is now set:', canvasRef.current);
+    } else {
+      console.log('Canvas ref is not set yet.');
+    }
+  }, [canvasRef.current]);
   return (
     <div>
       <div className="mb-[1rem] flex flex-row justify-between">
@@ -48,7 +55,7 @@ export default function DrawingPage() {
         <span>주제</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <ForwardFabricCanvas />
+        <ForwardFabricCanvas ref={canvasRef} />
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import { CreateToonData } from '@/src/types/CreateToon';
 export default function CreateRoom() {
   const [subjectText, setSubjectText] = useState('');
   const [memberOption, setMemberOption] = useState(0);
-  const [timeOption, setTimeOption] = useState(0);
+  const [timeOption, setTimeOption] = useState<any>(0);
 
   const maxLength = 25;
   let hashtagArr = ['#어디에서', '#누가', '#무엇을', '#어떻게', '#하는것'];
@@ -182,7 +182,11 @@ export default function CreateRoom() {
         <LargeBtn
           text="시작하기"
           active={
-            subjectText.length && memberOption && timeOption ? true : false
+            subjectText.length &&
+            memberOption &&
+            (timeOption > 0 || timeOption === 0)
+              ? true
+              : false
           }
           onClick={handleSubmit}
         />
