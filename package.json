@@ -15,6 +15,7 @@
     "fabric": "^5.3.0",
     "js-cookie": "^3.0.5",
     "next": "14.2.1",
+    "next-router-mock": "^0.9.13",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",

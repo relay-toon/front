@@ -15,7 +15,7 @@ export default function Inquiry() {
         content,
       };
       const result = await postInquiry.mutateAsync(data);
-      console.log(result)
+      console.log(result);
       window.location.href = `/`;
     } catch (error) {
       console.log(error);
@@ -39,14 +39,15 @@ export default function Inquiry() {
             <div className="flex h-[50px] w-[350px] items-center rounded-[8px]  bg-white p-4 text-[16px] font-semibold">
               건의하기
             </div>
-            <label className="text-[16px] font-bold" htmlFor="title">
+            <label className="text-[16px] font-bold" htmlFor="content">
               건의내용
             </label>
             <textarea
+              name="content"
               value={content}
               onChange={onInquiryChange}
               placeholder="릴레이툰 팀에게 건의할 사항을 입력해주세요"
-              className="h-[230px] w-[349px] rounded-[12px] p-4 placeholder:text-[15px] placeholder:font-medium focus:ring-1 focus:ring-black scrollbar-hide"
+              className="h-[230px] w-[349px] rounded-[12px] p-4 scrollbar-hide placeholder:text-[15px] placeholder:font-medium focus:ring-1 focus:ring-black"
             />
             <div className="mt-[150px]">
               <LargeBtn

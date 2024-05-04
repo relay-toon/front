@@ -7,7 +7,8 @@ import MenuHeader from '@/src/components/header/MenuHeader';
 import { useState } from 'react';
 import MyPageSideBar from '@/src/components/MypageSidebar';
 import { useAuthStore } from '@/src/store/authStore';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
+import next from 'next';
 
 export default function FinishedDrawing() {
   const isLoggedIn = useAuthStore((state) => ({
@@ -18,9 +19,13 @@ export default function FinishedDrawing() {
   const onClick = () => {
     setIsOpen(false);
   };
+  const { id } = useParams();
   const searchParams = useSearchParams();
   const count = searchParams.get('count');
-  console.log(count);
+  
+  // 다음 그리는 사람이 전달받을 url
+  let nextURL = `/prevPicture/${id}?count=${parseInt(count!) + 1 + ''}`;
+  console.log('다음 그리는 사람이 받을 URL : ', nextURL);
   return (
     <div>
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />

@@ -6,6 +6,8 @@ import LargeBtn from '@/src/components/LargeBtn';
 import BackHeader from '@/src/components/header/BackHeader';
 import { usePostToon } from '@/src/hooks/usePostToon';
 import { CreateToonData } from '@/src/types/CreateToon';
+import { useRouter } from 'next/navigation';
+
 export default function CreateRoom() {
   const [subjectText, setSubjectText] = useState('');
   const [memberOption, setMemberOption] = useState(0);
@@ -18,6 +20,8 @@ export default function CreateRoom() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const timeSetSliderRef = useRef<HTMLDivElement>(null);
   const createMutation = usePostToon();
+  const router = useRouter();
+
   const handleSubmit = async () => {
     try {
       const data: CreateToonData = {
@@ -26,7 +30,8 @@ export default function CreateRoom() {
         timer: timeOption,
       };
       const result = await createMutation.mutateAsync(data);
-      console.log(result);
+      // console.log(result);
+      router?.push(`/drawing/${result.id}?count=1`);
     } catch (error) {
       console.error('에러:', error);
     }
