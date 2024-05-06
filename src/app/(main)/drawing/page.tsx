@@ -5,25 +5,25 @@ import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmall
 import dynamic from 'next/dynamic';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
-// const Canvas = dynamic(() => import('./_component/WraapedCanvas'), {
-//   ssr: false,
-// });
-// const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
-//   console.log('ref:', ref);
-//   return <Canvas {...props} forwardRef={ref} />;
-// });
-
-const FabricCanvasWithNoSSR = dynamic(
-  () => import('@/src/app/(main)/drawing/_component/FabricCanvas'),
-  {
-    ssr: false,
-  },
-);
-
-const ForwardFabricCanvas = forwardRef((props: any, ref: any) => {
-  console.log('ref: ', ref);
-  return <FabricCanvasWithNoSSR {...props} forwardRef={ref} />;
+const Canvas = dynamic(() => import('./_component/WraapedCanvas'), {
+  ssr: false,
 });
+const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
+  console.log('ref:', ref);
+  return <Canvas {...props} forwardRef={ref} />;
+});
+
+// const FabricCanvasWithNoSSR = dynamic(
+//   () => import('./_component/FabricCanvas'),
+//   {
+//     ssr: false,
+//   },
+// );
+
+// const ForwardFabricCanvas = forwardRef((props: any, ref: any) => {
+//   console.log('ref: ', ref);
+//   return <FabricCanvasWithNoSSR {...props} forwardRef={ref} />;
+// });
 
 export default function DrawingPage() {
   const { id } = useParams();
@@ -64,7 +64,7 @@ export default function DrawingPage() {
         <span>주제</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <ForwardFabricCanvas ref={canvasRef} />
+        <ForwardRefCanvas ref={canvasRef} />
       </div>
     </div>
   );

@@ -3,21 +3,61 @@ import BackHeader from '@/src/components/header/BackHeader';
 import { useGetMyCreatedToon } from '@/src/hooks/useGetMyCreatedToon';
 import { useGetMyParticipatedToon } from '@/src/hooks/useGetMyParticipatedToon';
 import Link from 'next/link';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 export default function MyGallery() {
   const [tab, setTab] = useState<'만든 그림' | '참여 그림'>('만든 그림');
-  const { data: myCreatedToon = [] } = useGetMyCreatedToon();
-  const { data: myParticipatedToon = [] } = useGetMyParticipatedToon();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [completed, setCompleted] = useState(false);
+  const { data: myCreatedToon, refetch: refetchCreated } = useGetMyCreatedToon(
+    pageNumber,
+    completed,
+  );
+  console.log('myCreatedToon:', myCreatedToon);
+  const { data: myParticipatedToon, refetch: refetchParticipated } =
+    useGetMyParticipatedToon(pageNumber, completed);
+  const handleTabChange = (newTab: '만든 그림' | '참여 그림') => {
+    if (newTab !== tab) {
+      setTab(newTab);
+      setPageNumber(1);
+      setCompleted(newTab === '참여 그림');
+    }
+  };
 
+  const handlePageChange = (newPage: number) => {
+    if (newPage !== pageNumber) {
+      setPageNumber(newPage);
+    }
+  };
+  useEffect(() => {
+    if (pageNumber === 1) {
+      const newTotalPages =
+        (tab === '만든 그림'
+          ? myCreatedToon?.totalPage
+          : myParticipatedToon?.totalPage) || 1;
+      setTotalPages(newTotalPages);
+    }
+  }, [tab, myCreatedToon, myParticipatedToon]);
+
+  useEffect(() => {
+    if (tab === '만든 그림') {
+      refetchCreated();
+    } else {
+      refetchParticipated();
+    }
+  }, [pageNumber, tab]);
+
+  const createdToons = myCreatedToon?.toons || [];
+  const participatedToons = myParticipatedToon?.toons || [];
   return (
-    <div>
+    <div className="min-h-[754px]">
       <div className="flex">
         <BackHeader text="그림갤러리" />
       </div>
       <div className="relative mt-[64px] flex items-center justify-center text-base font-bold">
         <div
-          onClick={() => setTab('만든 그림')}
+          onClick={() => handleTabChange('만든 그림')}
           className={`relative mx-[60px] mb-1 cursor-pointer ${
             tab === '만든 그림' ? 'text-[#595959]' : 'text-[#9E9E9E]'
           }`}
@@ -31,7 +71,7 @@ export default function MyGallery() {
           )}
         </div>
         <div
-          onClick={() => setTab('참여 그림')}
+          onClick={() => handleTabChange('참여 그림')}
           className={`relative mx-[60px] mb-1 cursor-pointer ${
             tab === '참여 그림' ? 'text-[#595959]' : 'text-[#9E9E9E]'
           }`}
@@ -49,10 +89,10 @@ export default function MyGallery() {
       {tab === '만든 그림' ? (
         <>
           <div className="ml-5 mt-[29px] font-bold">
-            <span>총 {myCreatedToon.length}장</span>
+            <span>총 {createdToons.length}장</span>
           </div>
           <div className="flex flex-col items-center">
-            {myCreatedToon.map((toon: any, index: number) => {
+            {createdToons.map((toon: any, index: number) => {
               const date = new Date(toon.createdAt);
               const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
@@ -87,10 +127,10 @@ export default function MyGallery() {
       ) : (
         <div>
           <div className="ml-5 mt-[29px] font-bold ">
-            총 {myParticipatedToon.length}장
+            총 {participatedToons.length}장
           </div>
           <div className="flex flex-col items-center">
-            {myParticipatedToon.map((toon: any, index: number) => {
+            {participatedToons.map((toon: any, index: number) => {
               const date = new Date(toon.createdAt);
               const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
@@ -123,6 +163,18 @@ export default function MyGallery() {
           </div>
         </div>
       )}
+
+      <div className="mt-5 flex justify-center">
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => handlePageChange(i + 1)}
+            className={`mx-1 p-2 text-lg ${pageNumber === i + 1 ? 'font-bold' : 'font-normal'}`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
