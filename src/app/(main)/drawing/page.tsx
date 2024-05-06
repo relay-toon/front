@@ -4,19 +4,24 @@ import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
 import { forwardRef, useEffect, useRef } from 'react';
-import LoadingSpinner from '@/src/components/LoadingSpinner';
 
+// const Canvas = dynamic(() => import('./_component/WraapedCanvas'), {
+//   ssr: false,
+// });
+// const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
+//   console.log('ref:', ref);
+//   return <Canvas {...props} forwardRef={ref} />;
+// });
 const FabricCanvasWithNoSSR = dynamic(
-  () => import('@/src/components/FabricCanvas'),
+  () => import('@/src/app/(main)/drawing/_component/FabricCanvas'),
   {
     ssr: false,
-    loading: () => <LoadingSpinner />,
   },
 );
 
 const ForwardFabricCanvas = forwardRef((props: any, ref: any) => {
   console.log('ref: ', ref);
-  return <FabricCanvasWithNoSSR {...props} ref={ref} />;
+  return <FabricCanvasWithNoSSR {...props} forwardRef={ref} />;
 });
 
 export default function DrawingPage() {
