@@ -17,9 +17,9 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasInstance = useRef<fabric.Canvas | null>(null);
   const [showPalette, setShowPalette] = useState(false);
-
   useImperativeHandle(ref, () => ({
     getCanvas: () => canvasRef.current,
+    canvasInstance: canvasInstance.current,
   }));
   useEffect(() => {
     console.log('Canvas ref:', canvasRef.current);
@@ -31,6 +31,7 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
       backgroundColor: 'white',
       isDrawingMode: isDrawingMode,
     });
+
     canvasInstance.current = canvas;
     setupBrush();
 
