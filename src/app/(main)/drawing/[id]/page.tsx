@@ -5,20 +5,16 @@ import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmall
 import dynamic from 'next/dynamic';
 import { forwardRef, useEffect, useRef } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-const FabricCanvasWithNoSSR = dynamic(
-  () => import('@/src/components/FabricCanvas'),
-  {
-    ssr: false,
-    loading: () => <LoadingSpinner />,
-  },
-);
-
-const ForwardFabricCanvas = forwardRef((props: any, ref: any) => {
-  console.log('ref: ', ref);
-  return <FabricCanvasWithNoSSR {...props} ref={ref} />;
+const Canvas = dynamic(() => import('../_component/WraapedCanvas'), {
+  ssr: false,
+  loading: () => <LoadingSpinner />,
+});
+const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
+  console.log('ref:', ref);
+  return <Canvas {...props} forwardRef={ref} />;
 });
 
 export default function DrawingPage() {
@@ -60,7 +56,7 @@ export default function DrawingPage() {
       <div className="flex flex-row px-5 py-3">
         <div className="text-xl font-bold">그림 주제</div>
         <DrawingOrder
-        count={count}
+          count={count}
           width={127}
           height={33}
           positionStyle={{ top: '0px', left: '150px', position: 'relative' }}
@@ -70,7 +66,7 @@ export default function DrawingPage() {
         <span>주제</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <ForwardFabricCanvas ref={canvasRef} />
+        <ForwardRefCanvas ref={canvasRef} />
       </div>
     </div>
   );
