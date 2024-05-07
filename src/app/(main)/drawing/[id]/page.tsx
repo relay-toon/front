@@ -27,6 +27,20 @@ export default function DrawingPage() {
   const { mutate: uploadToon } = usePutToon();
   const canvasRef = useRef<any>(null);
 
+  function dataURLtoFile(dataUrl: string, filename: string) {
+    const matches = dataUrl.match(/:(.*?);/);
+    if (!matches) {
+      throw new Error('Invalid data URL');
+    }
+    const mime = matches[1];
+    const bstr = atob(dataUrl.split(',')[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
   const onClick = () => {
     if (!canvasRef.current || isLoading || !myInfo) {
       return;
@@ -37,20 +51,22 @@ export default function DrawingPage() {
         format: 'png',
         quality: 1.0,
       });
-      if (toonData) {
-        const toonUpdate = {
-          ...toonData,
-          image: imageData,
-          name: myInfo.name,
-        };
-        uploadToon(toonUpdate);
-        console.log('toonUpdate:', toonUpdate);
+      const imageFile = dataURLtoFile(imageData, 'canvas_image.png');
+      try {
+        if (toonData) {
+          const toonUpdate = {
+            ...toonData,
+            image: imageFile,
+            name: myInfo.name,
+            id: toonData.id,
+          };
+          uploadToon(toonUpdate);
+          console.log('toonUpdate:', toonUpdate);
+        }
+      } catch (error) {
+        alert('에러가 발생했습니다. 다시 시도해주세요.');
       }
-    } else
-      (error: any) => {
-        console.log('error:', error);
-        alert('에러');
-      };
+    }
   };
 
   return (

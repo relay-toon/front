@@ -6,14 +6,9 @@ import ShareButton from '@/src/components/ShareButton';
 import MenuHeader from '@/src/components/header/MenuHeader';
 import { useState } from 'react';
 import MyPageSideBar from '@/src/components/MypageSidebar';
-import { useAuthStore } from '@/src/store/authStore';
 import { useParams, useSearchParams } from 'next/navigation';
 
 export default function FinishedDrawing() {
-  const isLoggedIn = useAuthStore((state) => ({
-    isLoggedIn: state.isLoggedIn,
-    setIsLoggedIn: state.setIsLoggedIn,
-  }));
   const [isOpen, setIsOpen] = useState(false);
   const onClick = () => {
     setIsOpen(false);
