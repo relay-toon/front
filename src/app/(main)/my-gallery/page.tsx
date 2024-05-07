@@ -4,7 +4,6 @@ import { useGetMyCreatedToon } from '@/src/hooks/useGetMyCreatedToon';
 import { useGetMyParticipatedToon } from '@/src/hooks/useGetMyParticipatedToon';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 export default function MyGallery() {
   const [tab, setTab] = useState<'만든 그림' | '참여 그림'>('만든 그림');
   const [pageNumber, setPageNumber] = useState(1);
@@ -97,29 +96,27 @@ export default function MyGallery() {
               const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
               return (
-                <Link href={`/item/${toon.id}`} key={index}>
-                  <div key={index}>
-                    {toon.image ? (
+                <div key={index}>
+                  {toon.image ? (
+                    <Link href={`/item/${toon.id}`} key={index}>
                       <img
                         src={toon.image}
                         alt={toon.title}
                         width={350}
-                        height={204}
                         className="mt-5 rounded-xl"
+                        style={{ height: 204 }}
                       />
-                    ) : (
-                      <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
-                    )}
-                    <div className="align-center mt-4 flex flex-row justify-between">
-                      <div className="text-base font-semibold">
-                        {toon.title}
-                      </div>
-                      <div className="text-base font-semibold text-[#9E9E9E]">
-                        {formattedDate}
-                      </div>
+                    </Link>
+                  ) : (
+                    <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
+                  )}
+                  <div className="align-center mt-4 flex flex-row justify-between">
+                    <div className="text-base font-semibold">{toon.title}</div>
+                    <div className="text-base font-semibold text-[#9E9E9E]">
+                      {formattedDate}
                     </div>
                   </div>
-                </Link>
+                </div>
               );
             })}
           </div>

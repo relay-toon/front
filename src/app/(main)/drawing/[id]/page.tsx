@@ -46,11 +46,7 @@ export default function DrawingPage() {
         uploadToon(toonUpdate);
         console.log('toonUpdate:', toonUpdate);
       }
-    } else
-      (error: any) => {
-        console.log('error:', error);
-        alert('에러');
-      };
+    }
   };
 
   return (
@@ -62,7 +58,7 @@ export default function DrawingPage() {
             pathname: `/finished-drawing/${id}`,
             query: { count: count },
           }}
-        > */}
+        /> */}
         <HeaderFinishedButton
           time={toonData?.timer}
           isComplete={true}
