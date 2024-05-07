@@ -2,16 +2,26 @@ import { AxiosInstance } from 'axios';
 import { useAxios } from '../lib/axios';
 import { useQuery } from '@tanstack/react-query';
 
-const getMyCreatedToon = async (axiosInstance: AxiosInstance) => {
-  const response = await axiosInstance.get('/toons/owned');
+const getMyCreatedToon = async (
+  axiosInstance: AxiosInstance,
+  page: number,
+  completed: boolean,
+) => {
+  const response = await axiosInstance.get('/toons/owned', {
+    params: {
+      page,
+      completed,
+    },
+  });
+  console.log('response:', response.data);
   return response.data;
 };
 
-export const useGetMyCreatedToon = () => {
+export const useGetMyCreatedToon = (page: number, completed: boolean) => {
   const { axiosInstance } = useAxios();
   return useQuery({
-    queryKey: ['myCreatedToon'],
-    queryFn: () => getMyCreatedToon(axiosInstance),
+    queryKey: ['myCreatedToon', page],
+    queryFn: () => getMyCreatedToon(axiosInstance, page, completed),
     staleTime: 1000 * 60 * 30,
   });
 };

@@ -4,34 +4,49 @@ import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
 import { forwardRef, useEffect, useRef } from 'react';
-import LoadingSpinner from '@/src/components/LoadingSpinner';
-import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
-
-const FabricCanvasWithNoSSR = dynamic(
-  () => import('@/src/components/FabricCanvas'),
-  {
-    ssr: false,
-    loading: () => <LoadingSpinner />,
-  },
-);
-
-const ForwardFabricCanvas = forwardRef((props: any, ref: any) => {
-  console.log('ref: ', ref);
-  return <FabricCanvasWithNoSSR {...props} ref={ref} />;
+import { usePutToon } from '@/src/hooks/usePutToon';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
+import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
+const Canvas = dynamic(() => import('./_component/WraapedCanvas'), {
+  ssr: false,
+  loading: () => <LoadingSpinner />,
+});
+const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
+  console.log('ref:', ref);
+  return <Canvas {...props} forwardRef={ref} />;
 });
 
 export default function DrawingPage() {
   const { id } = useParams();
   const searchParams = useSearchParams();
   const count = searchParams.get('count');
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<any>(null);
+  const { data: toonData, isLoading } = useGetToonInfo(id);
+  const { mutate: uploadToon } = usePutToon();
+
   const onClick = () => {
-    if (canvasRef.current) {
-      const data = canvasRef.current.toDataURL();
-      console.log(data);
+    if (!canvasRef.current || isLoading) {
+      return;
+    }
+    const fabricCanvas = canvasRef.current.canvasInstance;
+    console.log('Fabric canvas:', fabricCanvas);
+    if (fabricCanvas) {
+      const imageData = fabricCanvas.toDataURL({
+        format: 'png',
+        quality: 1.0,
+      });
+      console.log('Image data:', imageData);
+      if (toonData) {
+        const toonUpdate = {
+          ...toonData,
+          image: imageData,
+        };
+        uploadToon(toonUpdate);
+        console.log('Toon updated:', toonUpdate);
+      }
     } else {
-      console.log('Canvas is not initialized yet.');
+      console.log('Canvas instance is not available.');
     }
   };
 
@@ -60,7 +75,7 @@ export default function DrawingPage() {
         <span>주제</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <ForwardFabricCanvas ref={canvasRef} />
+        <ForwardRefCanvas ref={canvasRef} />
       </div>
     </div>
   );
