@@ -82,7 +82,9 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
       <div className="mt-[19px] flex h-[82px] w-[266px] items-center justify-between rounded-[12px] bg-white px-[20px]">
         <span className="text-[20px] font-bold">
           {isLoggedIn ? (
-            <span>{myInfo?.name}</span>
+            <Link href="/mypage">
+              <span>{myInfo?.name}</span>
+            </Link>
           ) : (
             <Link href="/login">
               <span>로그인하기</span>
