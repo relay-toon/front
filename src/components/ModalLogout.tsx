@@ -1,9 +1,27 @@
 'use client';
-export default function ModalLogout() {
-  const onQuitClick = () => {};
-  const onLogoutClick = () => {};
+
+import { useLogout } from '../hooks/useLogout';
+import { useAxios } from '../lib/axios';
+
+interface ModalLogout {
+  isLogout: boolean;
+  setIsLogout: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function ModalLogout({ isLogout, setIsLogout }: ModalLogout) {
+  const onQuitClick = () => {
+    setIsLogout(false);
+  };
+
+  const { axiosInstance } = useAxios();
+  const logout = useLogout(axiosInstance);
+
+  const onLogoutClick = async () => {
+    await logout();
+  };
+
   return (
-    <div className="*:custom-pretendard-font flex h-[189px] w-[300px] flex-col items-center rounded-[12px] bg-white ">
+    <div className="*:custom-pretendard-font absolute left-[12%] top-1/3 flex h-[189px] w-[300px] flex-col items-center rounded-[12px] bg-white">
       <div className="flex h-[129px] w-[300px] items-center justify-center ">
         <span className="text-[20px] ">로그아웃 하시겠어요?</span>
       </div>
