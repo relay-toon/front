@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAxios } from '@/src/lib/axios';
+import { useDelteUser } from '@/src/hooks/useDeleteUser';
 
 export default function Mypage() {
   const router = useRouter();
@@ -12,9 +13,14 @@ export default function Mypage() {
     router.back();
   };
   const logout = useLogout(axiosInstance);
+  const useDelete = useDelteUser(axiosInstance);
 
   const onLogoutClick = async () => {
     await logout();
+  };
+
+  const onUserDeleteClick = async () => {
+    await useDelete();
   };
   return (
     <div className="relative mt-[47px] h-screen bg-[#F7F7F7]">
@@ -52,7 +58,9 @@ export default function Mypage() {
             <p onClick={onLogoutClick} className="cursor-pointer">
               로그아웃
             </p>
-            <p className="cursor-pointer">탈퇴하기</p>
+            <p onClick={onUserDeleteClick} className="cursor-pointer">
+              탈퇴하기
+            </p>
           </div>
         </div>
 
