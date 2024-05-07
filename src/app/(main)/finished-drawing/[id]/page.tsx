@@ -6,19 +6,17 @@ import ShareButton from '@/src/components/ShareButton';
 import MenuHeader from '@/src/components/header/MenuHeader';
 import { useState } from 'react';
 import MyPageSideBar from '@/src/components/MypageSidebar';
-import { useAuthStore } from '@/src/store/authStore';
 import { useParams, useSearchParams } from 'next/navigation';
+import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 
 export default function FinishedDrawing() {
-  const isLoggedIn = useAuthStore((state) => ({
-    isLoggedIn: state.isLoggedIn,
-    setIsLoggedIn: state.setIsLoggedIn,
-  }));
   const [isOpen, setIsOpen] = useState(false);
   const onClick = () => {
     setIsOpen(false);
   };
   const { id } = useParams();
+  const { data: toon } = useGetToonInfo(id);
+
   const searchParams = useSearchParams();
   const count = searchParams.get('count');
 
@@ -47,11 +45,9 @@ export default function FinishedDrawing() {
         />
       </div>
       <div className="flex justify-center">
-        <Image
-          src="/img/draw-example.png"
-          alt="draw-example"
-          width={280}
-          height={364}
+        <img
+          src={toon?.image}
+          className="h-[364px] w-[280px] rounded-[6.4px] border-2 border-[#E0FF68]"
         />
       </div>
       <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">

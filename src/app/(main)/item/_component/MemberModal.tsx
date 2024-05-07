@@ -1,5 +1,5 @@
 interface MemberModalProps {
-  users: string[];
+  users: { name: string }[];
   onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
@@ -16,13 +16,13 @@ export default function MemberModal({ users, onClick }: MemberModalProps) {
         </div>
       </div>
       <div className="mt-[29px] flex flex-col">
-        {users.map((name, index) => (
+        {users.map((user, index) => (
           <div
             key={index}
             className="mt-7 flex w-full flex-row items-center text-base"
           >
             <span className="font-bold">{index + 1}번째</span>
-            <div className="ml-auto">{name}</div>
+            <div className="ml-auto">{user.name}</div>
           </div>
         ))}
       </div>
