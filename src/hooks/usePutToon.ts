@@ -4,7 +4,21 @@ import { useAxios } from '../lib/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const putToon = async (toonData: Toon, axiosInstance: AxiosInstance) => {
-  const response = await axiosInstance.put(`/toons/${toonData.id}`, toonData);
+  const formData = new FormData();
+  if (toonData.name) {
+    formData.append('name', toonData.name);
+  }
+  if (toonData.userId) {
+    formData.append('userId', toonData.userId);
+  }
+  if (toonData.image) {
+    formData.append('image', toonData.image);
+  }
+  const response = await axiosInstance.put(`/toons/${toonData.id}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return response.data;
 };
 
