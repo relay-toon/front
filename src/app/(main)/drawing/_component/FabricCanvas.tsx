@@ -14,7 +14,7 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
   const [color, setColor] = useState('#000000');
   const [lineWidth, setLineWidth] = useState(4);
   const [brushType, setBrushType] = useState('pencil');
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef(null);
   const canvasInstance = useRef<fabric.Canvas | null>(null);
   const [showPalette, setShowPalette] = useState(false);
   useImperativeHandle(ref, () => ({

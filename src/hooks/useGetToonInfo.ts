@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 import { useAxios } from '../lib/axios';
 import { useQuery } from '@tanstack/react-query';
 
@@ -11,10 +11,11 @@ const getCurrentToonInfo = async (axiosInstance: AxiosInstance, id: string) => {
   }
 };
 
-export const useGetToonInfo = (id: string) => {
+export const useGetToonInfo = (id: string | string[]) => {
   const { axiosInstance } = useAxios();
+  const toonId = Array.isArray(id) ? id[0] : id;
   return useQuery({
-    queryKey: ['toonInfo'],
-    queryFn: () => getCurrentToonInfo(axiosInstance, id),
+    queryKey: ['toonInfo', toonId],
+    queryFn: () => getCurrentToonInfo(axiosInstance, toonId),
   });
 };
