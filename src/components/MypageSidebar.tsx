@@ -4,8 +4,6 @@ import Link from 'next/link';
 import { useGetMyInfo } from '../hooks/useGetMyInfo';
 import ModalNickname from './ModalNickname';
 import { useState } from 'react';
-import { useLogout } from '../hooks/useLogout';
-import { useAxios } from '../lib/axios';
 import { useAuthStore } from '../store/authStore';
 import { useRouter } from 'next/navigation';
 
@@ -33,8 +31,6 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
   const closeNicknameModal = () => {
     setShowNicknameModal(false);
   };
-  const { axiosInstance } = useAxios();
-  const onLogout = useLogout(axiosInstance);
 
   const suggestBody = encodeURIComponent('건의내용을 적어주세요.');
   const mailto = () => {
@@ -53,9 +49,7 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
     }
   };
   const { data: myInfo } = useGetMyInfo();
-  const myInfoClick = () => {
-    console.log(myInfo);
-  };
+
   return (
     <div
       className={`custom-pretendard-font absolute top-0 z-20 w-[310px] ${isOpen ? `right-0 transition-all duration-200 ease-in-out` : `right-[-320px] transition-transform duration-200 ease-in-out`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
@@ -77,8 +71,6 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
           <span>MY페이지</span>
         </div>
       </div>
-      <button onClick={onLogout}>임시 로그아웃버튼</button>
-      <button onClick={myInfoClick}>내정보 확인 임시버튼</button>
       <div className="mt-[19px] flex h-[82px] w-[266px] items-center justify-between rounded-[12px] bg-white px-[20px]">
         <span className="text-[20px] font-bold">
           {isLoggedIn ? (
