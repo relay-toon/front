@@ -78,7 +78,7 @@ export default function DrawingPage() {
             pathname: `/finished-drawing/${id}`,
             query: { count: count },
           }}
-        > */}
+        /> */}
         <HeaderFinishedButton
           time={toonData?.timer}
           isComplete={true}
