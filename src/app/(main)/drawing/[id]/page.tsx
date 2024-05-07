@@ -73,18 +73,11 @@ export default function DrawingPage() {
     <div>
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />
-        {/* <Link
-          href={{
-            pathname: `/finished-drawing/${id}`,
-            query: { count: count },
-          }}
-        /> */}
         <HeaderFinishedButton
           time={toonData?.timer}
           isComplete={true}
           onClick={onClick}
         />
-        {/* </Link> */}
       </div>
       <div className="flex flex-row px-5 py-3">
         <div className="text-xl font-bold">그림 주제</div>
