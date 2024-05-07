@@ -7,7 +7,8 @@ const getCurrentToonInfo = async (axiosInstance: AxiosInstance, id: string) => {
     const response = await axiosInstance.get(`/toons/${id}`);
     return response.data;
   } catch (err) {
-    console.log(err);
+    alert('툰 정보를 불러오는데 실패했습니다.');
+    throw err;
   }
 };
 

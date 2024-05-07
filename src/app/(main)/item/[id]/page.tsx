@@ -5,13 +5,13 @@ import BackHeader from '@/src/components/header/BackHeader';
 import Image from 'next/image';
 import { useState } from 'react';
 import MemberModal from '../_component/MemberModal';
-import { useGetDetailToon } from '@/src/hooks/useGetDetailToon';
+import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 
 export default function ItemPage({ params }: { params: { id: string } }) {
   const now = Date.now();
   const date = new Date(now).toLocaleDateString();
   const id = params.id;
-  const { data: toon } = useGetDetailToon(id);
+  const { data: toon } = useGetToonInfo(id);
   console.log(toon);
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = (e: React.MouseEvent) => {
