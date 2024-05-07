@@ -4,17 +4,30 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAxios } from '@/src/lib/axios';
+import { useDelteUser } from '@/src/hooks/useDeleteUser';
+import { useState } from 'react';
+import ModalConfirmCancelAccount from '@/src/components/ModalConfirmCancelAccount';
+import ModalConfirmLogout from '@/src/components/ModalConfirmLogoutcopy';
+import ModalLogout from '@/src/components/ModalLogout';
+import ModalCancelAccount from '@/src/components/ModalCancelAccount';
 
 export default function Mypage() {
+  const [isDelete, setIsDelete] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
+
   const router = useRouter();
   const { axiosInstance } = useAxios();
   const onClick = () => {
     router.back();
   };
-  const logout = useLogout(axiosInstance);
 
-  const onLogoutClick = async () => {
-    await logout();
+  const logoutAccount = () => {
+    setIsLogout(true);
+  };
+
+
+  const deleteAccount = () => {
+    setIsDelete(true);
   };
   return (
     <div className="relative mt-[47px] h-screen bg-[#F7F7F7]">
@@ -49,10 +62,12 @@ export default function Mypage() {
         <div className="flex h-[183px] flex-col gap-6 bg-white px-5 py-[28px]">
           <span className="text-[14px] text-[#9B9B9B]">계정관리</span>
           <div className="flex flex-col gap-[20px] text-[18px] font-semibold">
-            <p onClick={onLogoutClick} className="cursor-pointer">
+            <p onClick={logoutAccount} className="cursor-pointer">
               로그아웃
             </p>
-            <p className="cursor-pointer">탈퇴하기</p>
+            <p onClick={deleteAccount} className="cursor-pointer">
+              탈퇴하기
+            </p>
           </div>
         </div>
 
@@ -74,6 +89,21 @@ export default function Mypage() {
           </div>
         </div>
       </div>
+      {isDelete ? (
+        <div
+          className="margin-auto fixed top-0 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        >
+          <ModalCancelAccount setIsDelete={setIsDelete} />
+        </div>
+      ) : isLogout ? (
+        <div
+          className="margin-auto fixed top-0 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        >
+          <ModalLogout isLogout={isLogout} setIsLogout={setIsLogout} />
+        </div>
+      ) : null}
     </div>
   );
 }
