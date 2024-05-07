@@ -5,37 +5,48 @@ import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmall
 import dynamic from 'next/dynamic';
 import { forwardRef, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
+import { usePutToon } from '@/src/hooks/usePutToon';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
+import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 const Canvas = dynamic(() => import('./_component/WraapedCanvas'), {
   ssr: false,
+  loading: () => <LoadingSpinner />,
 });
 const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
   console.log('ref:', ref);
   return <Canvas {...props} forwardRef={ref} />;
 });
 
-// const FabricCanvasWithNoSSR = dynamic(
-//   () => import('./_component/FabricCanvas'),
-//   {
-//     ssr: false,
-//   },
-// );
-
-// const ForwardFabricCanvas = forwardRef((props: any, ref: any) => {
-//   console.log('ref: ', ref);
-//   return <FabricCanvasWithNoSSR {...props} forwardRef={ref} />;
-// });
-
 export default function DrawingPage() {
   const { id } = useParams();
   const searchParams = useSearchParams();
   const count = searchParams.get('count');
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<any>(null);
+  const { data: toonData, isLoading } = useGetToonInfo(id);
+  const { mutate: uploadToon } = usePutToon();
+
   const onClick = () => {
-    if (canvasRef.current) {
-      const data = canvasRef.current.toDataURL();
-      console.log(data);
+    if (!canvasRef.current || isLoading) {
+      return;
+    }
+    const fabricCanvas = canvasRef.current.canvasInstance;
+    console.log('Fabric canvas:', fabricCanvas);
+    if (fabricCanvas) {
+      const imageData = fabricCanvas.toDataURL({
+        format: 'png',
+        quality: 1.0,
+      });
+      console.log('Image data:', imageData);
+      if (toonData) {
+        const toonUpdate = {
+          ...toonData,
+          image: imageData,
+        };
+        uploadToon(toonUpdate);
+        console.log('Toon updated:', toonUpdate);
+      }
     } else {
-      console.log('Canvas is not initialized yet.');
+      console.log('Canvas instance is not available.');
     }
   };
 
