@@ -9,13 +9,12 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
-const Canvas = dynamic(() => import('../_component/WraapedCanvas'), {
+const NoSSRCanvas = dynamic(() => import('../_component/WraapedCanvas'), {
   ssr: false,
   loading: () => <LoadingSpinner />,
 });
 const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
-  console.log('ref:', ref);
-  return <Canvas {...props} forwardRef={ref} />;
+  return <NoSSRCanvas {...props} forwardRef={ref} />;
 });
 
 export default function DrawingPage() {
