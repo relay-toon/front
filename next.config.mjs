@@ -8,6 +8,11 @@ export default {
           external.toString().indexOf('fabric') === -1,
       );
     }
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    });
+
     return config;
   },
 };
