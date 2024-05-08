@@ -1,6 +1,5 @@
 'use client';
 import DrawingOrder from '@/src/components/DrawingOrder';
-import Image from 'next/image';
 import SaveButton from '@/src/components/SaveButton';
 import ShareButton from '@/src/components/ShareButton';
 import MenuHeader from '@/src/components/header/MenuHeader';
@@ -19,7 +18,6 @@ export default function FinishedDrawing() {
 
   const searchParams = useSearchParams();
   const count = searchParams.get('count');
-
   // 다음 그리는 사람이 전달받을 url
   let nextURL = `/prevPicture/${id}?count=${parseInt(count!) + 1 + ''}`;
   console.log('다음 그리는 사람이 받을 URL : ', nextURL);

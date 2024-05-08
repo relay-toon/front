@@ -26,7 +26,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/FabricCanvas.jsx"
+    "src/components/FabricCanvas.jsx",
+    "src/types/svgr.d.ts"
   ],
   "exclude": ["node_modules"]
 }
