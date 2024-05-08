@@ -44,7 +44,7 @@ export default function Mypage() {
       <div className="custom-pretendard-font flex flex-col gap-[10px]">
         <div className="flex h-[128px] flex-col gap-6 bg-white px-5 py-[28px]">
           <span className="text-[14px] text-[#9B9B9B]">내정보</span>
-          <Link href="/myaccount">
+          <Link href="/mypage">
             <div className="flex items-center justify-between">
               <span className="text-[18px] font-semibold">계정 정보</span>
               <div className="h-[18px] w-[16px]">

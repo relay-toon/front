@@ -22,7 +22,7 @@ export default function DrawingPage() {
   const { id } = useParams();
   const { data: myInfo } = useGetMyInfo();
   const searchParam = useSearchParams();
-  const count = searchParam.get('count');
+  const count = searchParam.get('count');  
   const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
   const canvasRef = useRef<any>(null);
@@ -49,7 +49,7 @@ export default function DrawingPage() {
     if (fabricCanvas) {
       const imageData = fabricCanvas.toDataURL({
         format: 'png',
-        quality: 1.0,
+        quaity: 1.0,
       });
       const imageFile = dataURLtoFile(imageData, 'canvas_image.png');
       try {

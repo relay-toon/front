@@ -34,15 +34,6 @@ export default function PrevPicture() {
 
   const headCount = new Array(myCreatedToon.headCount).fill(0);
 
-  const enterdUser: string[] = [];
-  // useEffect(() => {
-  //   enterdUser.push(myInfo.id);
-  // }, [myInfo]);
-
-  // useMemo(() => {
-  //   enterdUser;
-  // }, [enterdUser]);
-  // console.log(myInfo, enterdUser);
   return (
     <div className="mb-[1rem] mt-[48px] flex h-screen flex-col">
       <div className="flex justify-between">
@@ -69,7 +60,7 @@ export default function PrevPicture() {
                   src="/img/currentUser.png"
                   width={34.74}
                   height={42}
-                  alt="waitingUser"
+                  alt="waitingUser"   
                 />
               );
             } else {
@@ -101,7 +92,7 @@ export default function PrevPicture() {
       <Link
         href={{
           pathname: `/drawing/${myCreatedToon.id}`,
-          query: { count: Number(count) + 1 },
+          query: { count: Number(count)},
         }}
         className="mt-[16px] flex justify-center"
       >

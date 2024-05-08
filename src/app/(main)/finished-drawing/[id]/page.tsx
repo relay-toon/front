@@ -16,12 +16,12 @@ export default function FinishedDrawing() {
   };
   const { id } = useParams();
   const { data: toon } = useGetToonInfo(id);
-
+  console.log(toon.participants);
   const searchParams = useSearchParams();
   const count = searchParams.get('count');
-
+  console.log(count);
   // 다음 그리는 사람이 전달받을 url
-  let nextURL = `/prevPicture/${id}?count=${parseInt(count!) + 1 + ''}`;
+  let nextURL = `/prevPicture/${id}?count=${toon.participants.length + 1 + ''}`;
   console.log('다음 그리는 사람이 받을 URL : ', nextURL);
   return (
     <div>

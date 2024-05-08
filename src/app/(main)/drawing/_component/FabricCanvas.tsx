@@ -82,6 +82,8 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     if (!canvas) return;
     canvas.clear();
   };
+
+  
   const handleColorChange = (color: string) => {
     setColor(color);
     const canvas = canvasInstance.current;

@@ -34,7 +34,7 @@ export const usePutToon = () => {
         predicate: (query) => query.queryKey.includes('toon', data.id),
       });
       router.push(
-        `/finished-drawing/${data.id}?count=${data.participants.length + 1}`,
+        `/finished-drawing/${data.id}?count=${data.participants.length}`,
       );
     },
 
