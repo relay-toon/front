@@ -8,10 +8,13 @@ import {
 import { fabric } from 'fabric';
 import Image from 'next/image';
 import PaletteModal from './PaletteModal';
-
+import PencilIcon from '@/public/svg/pencil.svg';
+import CircleBrushIcon from '@/public/svg/brush.svg';
+import EraserIcon from '@/public/svg/eraser.svg';
 const FabricCanvas = forwardRef((props: any, ref: any) => {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [color, setColor] = useState('#000000');
+  const [iconColor, setIconColor] = useState('#B4B4B4');
   const [lineWidth, setLineWidth] = useState(4);
   const [brushType, setBrushType] = useState('pencil');
   const canvasRef = useRef(null);
@@ -135,19 +138,25 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
             className="h-9 w-9 rounded-md"
             onClick={() => setBrushType('pencil')}
           >
-            <Image src="/svg/pencil.svg" alt="pencil" width={36} height={36} />
+            <PencilIcon
+              style={{ fill: brushType === 'pencil' ? '#000000' : '#B4B4B4' }}
+            />
           </button>
           <button
             className="ml-[13px] h-9 w-9 rounded-md"
             onClick={() => setBrushType('circle')}
           >
-            <Image src="/svg/brush.svg" alt="brush" width={36} height={36} />
+            <CircleBrushIcon
+              style={{ fill: brushType === 'circle' ? '#000000' : '#B4B4B4' }}
+            />
           </button>
           <button
             className="ml-[13px] h-9 w-9 rounded-md"
             onClick={() => setBrushType('eraser')}
           >
-            <Image src="/svg/eraser.svg" alt="eraser" width={36} height={36} />
+            <EraserIcon
+              style={{ fill: brushType === 'eraser' ? '#000000' : '#B4B4B4' }}
+            />
           </button>
           <button
             className="ml-[13px] h-9 w-9 rounded-md"
