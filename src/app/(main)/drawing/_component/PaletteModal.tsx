@@ -1,5 +1,7 @@
 'use client';
 
+import { useRef } from "react";
+
 interface PaletteModalProps {
   onClose: () => void;
   onColorSelect: (color: string) => void;
@@ -8,6 +10,7 @@ export default function PaletteModal({
   onClose,
   onColorSelect,
 }: PaletteModalProps) {
+  
   return (
     <div
       className="fixed inset-0 z-40 flex h-screen w-screen  justify-center bg-black bg-opacity-50"
@@ -32,15 +35,15 @@ export default function PaletteModal({
         <div className="ml-auto mr-auto mt-[60px] flex flex-col">
           <div>
             <button
-              className="h-10 w-10 rounded-full bg-black"
+              className="h-10 w-10 rounded-full bg-black focus:ring-4 focus:ring-[#000000] focus:ring-offset-2"
               onClick={() => onColorSelect('#000000')}
             ></button>
             <button
-              className="ml-5 h-10 w-10 rounded-full bg-[#5D5D5D]"
+              className="ml-5 h-10 w-10 rounded-full bg-[#5D5D5D] focus:ring-4 focus:ring-[#5D5D5D] focus:ring-offset-2"
               onClick={() => onColorSelect('#5D5D5D')}
             ></button>
             <button
-              className="ml-5 h-10 w-10 rounded-full bg-[#A1A1A1]"
+              className="ml-5 h-10 w-10 rounded-full bg-[#A1A1A1] focus:ring-4 focus:ring-[#A1A1A1] focus:ring-offset-2"
               onClick={() => onColorSelect('#A1A1A1')}
             ></button>
             <button

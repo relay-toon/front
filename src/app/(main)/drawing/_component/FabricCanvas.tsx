@@ -22,7 +22,6 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     canvasInstance: canvasInstance.current,
   }));
   useEffect(() => {
-    console.log('Canvas ref:', canvasRef.current);
     if (!canvasRef.current) return;
 
     const canvas = new fabric.Canvas(canvasRef.current, {
@@ -81,6 +80,8 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     const canvas = canvasInstance.current;
     if (!canvas) return;
     canvas.clear();
+    canvas.backgroundColor = 'white';
+    canvas.renderAll();
   };
 
   

@@ -3,13 +3,15 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
+import { fabric } from 'fabric';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
-const NoSSRCanvas = dynamic(() => import('../_component/WraapedCanvas'), {
+
+const NoSSRCanvas = dynamic(() => import('../../drawing/_component/WraapedCanvas'), {
   ssr: false,
   loading: () => <LoadingSpinner />,
 });
@@ -17,7 +19,7 @@ const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
   return <NoSSRCanvas {...props} forwardRef={ref} />;
 });
 
-export default function DrawingPage() {
+export default function RelayDrawing() {
   const { id } = useParams();
   const { data: myInfo } = useGetMyInfo();
   const searchParam = useSearchParams();
@@ -25,8 +27,30 @@ export default function DrawingPage() {
   const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
   const canvasRef = useRef<any>(null);
+  const [isDrawingMode, setIsDrawingMode] = useState(true);
+  const [canvas, setCanvas] = useState<fabric.Canvas>();
   
-  console.log(toonData)
+  console.log(toonData, 'id : ', id)
+
+useEffect(()=>{
+    const canvas = new fabric.Canvas('canvas', {
+        width: 350,
+        height: 407,
+        backgroundColor: 'null',
+        isDrawingMode: isDrawingMode,
+        selection: false,
+        defaultCursor: 'crosshair',
+        backgroundImage: toonData?.image
+      });
+
+      setCanvas(canvas);
+  
+      return () => {
+        if (canvas) {
+          canvas.dispose();
+        }
+      };
+},[])
 
   
   function dataURLtoFile(dataUrl: string, filename: string) {
@@ -73,6 +97,8 @@ export default function DrawingPage() {
     }
   };
 
+
+  
   return (
     <div>
       <div className="mb-[1rem] flex flex-row justify-between">
@@ -96,7 +122,8 @@ export default function DrawingPage() {
         <span>{toonData?.title}</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <ForwardRefCanvas ref={canvasRef} />
+        {/* <ForwardRefCanvas ref={canvasRef} /> */}
+        <canvas id='canvas' />
       </div>
     </div>
   );

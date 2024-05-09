@@ -41,7 +41,7 @@ export default function PrevPicture() {
       </div>
       <div className=" mt-[7px] flex flex-col items-center gap-[16px]">
         <div className="custom-waguri-font flex text-[24px] font-[400]">
-          <span>1번째로&nbsp;&nbsp;</span>
+          <span>{count}번째로&nbsp;&nbsp;</span>
           <span className="text-[#9B9B9B]">그리기</span>
         </div>
         <div className="custom-pretendard-font flex h-[44px] flex-col items-center text-[14px] font-[600] leading-[22.4px]">
@@ -53,14 +53,14 @@ export default function PrevPicture() {
         </div>
         <div className="bg- flex h-[42px] gap-[18px]">
           {headCount.map((item, i) => {
-            if (i + 1 === Number(count)) {
+            if (i === Number(count)-1) {
               return (
                 <Image
                   key={i}
                   src="/img/currentUser.png"
                   width={34.74}
                   height={42}
-                  alt="waitingUser"   
+                  alt="waitingUser"
                 />
               );
             } else {
@@ -91,8 +91,8 @@ export default function PrevPicture() {
       </div>
       <Link
         href={{
-          pathname: `/drawing/${myCreatedToon.id}`,
-          query: { count: Number(count)},
+          pathname: `/relayDrawing/${myCreatedToon.id}`,
+          query: { count: Number(count) },
         }}
         className="mt-[16px] flex justify-center"
       >
