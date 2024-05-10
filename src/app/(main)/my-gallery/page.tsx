@@ -13,7 +13,6 @@ export default function MyGallery() {
     pageNumber,
     completed,
   );
-  console.log('myCreatedToon:', myCreatedToon);
   const { data: myParticipatedToon, refetch: refetchParticipated } =
     useGetMyParticipatedToon(pageNumber, completed);
   const handleTabChange = (newTab: '만든 그림' | '참여 그림') => {
