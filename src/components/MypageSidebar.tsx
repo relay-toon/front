@@ -71,24 +71,26 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
           <span>MY페이지</span>
         </div>
       </div>
-      <div className="mt-[19px] flex h-[82px] w-[266px] items-center justify-between rounded-[12px] bg-white px-[20px]">
-        <span className="text-[20px] font-bold">
+      <div className="mt-[19px] flex h-[82px] w-[266px] items-center rounded-[12px] bg-white px-[20px]">
+        <div className="flex w-full text-[20px] font-bold">
           {isLoggedIn ? (
-            <span>{myInfo?.name}</span>
+            <div className=" flex  w-full items-center justify-between">
+              <div className="flex">{myInfo?.name}</div>
+              <Image
+                src="/img/shareIcon.png"
+                alt="share"
+                width={20}
+                height={20}
+                onClick={onNicknameClick}
+                className="flex h-[20px] cursor-pointer"
+              />
+            </div>
           ) : (
             <Link href="/login">
               <span>로그인하기</span>
             </Link>
           )}
-        </span>
-        <Image
-          src="/img/shareIcon.png"
-          alt="share"
-          width={20}
-          height={20}
-          onClick={onNicknameClick}
-          className="cursor-pointer"
-        />
+        </div>
       </div>
 
       <div className="mt-[28px] flex h-[254px] w-[266px] flex-col items-center justify-center rounded-[12px] bg-white">
