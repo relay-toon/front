@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 html,
-body {  
+body {
   min-width: 24.375rem;
   background-color: rgb(230, 230, 230);
   display: flex;
   justify-content: center;
   font-family: 'Pretendard Variable', sans-serif;
+  min-height: 754px;
 }
 
 @font-face {
@@ -41,4 +42,3 @@ body {
     'Segoe UI Symbol',
     sans-serif;
 }
-
