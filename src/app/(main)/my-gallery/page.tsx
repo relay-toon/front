@@ -22,7 +22,6 @@ export default function MyGallery() {
       setCompleted(newTab === '참여 그림');
     }
   };
-
   const handlePageChange = (newPage: number) => {
     if (newPage !== pageNumber) {
       setPageNumber(newPage);
