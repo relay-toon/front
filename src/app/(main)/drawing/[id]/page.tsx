@@ -24,26 +24,7 @@ export default function DrawingPage() {
   const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
   const canvasRef = useRef<any>(null);
-  // const image = toonData?.image;
-  // console.log(image);
 
-  // const initializeCanvas = async () => {
-  //   const canvas = canvasRef.current;
-
-  //   if (!canvas) {
-  //     console.error('Canvas not initialized');
-  //     return;
-  //   }
-
-  //   fabric.Image.fromURL(image, (img) => {
-  //     canvas.add(img);
-  //     canvas.renderAll();
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   initializeCanvas();
-  // }, [toonData]);
   function dataURLtoFile(dataUrl: string, filename: string) {
     const matches = dataUrl.match(/:(.*?);/);
     if (!matches) {
