@@ -26,12 +26,14 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
   }));
   useEffect(() => {
     if (!canvasRef.current) return;
-
+console.log(props)
     const canvas = new fabric.Canvas(canvasRef.current, {
       width: 350,
       height: 407,
       backgroundColor: 'white',
       isDrawingMode: isDrawingMode,
+      backgroundImage: props?.prevPicture
+
     });
 
     canvasInstance.current = canvas;
@@ -87,7 +89,6 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     canvas.renderAll();
   };
 
-  
   const handleColorChange = (color: string) => {
     setColor(color);
     const canvas = canvasInstance.current;

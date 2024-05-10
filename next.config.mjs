@@ -15,6 +15,7 @@ export default {
 
     return config;
   },
+  
   images: {
     domains: ['relaytoon-dev.s3.ap-northeast-2.amazonaws.com'],
   },

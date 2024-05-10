@@ -10,11 +10,16 @@ import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { fabric } from 'fabric';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
+import WrappedCanvas from '../../drawing/_component/WraapedCanvas';
+import FabricCanvas from '../../drawing/_component/FabricCanvas';
 
-const NoSSRCanvas = dynamic(() => import('../../drawing/_component/WraapedCanvas'), {
-  ssr: false,
-  loading: () => <LoadingSpinner />,
-});
+const NoSSRCanvas = dynamic(
+  () => import('../../drawing/_component/WraapedCanvas'),
+  {
+    ssr: false,
+    loading: () => <LoadingSpinner />,
+  },
+);
 const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
   return <NoSSRCanvas {...props} forwardRef={ref} />;
 });
@@ -23,36 +28,35 @@ export default function RelayDrawing() {
   const { id } = useParams();
   const { data: myInfo } = useGetMyInfo();
   const searchParam = useSearchParams();
-  const count = searchParam.get('count');  
+  const count = searchParam.get('count');
   const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
   const canvasRef = useRef<any>(null);
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [canvas, setCanvas] = useState<fabric.Canvas>();
-  
-  console.log(toonData, 'id : ', id)
 
-useEffect(()=>{
-    const canvas = new fabric.Canvas('canvas', {
-        width: 350,
-        height: 407,
-        backgroundColor: 'null',
-        isDrawingMode: isDrawingMode,
-        selection: false,
-        defaultCursor: 'crosshair',
-        backgroundImage: toonData?.image
-      });
+  console.log(toonData, 'id : ', id);
 
-      setCanvas(canvas);
-  
-      return () => {
-        if (canvas) {
-          canvas.dispose();
-        }
-      };
-},[])
+  // useEffect(() => {
+  //   const canvas = new fabric.Canvas('canvas', {
+  //     width: 350,
+  //     height: 407,
+  //     backgroundColor: 'null',
+  //     isDrawingMode: isDrawingMode,
+  //     selection: false,
+  //     defaultCursor: 'crosshair',
+  //     backgroundImage: toonData?.image,
+  //   });
 
-  
+  //   setCanvas(canvas);
+
+  //   return () => {
+  //     if (canvas) {
+  //       canvas.dispose();
+  //     }
+  //   };
+  // }, []);
+
   function dataURLtoFile(dataUrl: string, filename: string) {
     const matches = dataUrl.match(/:(.*?);/);
     if (!matches) {
@@ -67,7 +71,6 @@ useEffect(()=>{
     }
     return new File([u8arr], filename, { type: mime });
   }
-
 
   const onClick = () => {
     if (!canvasRef.current || isLoading || !myInfo) {
@@ -97,8 +100,6 @@ useEffect(()=>{
     }
   };
 
-
-  
   return (
     <div>
       <div className="mb-[1rem] flex flex-row justify-between">
@@ -122,8 +123,7 @@ useEffect(()=>{
         <span>{toonData?.title}</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        {/* <ForwardRefCanvas ref={canvasRef} /> */}
-        <canvas id='canvas' />
+        <FabricCanvas ref={canvasRef} prevPicture={toonData?.image} />
       </div>
     </div>
   );
