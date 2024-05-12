@@ -41,6 +41,7 @@ export default function ModalPainterName({ setPainterName }: PainterName) {
         <span className="text-[#9B9B9B]">/12</span>
       </div>
       <input
+        required={true}
         maxLength={12}
         value={name}
         onChange={onNameChange}
@@ -48,10 +49,13 @@ export default function ModalPainterName({ setPainterName }: PainterName) {
         placeholder="이름/닉네임을 입력해주세요!"
         className="mt-[2px] h-[54px] w-[216px] rounded-lg border border-[#DEDEDE] p-4 placeholder:border placeholder:border-[#DEDEDE] placeholder:text-[16px] focus:ring-1 focus:ring-black"
       />
-      <Link href={{
-        pathname: `/finished-drawing/${id}`,
-        query: {count: Number(count)}
-      }} className="mt-[24px]">
+      <Link
+        href={{
+          pathname: `/finished-drawing/${id}`,
+          query: { count: Number(count) },
+        }}
+        className="mt-[24px]"
+      >
         <button
           className="h-[50px] w-[140px] rounded-[6px] bg-black text-lg font-bold text-white"
           onClick={onClick}
