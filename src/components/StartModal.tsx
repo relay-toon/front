@@ -1,10 +1,21 @@
 import Image from 'next/image';
 import LargeBtn from './LargeBtn';
+import { SetStateAction } from 'react';
 
-export default function StartModal() {
+interface IStartModal {  
+  setStart: React.Dispatch<SetStateAction<boolean>>;
+  time: number;
+}
+
+export default function StartModal({ setStart, time }: IStartModal) {
+
+  const onStartClick = ()=>{
+    setStart(true)
+  }
+
   return (
-    <div className="flex flex-col rounded-t-3xl bg-white">
-      <div className="mt-12 flex justify-center text-center">
+    <div className="absolute bottom-0 flex h-[367px] w-[391px] flex-col rounded-t-3xl bg-white z-50">
+      <div className="custom-pretendard-font mt-12 flex justify-center text-center font-semibold">
         시작하기 버튼을 누르면
         <br />
         [타이머]가 자동 재생돼요!
@@ -19,11 +30,11 @@ export default function StartModal() {
         />
 
         <div className="custom-waguri-font ml-[24px] text-[32px] leading-[48px]">
-          총 12초!
+          총 {time}초!
         </div>
       </div>
       <div className="mb-[33px] mt-[40px] flex justify-center">
-        <LargeBtn text="시작하기" active={true} />
+        <LargeBtn text="시작하기" active={true} onClick={onStartClick}  />
       </div>
     </div>
   );

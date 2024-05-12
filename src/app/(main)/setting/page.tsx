@@ -25,12 +25,11 @@ export default function Mypage() {
     setIsLogout(true);
   };
 
-
   const deleteAccount = () => {
     setIsDelete(true);
   };
   return (
-    <div className="relative mt-[47px] h-screen bg-[#F7F7F7]">
+    <div className="relative h-screen bg-[#F7F7F7]">
       <div className=" flex h-[48px] items-center justify-center bg-white">
         <div
           onClick={onClick}
@@ -44,7 +43,7 @@ export default function Mypage() {
       <div className="custom-pretendard-font flex flex-col gap-[10px]">
         <div className="flex h-[128px] flex-col gap-6 bg-white px-5 py-[28px]">
           <span className="text-[14px] text-[#9B9B9B]">내정보</span>
-          <Link href="/mypage">
+          <Link href="/account">
             <div className="flex items-center justify-between">
               <span className="text-[18px] font-semibold">계정 정보</span>
               <div className="h-[18px] w-[16px]">

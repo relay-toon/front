@@ -12,6 +12,8 @@ import { fabric } from 'fabric';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import WrappedCanvas from '../../drawing/_component/WraapedCanvas';
 import FabricCanvas from '../../drawing/_component/FabricCanvas';
+import StartModal from '@/src/components/StartModal';
+import ModalPainterName from '@/src/components/ModalPainterName';
 
 const NoSSRCanvas = dynamic(
   () => import('../../drawing/_component/WraapedCanvas'),
@@ -32,30 +34,14 @@ export default function RelayDrawing() {
   const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
   const canvasRef = useRef<any>(null);
-  const [isDrawingMode, setIsDrawingMode] = useState(true);
-  const [canvas, setCanvas] = useState<fabric.Canvas>();
+  const [painterName, setPainterName] = useState('')
+  // const [isDrawingMode, setIsDrawingMode] = useState(true);
+  // const [canvas, setCanvas] = useState<fabric.Canvas>();
 
-  console.log(toonData, 'id : ', id);
-
-  // useEffect(() => {
-  //   const canvas = new fabric.Canvas('canvas', {
-  //     width: 350,
-  //     height: 407,
-  //     backgroundColor: 'null',
-  //     isDrawingMode: isDrawingMode,
-  //     selection: false,
-  //     defaultCursor: 'crosshair',
-  //     backgroundImage: toonData?.image,
-  //   });
-
-  //   setCanvas(canvas);
-
-  //   return () => {
-  //     if (canvas) {
-  //       canvas.dispose();
-  //     }
-  //   };
-  // }, []);
+  console.log(toonData);
+  const [start, setStart] = useState(false);
+  const [time, setTime] = useState(toonData?.timer);
+  const [isComplete, setIsComplete] = useState(false);
 
   function dataURLtoFile(dataUrl: string, filename: string) {
     const matches = dataUrl.match(/:(.*?);/);
@@ -88,11 +74,11 @@ export default function RelayDrawing() {
           const toonUpdate = {
             ...toonData,
             image: imageFile,
-            name: myInfo.name,
+            name: painterName,
             id: toonData.id,
           };
           uploadToon(toonUpdate);
-          console.log('toonUpdate:', toonUpdate);
+          console.log('toonUpdate:', toonUpdate, 'painterName : ', painterName);
         }
       } catch (error) {
         alert('에러가 발생했습니다. 다시 시도해주세요.');
@@ -101,13 +87,32 @@ export default function RelayDrawing() {
   };
 
   return (
-    <div>
+    <div className="relative">
+      {!start && (
+        <div
+          className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        >
+          <StartModal setStart={setStart} time={time} />
+        </div>
+      )}
+      {isComplete && (
+        <div
+          className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        >
+          <ModalPainterName setPainterName={setPainterName} />
+        </div>
+      )}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />
         <HeaderFinishedButton
-          time={toonData?.timer}
-          isComplete={true}
+          time={time}
+          setTime={setTime}
+          isComplete={isComplete}
+          setIsComplete={setIsComplete}
           onClick={onClick}
+          start={start}
         />
       </div>
       <div className="flex flex-row px-5 py-3">
@@ -116,14 +121,18 @@ export default function RelayDrawing() {
           count={count}
           width={127}
           height={33}
-          positionStyle={{ top: '0px', left: '150px', position: 'relative' }}
+          positionStyle={{
+            top: '0px',
+            left: '150px',
+            position: 'relative',
+          }}
         />
       </div>
       <div className="ml-auto mr-auto flex w-[350px] rounded-lg bg-white px-5 py-3 text-base">
         <span>{toonData?.title}</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <FabricCanvas ref={canvasRef} prevPicture={toonData?.image} />
+        <WrappedCanvas ref={canvasRef} />
       </div>
     </div>
   );

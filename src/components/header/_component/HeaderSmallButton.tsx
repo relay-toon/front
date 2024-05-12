@@ -1,15 +1,32 @@
 import Image from 'next/image';
+import { SetStateAction, useEffect } from 'react';
 
 interface HeaderSmallButtonProps {
   time: number;
+  setTime?: React.Dispatch<SetStateAction<number>>;
   isComplete: boolean;
+  setIsComplete?: React.Dispatch<SetStateAction<boolean>>;
   onClick: () => void;
+  start?: boolean;
 }
 export default function HeaderSmallButton({
   time,
+  setTime,
   isComplete,
+  setIsComplete,
   onClick,
+  start,
 }: HeaderSmallButtonProps) {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (time > 0 && !isComplete && start && setTime) {
+        setTime(time - 1);
+      } else if (time === 0 && setIsComplete) {
+        setIsComplete(true);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [time, start, isComplete]);
   return (
     <div>
       {isComplete ? (
