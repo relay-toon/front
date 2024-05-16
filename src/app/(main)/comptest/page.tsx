@@ -1,16 +1,61 @@
-<<<<<<< HEAD
-
-=======
-import ModalLogout from '@/src/components/ModalLogout';
-import ModalNickname from '@/src/components/Modal-nickname';
-import ModalLogin from '@/src/components/ModalLogIn';
-import ModalPainterName from '@/src/components/ModalPainterName';
->>>>>>> 418681189f7321f411bff813a2ad6c322128a93c
+'use client';
+import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
+import { fabric } from 'fabric';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function CompTest() {
-  return (
-    <div>
-      <ModalCancelAccount />
-    </div>
-  );
+  
+  // const [isDrawingMode, setIsDrawingMode] = useState(true);
+  // const [canvas, setCanvas] = useState<fabric.Canvas>();
+  // const [objects, setObjects] = useState<fabric.Object[]>([]);
+  // useEffect(() => {
+  //   const canvas = new fabric.Canvas('canvas', {
+  //     width: 350,
+  //     height: 407,
+  //     backgroundColor: 'white',
+  //     isDrawingMode: isDrawingMode,
+  //     selection: false,
+  //     defaultCursor: 'crosshair',
+  //   });
+
+  //   setCanvas(canvas);
+
+  //   // canvas.on('mouse:move', (e) => {
+  //   //   const mEvent = e.e;
+  //   //   const delta = new fabric.Point(mEvent.movementX, mEvent.movementY);
+  //   //   canvas.relativePan(delta);
+  //   // });
+  //   return () => {
+  //     if (canvas) {
+  //       canvas.dispose();
+  //     }
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   if (canvas) {
+  //     canvas.on('object:added', handleObjectAdded);
+  //   }
+  //   return () => {
+  //     if (canvas) {
+  //       canvas.off('object:added', handleObjectAdded);
+  //     }
+  //   };
+  // }, [canvas]);
+
+  // function handleObjectAdded(event: fabric.IEvent) {
+  //   const obj = event.target as fabric.Object;
+  //   setObjects(prevObjects => [...prevObjects, obj]);
+  // }
+
+  // function clearCanvas() {
+  //   if (canvas) {
+  //     objects.forEach(obj => canvas.remove(obj));
+  //     setObjects([]); // state 초기화
+  //     canvas.requestRenderAll(); // 변경사항을 캔버스에 적용
+  //   }
+  // }
+
+  return <div className="flex h-screen items-center justify-center"></div>;
 }

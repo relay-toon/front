@@ -36,15 +36,6 @@ export default function PrevPicture() {
 
   const headCount = new Array(myCreatedToon.headCount).fill(0);
 
-  const enterdUser: string[] = [];
-  // useEffect(() => {
-  //   enterdUser.push(myInfo.id);
-  // }, [myInfo]);
-
-  // useMemo(() => {
-  //   enterdUser;
-  // }, [enterdUser]);
-  // console.log(myInfo, enterdUser);
   return (
     <div>
       <div className="flex justify-between">
@@ -109,8 +100,8 @@ export default function PrevPicture() {
         </div>
         <Link
           href={{
-            pathname: `/drawing/${myCreatedToon.id}`,
-            query: { count: Number(count) + 1 },
+            pathname: `/relayDrawing/${myCreatedToon.id}`,
+            query: { count: Number(count)},
           }}
           className="mt-4 flex justify-center"
         >

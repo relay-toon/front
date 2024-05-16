@@ -13,9 +13,13 @@ export default {
     }
     config.module.rules.push({
       test: /\.svg$/,
-      use: ['@svgr/webpack'],
+      use: ['@svgr/webpack'], 
     });
 
     return config;
+  },
+  
+  images: {
+    domains: ['relaytoon-dev.s3.ap-northeast-2.amazonaws.com'],
   },
 };

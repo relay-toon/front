@@ -1,17 +1,29 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, SetStateAction, useState } from 'react';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
+interface PainterName {
+  setPainterName: React.Dispatch<SetStateAction<string>>;
+}
 
-export default function ModalPainterName() {
+export default function ModalPainterName({ setPainterName }: PainterName) {
   const [name, setName] = useState('');
-
+  const { id } = useParams();
+  const searchParam = useSearchParams();
+  const count = searchParam.get('count');
+  const router = useRouter();
   const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
-  const onClick = () => {};
+
+  const onClick = () => {
+    setPainterName(name);
+    // router.push(`/finished-drawing/${id}?count=${count}`);
+  };
+
   return (
-    <div className="flex h-[280px] w-[296px] flex-col items-center justify-center rounded-[12px] px-5 py-3">
+    <div className="absolute left-[12%] top-1/3 z-40 flex h-[280px] w-[296px] flex-col items-center justify-center rounded-[12px] bg-white px-5 py-3">
       <div className="custom-waguri-font flex flex-col items-center gap-2">
         <div className="flex h-[27px] w-[111px] items-center justify-center gap-2 text-[#9B9B9B]">
           <Image
@@ -29,14 +41,21 @@ export default function ModalPainterName() {
         <span className="text-[#9B9B9B]">/12</span>
       </div>
       <input
+        required={true}
         maxLength={12}
         value={name}
         onChange={onNameChange}
         type="text"
         placeholder="이름/닉네임을 입력해주세요!"
-        className="mt-[2px] h-[54px] w-[216px] rounded-lg p-4 placeholder:border placeholder:border-[#DEDEDE] placeholder:text-[16px] focus:ring-1 focus:ring-black"
+        className="mt-[2px] h-[54px] w-[216px] rounded-lg border border-[#DEDEDE] p-4 placeholder:border placeholder:border-[#DEDEDE] placeholder:text-[16px] focus:ring-1 focus:ring-black"
       />
-      <Link href={'/'} className="mt-[24px]">
+      <Link
+        href={{
+          pathname: `/finished-drawing/${id}`,
+          query: { count: Number(count) },
+        }}
+        className="mt-[24px]"
+      >
         <button
           className="h-[50px] w-[140px] rounded-[6px] bg-black text-lg font-bold text-white"
           onClick={onClick}

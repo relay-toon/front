@@ -1,5 +1,6 @@
 'use client';
 import LargeBtn from '@/src/components/LargeBtn';
+import ModalInquiryComplete from '@/src/components/Modal-inquiryComplete';
 import BackHeader from '@/src/components/header/BackHeader';
 import { usePostInquiry } from '@/src/hooks/usePostInquiry';
 import { PostInquiry } from '@/src/types/CreateInquiry';
@@ -7,23 +8,23 @@ import { ChangeEvent, useState } from 'react';
 
 export default function Inquiry() {
   const [isActive, setIsActive] = useState(true);
-  const [content, setInquiry] = useState<string>('');
+  const [content, setContent] = useState<string>('');
+  const [isInquiryComplete, setIsInquiryComplete] = useState<boolean>(false);
   const postInquiry = usePostInquiry();
   const handleSubmit = async () => {
     try {
       const data: PostInquiry = {
         content,
       };
-      const result = await postInquiry.mutateAsync(data);
-      console.log(result);
-      window.location.href = `/`;
+      await postInquiry.mutateAsync(data);
+      setIsInquiryComplete(true);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const onInquiryChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setInquiry(e.target.value);
+  const onContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setContent(e.target.value);
   };
   return (
     <div>
@@ -45,7 +46,7 @@ export default function Inquiry() {
             <textarea
               name="content"
               value={content}
-              onChange={onInquiryChange}
+              onChange={onContentChange}
               placeholder="릴레이툰 팀에게 건의할 사항을 입력해주세요"
               className="h-[230px] w-[349px] rounded-[12px] p-4 scrollbar-hide placeholder:text-[15px] placeholder:font-medium focus:ring-1 focus:ring-black"
             />
@@ -59,6 +60,14 @@ export default function Inquiry() {
           </div>
         </div>
       </div>
+      {isInquiryComplete && (
+        <div
+          className="margin-auto fixed top-0 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        >
+          <ModalInquiryComplete />
+        </div>
+      )}
     </div>
   );
 }

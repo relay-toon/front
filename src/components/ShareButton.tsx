@@ -12,8 +12,6 @@ export default function ShareButton() {
 
   const mailto = `mailto:${email}?body=${body}`;
 
-
-
   return (
 
       <button className="custom-waguri-font h-[58px] w-[168px] rounded-[10px] bg-share-button text-black hover:bg-[#C4DF58]">

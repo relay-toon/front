@@ -9,8 +9,7 @@ interface IsOpen {
 
 export default function MenuHeader({ isOpen, setIsOpen }: IsOpen) {
   const onClick = () => {
-    setIsOpen((prev) => !prev);
-    console.log(isOpen);
+    setIsOpen((prev) => !prev);    
   };
   return (
     <div className="relative flex w-[390px] flex-row px-5 py-[10px] ">
