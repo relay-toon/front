@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 html,
 body {
   min-width: 24.375rem;
@@ -10,6 +15,7 @@ body {
   justify-content: center;
   font-family: 'Pretendard Variable', sans-serif;
   min-height: 754px;
+  scroll-behavior: smooth;
 }
 
 @font-face {
