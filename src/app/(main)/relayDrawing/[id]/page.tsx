@@ -132,7 +132,7 @@ export default function RelayDrawing() {
         <span>{toonData?.title}</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <WrappedCanvas ref={canvasRef} />
+        <WrappedCanvas ref={canvasRef} prevPicture={toonData?.image} />
       </div>
     </div>
   );
