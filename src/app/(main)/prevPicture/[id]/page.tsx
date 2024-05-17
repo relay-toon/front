@@ -101,7 +101,7 @@ export default function PrevPicture() {
         <Link
           href={{
             pathname: `/relayDrawing/${myCreatedToon.id}`,
-            query: { count: Number(count)},
+            query: { count: Number(count) },
           }}
           className="mt-4 flex justify-center"
         >

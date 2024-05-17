@@ -3,13 +3,12 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
-import { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { useParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
-import { fabric } from 'fabric';
 const NoSSRCanvas = dynamic(() => import('../_component/WraapedCanvas'), {
   ssr: false,
   loading: () => <LoadingSpinner />,
