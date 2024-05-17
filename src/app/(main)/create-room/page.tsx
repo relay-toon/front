@@ -90,7 +90,7 @@ export default function CreateRoom() {
     setTimeOption(numericTime);
   };
   return (
-    <div className="bg-white">
+    <div className="bg-white overflow-x-hidden">
       <BackHeader />
       <div className=" h-[844px] w-[390px] bg-white p-5">
         <div className="flex flex-col">
