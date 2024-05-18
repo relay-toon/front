@@ -5,7 +5,7 @@ import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmall
 import dynamic from 'next/dynamic';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
@@ -30,12 +30,12 @@ export default function DrawingPage() {
   const { data: myInfo } = useGetMyInfo();
   const [painterName, setPainterName] = useState('');
   const canvasRef = useRef<any>(null);
-
+  const router = useRouter();
   useEffect(() => {
     setTime(toonData?.timer);
-  }, [toonData?.timer]);
+    console.log(painterName);
+  }, [toonData?.timer, painterName]);
 
-  console.log(time);
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
 
@@ -53,12 +53,12 @@ export default function DrawingPage() {
     }
     return new File([u8arr], filename, { type: mime });
   }
-  const onClick = () => {
+  const onClick = async () => {
     if (!canvasRef.current || isLoading || !myInfo) {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
-    if (fabricCanvas && time === 0) {
+    if ((fabricCanvas && time === 0) || time === 99) {
       const imageData = fabricCanvas.toDataURL({
         format: 'png',
         quality: 1.0,
@@ -69,20 +69,27 @@ export default function DrawingPage() {
           const toonUpdate = {
             ...toonData,
             image: imageFile,
-            name: myInfo.name,
+            name: painterName,
             id: toonData.id,
           };
+          setIsComplete(true);
+          console.log(isComplete, toonUpdate, 'uploaded');
           uploadToon(toonUpdate);
-          console.log('uploaded')
+
+          router.push(`/finished-drawing/${id}?count=${count}`);
         }
       } catch (error) {
+        console.log('drawing err');
         alert('에러가 발생했습니다. 다시 시도해주세요.');
       }
     }
   };
+  const onFinisheClick = ()=>{
+    setIsComplete(true)
+  }
 
   return (
-    <div className="h-screen">
+    <div className="overflow-x-hidden">
       {!start && (
         <div
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
@@ -96,14 +103,19 @@ export default function DrawingPage() {
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
         >
-          <ModalPainterName savePicture={onClick} setPainterName={setPainterName} />
+          <ModalPainterName
+            savePicture={onClick}
+            painterName={painterName}
+            setPainterName={setPainterName}
+            onClick={onClick}
+          />
         </div>
       )}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />
         <HeaderFinishedButton
           time={time}
-          onClick={onClick}
+          onClick={onFinisheClick}
           setTime={setTime}
           isComplete={isComplete}
           setIsComplete={setIsComplete}

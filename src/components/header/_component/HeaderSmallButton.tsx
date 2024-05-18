@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { SetStateAction, useEffect } from 'react';
 
 interface HeaderSmallButtonProps {
@@ -6,7 +5,7 @@ interface HeaderSmallButtonProps {
   setTime?: React.Dispatch<SetStateAction<number>>;
   isComplete: boolean;
   setIsComplete?: React.Dispatch<SetStateAction<boolean>>;
-  onClick: () => void;
+  onClick?: () => void;
   start?: boolean;
 }
 export default function HeaderSmallButton({
@@ -27,10 +26,13 @@ export default function HeaderSmallButton({
     }, 1000);
     return () => clearInterval(interval);
   }, [time, start, isComplete]);
+  // const onCompleteClick = () => {
+  //   router.push(`/finished-drawing/${toonId}?count=${count}`);
+  // };
   return (
     <div>
       <div className="mr-5 py-[6px]">
-        {isComplete || time === 99 ? (
+        {time === 99 || time === 0 ? (
           <button
             className="custom-waguri-font h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black"
             onClick={onClick}
@@ -46,35 +48,6 @@ export default function HeaderSmallButton({
           </button>
         )}
       </div>
-      {/* {isComplete ? (
-        <div className="mr-5 py-[6px]">
-          <button
-            className="custom-waguri-font h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black"
-            onClick={onClick}
-          >
-            {time === 99 || time === 0 ? '완성' : time}
-          </button>
-        </div>
-      ) : (
-        <div className="mr-5 flex flex-row py-[6px]">
-          <Image
-            src="/svg/timer.svg"
-            alt="timer"
-            width={31.15}
-            height={27.97}
-          />
-
-          {time > 0 && time !== 99 ? (
-            <button className="custom-waguri-font ml-[13.85px] h-[36px] w-[70px] rounded-[6px] bg-black text-[#E0FF68]">
-              {`${time}초`}
-            </button>
-          ) : (
-            <button className="custom-waguri-font ml-[13.85px] h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black">
-              완성
-            </button>
-          )}
-        </div>
-      )} */}
     </div>
   );
 }

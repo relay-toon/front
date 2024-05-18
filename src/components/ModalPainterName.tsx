@@ -6,27 +6,30 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 interface PainterName {
   setPainterName: React.Dispatch<SetStateAction<string>>;
   savePicture?: () => void;
+  painterName:string
+  onClick: ()=> void
   
 }
 
 export default function ModalPainterName({
   setPainterName,
   savePicture,
+  painterName,
+  onClick
   
 }: PainterName) {
-  const [name, setName] = useState('');
+  
   const { id } = useParams();
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
   const router = useRouter();
   const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    setPainterName(e.target.value);
   };
 
-  const onClick = () => {
-    setPainterName(name);
-    router.push(`/finished-drawing/${id}?count=${count}`);
-  };
+  // const onClick = () => {    
+  //   router.push(`/finished-drawing/${id}?count=${count}`);
+  // };
 
 
 
@@ -45,13 +48,13 @@ export default function ModalPainterName({
         <span className="text-center text-xl">그린 이 이름 입력</span>
       </div>
       <div className="mt-[8px] flex w-[216px] justify-end">
-        <span>{name.length}</span>
+        <span>{painterName.length}</span>
         <span className="text-[#9B9B9B]">/12</span>
       </div>
       <input
         required={true}
         maxLength={12}
-        value={name}
+        value={painterName}
         onChange={onNameChange}
         type="text"
         placeholder="이름/닉네임을 입력해주세요!"
