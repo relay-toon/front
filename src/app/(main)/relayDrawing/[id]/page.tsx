@@ -3,15 +3,12 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
-import { fabric } from 'fabric';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
-import WrappedCanvas from '../../drawing/_component/WraapedCanvas';
-import FabricCanvas from '../../drawing/_component/FabricCanvas';
 import StartModal from '@/src/components/StartModal';
 import ModalPainterName from '@/src/components/ModalPainterName';
 
@@ -26,6 +23,7 @@ const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
   return <NoSSRCanvas {...props} forwardRef={ref} />;
 });
 
+console.log('ab:', ForwardRefCanvas);
 export default function RelayDrawing() {
   const { id } = useParams();
   const { data: myInfo } = useGetMyInfo();
@@ -34,7 +32,7 @@ export default function RelayDrawing() {
   const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
   const canvasRef = useRef<any>(null);
-  const [painterName, setPainterName] = useState('')
+  const [painterName, setPainterName] = useState('');
   // const [isDrawingMode, setIsDrawingMode] = useState(true);
   // const [canvas, setCanvas] = useState<fabric.Canvas>();
 
@@ -132,7 +130,7 @@ export default function RelayDrawing() {
         <span>{toonData?.title}</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        <WrappedCanvas ref={canvasRef} prevPicture={toonData?.image} />
+        <ForwardRefCanvas ref={canvasRef} prevPicture={toonData?.image} />
       </div>
     </div>
   );

@@ -50,6 +50,7 @@ export default function DrawingPage() {
     }
   };
 
+  
   useEffect(() => {
     if (canvasRef.current) {
       console.log('Canvas ref is now set:', canvasRef.current);

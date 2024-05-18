@@ -1,4 +1,4 @@
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '../hooks/useGetToonInfo';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -13,12 +13,15 @@ export default function DrawingOrder({
   width,
   height,
   positionStyle,
+  count
+  
 }: DrawingOrderProps) {
   const { id } = useParams();
   const { data: toonData, isLoading } = useGetToonInfo(id);
   if (isLoading) {
     return <LoadingSpinner />;
   }
+
   return (
     <div
       className="absolute flex flex-row rounded-md bg-[#EAEAEA] px-3 py-[6px]"
@@ -26,7 +29,7 @@ export default function DrawingOrder({
     >
       <div className="text-sm font-bold text-[#9B9B9B]">그림 순서</div>
       <div className="ml-auto text-sm font-bold">
-        {toonData.participants.length + 1}/{toonData.headCount}
+        {count}/{toonData.headCount}
       </div>
     </div>
   );

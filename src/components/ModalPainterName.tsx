@@ -5,9 +5,15 @@ import { ChangeEvent, SetStateAction, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 interface PainterName {
   setPainterName: React.Dispatch<SetStateAction<string>>;
+  savePicture?: () => void;
+  
 }
 
-export default function ModalPainterName({ setPainterName }: PainterName) {
+export default function ModalPainterName({
+  setPainterName,
+  savePicture,
+  
+}: PainterName) {
   const [name, setName] = useState('');
   const { id } = useParams();
   const searchParam = useSearchParams();
@@ -19,8 +25,10 @@ export default function ModalPainterName({ setPainterName }: PainterName) {
 
   const onClick = () => {
     setPainterName(name);
-    // router.push(`/finished-drawing/${id}?count=${count}`);
+    router.push(`/finished-drawing/${id}?count=${count}`);
   };
+
+
 
   return (
     <div className="absolute left-[12%] top-1/3 z-40 flex h-[280px] w-[296px] flex-col items-center justify-center rounded-[12px] bg-white px-5 py-3">
@@ -49,11 +57,12 @@ export default function ModalPainterName({ setPainterName }: PainterName) {
         placeholder="이름/닉네임을 입력해주세요!"
         className="mt-[2px] h-[54px] w-[216px] rounded-lg border border-[#DEDEDE] p-4 placeholder:border placeholder:border-[#DEDEDE] placeholder:text-[16px] focus:ring-1 focus:ring-black"
       />
-      <Link
-        href={{
-          pathname: `/finished-drawing/${id}`,
-          query: { count: Number(count) },
-        }}
+      <div
+        onClick={savePicture}
+        // href={{
+        //   pathname: `/finished-drawing/${id}`,
+        //   query: { count: Number(count) },
+        // }}
         className="mt-[24px]"
       >
         <button
@@ -62,7 +71,7 @@ export default function ModalPainterName({ setPainterName }: PainterName) {
         >
           완료
         </button>
-      </Link>
+      </div>
     </div>
   );
 }
