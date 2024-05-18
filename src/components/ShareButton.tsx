@@ -1,21 +1,30 @@
-import Link from 'next/link';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
-import { useGetToonInfo } from '../hooks/useGetToonInfo';
+'use client';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import ModalShare from '../app/(main)/comptest/page';
 
 export default function ShareButton() {
-  const email = 'jenple9709@gmail.com';
-  const body = encodeURIComponent('문의 내용을 적어주세요!');
+  const [isShare, setIsShare] = useState(false);
 
-  //* 완성을 누르면 -> finished-drawing/${id}/count+1 된 url받고 -> 이걸 다음 사용자에게 전달하고 ->
-  const params = useParams<{ id: string }>();
-  const { data: myCreatedToon = [] } = useGetToonInfo(params.id);
-
-  const mailto = `mailto:${email}?body=${body}`;
-
+  const onClick = () => {
+    setIsShare(true);
+  };
   return (
-
-      <button className="custom-waguri-font h-[58px] w-[168px] rounded-[10px] bg-share-button text-black hover:bg-[#C4DF58]">
-        <a href={mailto}>공유하기</a>
+    <>
+      <button
+        className="custom-waguri-font h-[58px] w-[168px] rounded-[10px] bg-share-button text-black hover:bg-[#C4DF58]"
+        onClick={onClick}
+      >
+        공유하기
       </button>
+      {isShare && (
+        <div
+          className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        >
+          <ModalShare isShare={isShare} setIsShare={setIsShare} />
+        </div>
+      )}
+    </>
   );
 }

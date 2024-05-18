@@ -1,4 +1,11 @@
-export default function ModalShare() {
+import { SetStateAction } from 'react';
+
+interface ModalShare {
+  isShare: boolean;
+  setIsShare: React.Dispatch<SetStateAction<boolean>>;
+}
+
+export default function ModalShare({ isShare, setIsShare }: ModalShare) {
   let currentUrl = window.document.location.href;
 
   const onClick = () => {
@@ -10,6 +17,7 @@ export default function ModalShare() {
     document.body.removeChild(t);
 
     alert('클립보드에 복사되었습니다');
+    setIsShare(false)
   };
 
   return (
@@ -18,7 +26,7 @@ export default function ModalShare() {
         <span className="text-center text-xl">그림 공유하기</span>
       </div>
       <div className="">
-        <span className="mt-[2px] h-[54px] w-[216px] rounded-lg border border-[#DEDEDE] p-4 placeholder:border placeholder:border-[#DEDEDE] placeholder:text-[16px] focus:ring-1 focus:ring-black">
+        <span className="mt-[2px] inline-block h-[54px] max-w-[216px] overflow-y-hidden whitespace-nowrap rounded-lg border border-[#DEDEDE] p-4 scrollbar-hide placeholder:border placeholder:border-[#DEDEDE] placeholder:text-[16px] focus:ring-1 focus:ring-black">
           {currentUrl}
         </span>
       </div>
