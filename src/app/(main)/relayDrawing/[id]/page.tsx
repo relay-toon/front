@@ -3,7 +3,7 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
-import { forwardRef, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
@@ -11,6 +11,7 @@ import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import StartModal from '@/src/components/StartModal';
 import ModalPainterName from '@/src/components/ModalPainterName';
+
 
 const NoSSRCanvas = dynamic(
   () => import('../../drawing/_component/WraapedCanvas'),
@@ -36,7 +37,6 @@ export default function RelayDrawing() {
   // const [isDrawingMode, setIsDrawingMode] = useState(true);
   // const [canvas, setCanvas] = useState<fabric.Canvas>();
 
-  console.log(toonData);
   const [start, setStart] = useState(false);
   const [time, setTime] = useState(toonData?.timer);
   const [isComplete, setIsComplete] = useState(false);
@@ -61,21 +61,23 @@ export default function RelayDrawing() {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
-    if (fabricCanvas) {
+    if (fabricCanvas && time === 0) {
       const imageData = fabricCanvas.toDataURL({
-        format: 'png',
-        quaity: 1.0,
+        format: 'png',        
+        quaity: 1.0,                      
       });
-      const imageFile = dataURLtoFile(imageData, 'canvas_image.png');
+      const imageFile = dataURLtoFile(imageData, 'canvas_image.png');      
       try {
         if (toonData) {
           const toonUpdate = {
             ...toonData,
             image: imageFile,
-            name: painterName,
+            name: myInfo.name,
             id: toonData.id,
           };
           uploadToon(toonUpdate);
+          console.log('uploaded')
+
           console.log('toonUpdate:', toonUpdate, 'painterName : ', painterName);
         }
       } catch (error) {
@@ -83,7 +85,7 @@ export default function RelayDrawing() {
       }
     }
   };
-
+ 
   return (
     <div className="relative">
       {!start && (
@@ -94,14 +96,14 @@ export default function RelayDrawing() {
           <StartModal setStart={setStart} time={time} />
         </div>
       )}
-      {isComplete && (
+      {/* {isComplete && (
         <div
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
         >
           <ModalPainterName setPainterName={setPainterName} />
         </div>
-      )}
+      )} */}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />
         <HeaderFinishedButton
