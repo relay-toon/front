@@ -31,7 +31,7 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
       height: 407,
       backgroundColor: 'white',
       isDrawingMode: isDrawingMode,
-      backgroundImage: props?.prevPicture,
+      backgroundImage: props?.prevPicture,      
     });
 
     canvasInstance.current = canvas;

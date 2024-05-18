@@ -30,14 +30,14 @@ export default function DrawingPage() {
   const { data: myInfo } = useGetMyInfo();
   const [painterName, setPainterName] = useState('');
   const canvasRef = useRef<any>(null);
-  
+
   useEffect(() => {
     setTime(toonData?.timer);
   }, [toonData?.timer]);
 
   console.log(time);
-  const searchParam = useSearchParams()
-  const count = searchParam.get('count')
+  const searchParam = useSearchParams();
+  const count = searchParam.get('count');
 
   function dataURLtoFile(dataUrl: string, filename: string) {
     const matches = dataUrl.match(/:(.*?);/);
@@ -58,7 +58,7 @@ export default function DrawingPage() {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
-    if (fabricCanvas) {
+    if (fabricCanvas && time === 0) {
       const imageData = fabricCanvas.toDataURL({
         format: 'png',
         quality: 1.0,
@@ -69,10 +69,11 @@ export default function DrawingPage() {
           const toonUpdate = {
             ...toonData,
             image: imageFile,
-            name: painterName,
+            name: myInfo.name,
             id: toonData.id,
           };
           uploadToon(toonUpdate);
+          console.log('uploaded')
         }
       } catch (error) {
         alert('에러가 발생했습니다. 다시 시도해주세요.');
@@ -81,7 +82,7 @@ export default function DrawingPage() {
   };
 
   return (
-    <div className='h-screen'>
+    <div className="h-screen">
       {!start && (
         <div
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
@@ -90,14 +91,14 @@ export default function DrawingPage() {
           <StartModal setStart={setStart} time={time} />
         </div>
       )}
-      {/* {isComplete && (
+      {isComplete && (
         <div
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
         >
           <ModalPainterName savePicture={onClick} setPainterName={setPainterName} />
         </div>
-      )} */}
+      )}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />
         <HeaderFinishedButton
@@ -111,8 +112,8 @@ export default function DrawingPage() {
       </div>
       <div className="flex flex-row px-5 py-3">
         <div className="text-xl font-bold">그림 주제</div>
-        <DrawingOrder          
-        count={count}
+        <DrawingOrder
+          completed={false}
           width={127}
           height={33}
           positionStyle={{ top: '0px', left: '150px', position: 'relative' }}

@@ -1,13 +1,9 @@
 'use client';
-import { useLogout } from '@/src/hooks/useLogout';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAxios } from '@/src/lib/axios';
-import { useDelteUser } from '@/src/hooks/useDeleteUser';
 import { useState } from 'react';
-import ModalConfirmCancelAccount from '@/src/components/ModalConfirmCancelAccount';
-import ModalConfirmLogout from '@/src/components/ModalConfirmLogoutcopy';
 import ModalLogout from '@/src/components/ModalLogout';
 import ModalCancelAccount from '@/src/components/ModalCancelAccount';
 
@@ -16,7 +12,6 @@ export default function Mypage() {
   const [isLogout, setIsLogout] = useState(false);
 
   const router = useRouter();
-  const { axiosInstance } = useAxios();
   const onClick = () => {
     router.back();
   };

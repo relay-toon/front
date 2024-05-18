@@ -7,6 +7,7 @@ import { useState } from 'react';
 import MyPageSideBar from '@/src/components/MypageSidebar';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
 
 export default function FinishedDrawing() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,18 +15,23 @@ export default function FinishedDrawing() {
     setIsOpen(false);
   };
   const { id } = useParams();
-  const { data: toon } = useGetToonInfo(id);
-console.log(toon)
-  const searchParams = useSearchParams();
-  const count = searchParams.get('count');
+  const { data: toon, isLoading } = useGetToonInfo(id);
+
+  console.log('toon', toon);
   // 다음 그리는 사람이 전달받을 url
   let nextURL = `/prevPicture/${id}?count=${toon?.participants.length + 1 + ''}`;
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
   console.log('다음 그리는 사람이 받을 URL : ', nextURL);
   return (
     <div>
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
-        {count}번째&nbsp;<span className="text-[#9B9B9B]">그림 완성!</span>
+        {toon?.participants.length === toon?.headCount
+          ? `마지막`
+          : `${toon?.participants.length}번째`}
+        &nbsp;<span className="text-[#9B9B9B]">그림 완성!</span>
       </div>
       <div className="mt-3 text-lg">
         <div className="flex justify-center">다음 순서로 그릴 멤버들에게</div>
@@ -36,7 +42,7 @@ console.log(toon)
       </div>
       <div className="mt-8">
         <DrawingOrder
-          count={count}
+          completed={true}
           width={108}
           height={33}
           positionStyle={{ top: '44px', left: '64px', position: 'relative' }}
