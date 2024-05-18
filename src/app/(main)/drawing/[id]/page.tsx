@@ -79,6 +79,7 @@ export default function DrawingPage() {
       <div className="flex flex-row px-5 py-3">
         <div className="text-xl font-bold">그림 주제</div>
         <DrawingOrder
+          completed={false}
           width={127}
           height={33}
           positionStyle={{ top: '0px', left: '150px', position: 'relative' }}

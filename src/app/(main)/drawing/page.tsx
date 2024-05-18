@@ -19,8 +19,6 @@ const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
 
 export default function DrawingPage() {
   const { id } = useParams();
-  const searchParams = useSearchParams();
-  const count = searchParams.get('count');
   const canvasRef = useRef<any>(null);
   const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
@@ -50,13 +48,6 @@ export default function DrawingPage() {
     }
   };
 
-  useEffect(() => {
-    if (canvasRef.current) {
-      console.log('Canvas ref is now set:', canvasRef.current);
-    } else {
-      console.log('Canvas ref is not set yet.');
-    }
-  }, [canvasRef.current]);
   return (
     <div>
       <div className="mb-[1rem] flex flex-row justify-between">
@@ -66,6 +57,7 @@ export default function DrawingPage() {
       <div className="flex flex-row px-5 py-3">
         <div className="text-xl font-bold">그림 주제</div>
         <DrawingOrder
+          completed={false}
           width={127}
           height={33}
           positionStyle={{ top: '0px', left: '150px', position: 'relative' }}

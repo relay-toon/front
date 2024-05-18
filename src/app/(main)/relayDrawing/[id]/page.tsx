@@ -116,7 +116,7 @@ export default function RelayDrawing() {
       <div className="flex flex-row px-5 py-3">
         <div className="text-xl font-bold">그림 주제</div>
         <DrawingOrder
-          count={count}
+          completed={false}
           width={127}
           height={33}
           positionStyle={{

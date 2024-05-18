@@ -13,7 +13,6 @@ const getMyCreatedToon = async (
       completed,
     },
   });
-  console.log('response:', response.data);
   return response.data;
 };
 

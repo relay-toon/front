@@ -36,7 +36,7 @@ export default function FinishedDrawing() {
       </div>
       <div className="mt-8">
         <DrawingOrder
-          count={count}
+          completed={true}
           width={108}
           height={33}
           positionStyle={{ top: '44px', left: '64px', position: 'relative' }}
