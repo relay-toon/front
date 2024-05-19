@@ -1,4 +1,4 @@
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '../hooks/useGetToonInfo';
 
 interface DrawingOrderProps {

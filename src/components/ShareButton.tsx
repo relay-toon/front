@@ -1,9 +1,13 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import ModalShare from '../app/(main)/comptest/page';
+import ModalShare from './ModalShare';
 
-export default function ShareButton() {
+interface IShare {
+  id: string | string[];
+}
+
+export default function ShareButton({ id }: IShare) {
   const [isShare, setIsShare] = useState(false);
 
   const onClick = () => {
@@ -22,7 +26,7 @@ export default function ShareButton() {
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
         >
-          <ModalShare isShare={isShare} setIsShare={setIsShare} />
+          <ModalShare id={id} isShare={isShare} setIsShare={setIsShare} />
         </div>
       )}
     </>

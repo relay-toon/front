@@ -3,12 +3,15 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
+import StartModal from '@/src/components/StartModal';
+import ModalPainterName from '@/src/components/ModalPainterName';
+
 const NoSSRCanvas = dynamic(() => import('../_component/WraapedCanvas'), {
   ssr: false,
   loading: () => <LoadingSpinner />,
@@ -19,10 +22,22 @@ const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
 
 export default function DrawingPage() {
   const { id } = useParams();
-  const { data: myInfo } = useGetMyInfo();
-  const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
+  const { data: toonData, isLoading } = useGetToonInfo(id);
+  const [start, setStart] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [time, setTime] = useState(toonData?.timer);
+  const { data: myInfo } = useGetMyInfo();
+  const [painterName, setPainterName] = useState('');
   const canvasRef = useRef<any>(null);
+  const router = useRouter();
+  useEffect(() => {
+    setTime(toonData?.timer);
+    console.log(painterName);
+  }, [toonData?.timer, painterName]);
+
+  const searchParam = useSearchParams();
+  const count = searchParam.get('count');
 
   function dataURLtoFile(dataUrl: string, filename: string) {
     const matches = dataUrl.match(/:(.*?);/);
@@ -38,12 +53,12 @@ export default function DrawingPage() {
     }
     return new File([u8arr], filename, { type: mime });
   }
-  const onClick = () => {
+  const onClick = async () => {
     if (!canvasRef.current || isLoading || !myInfo) {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
-    if (fabricCanvas) {
+    if ((fabricCanvas && time === 0) || time === 99) {
       const imageData = fabricCanvas.toDataURL({
         format: 'png',
         quality: 1.0,
@@ -54,26 +69,57 @@ export default function DrawingPage() {
           const toonUpdate = {
             ...toonData,
             image: imageFile,
-            name: myInfo.name,
+            name: painterName,
             id: toonData.id,
           };
+          setIsComplete(true);
+          console.log(isComplete, toonUpdate, 'uploaded');
           uploadToon(toonUpdate);
+
+          router.push(`/finished-drawing/${id}?count=${count}`);
         }
       } catch (error) {
+        console.log('drawing err');
         alert('에러가 발생했습니다. 다시 시도해주세요.');
       }
     }
   };
+  const onFinisheClick = ()=>{
+    setIsComplete(true)
+  }
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
+      {!start && (
+        <div
+          className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        >
+          <StartModal setStart={setStart} time={time} />
+        </div>
+      )}
+      {isComplete && (
+        <div
+          className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        >
+          <ModalPainterName
+            savePicture={onClick}
+            painterName={painterName}
+            setPainterName={setPainterName}
+            onClick={onClick}
+          />
+        </div>
+      )}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />
-
         <HeaderFinishedButton
-          time={toonData?.timer}
-          isComplete={true}
-          onClick={onClick}
+          time={time}
+          onClick={onFinisheClick}
+          setTime={setTime}
+          isComplete={isComplete}
+          setIsComplete={setIsComplete}
+          start={start}
         />
       </div>
       <div className="flex flex-row px-5 py-3">

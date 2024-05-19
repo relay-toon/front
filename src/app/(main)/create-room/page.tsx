@@ -86,11 +86,11 @@ export default function CreateRoom() {
 
   const handleTimeCheck = (time: string) => {
     const numericTime =
-      time === '제한없음' ? 0 : parseInt(time.replace('초', ''), 10);
+      time === '제한없음' ? 99 : parseInt(time.replace('초', ''), 10);
     setTimeOption(numericTime);
   };
   return (
-    <div className="bg-white">
+    <div className="bg-white overflow-x-hidden">
       <BackHeader />
       <div className=" h-[844px] w-[390px] bg-white p-5">
         <div className="flex flex-col">

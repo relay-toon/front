@@ -5,19 +5,19 @@ import ShareButton from '@/src/components/ShareButton';
 import MenuHeader from '@/src/components/header/MenuHeader';
 import { useState } from 'react';
 import MyPageSideBar from '@/src/components/MypageSidebar';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 
 export default function FinishedDrawing() {
   const [isOpen, setIsOpen] = useState(false);
+
   const onClick = () => {
     setIsOpen(false);
   };
   const { id } = useParams();
   const { data: toon, isLoading } = useGetToonInfo(id);
 
-  console.log('toon', toon);
   // 다음 그리는 사람이 전달받을 url
   let nextURL = `/prevPicture/${id}?count=${toon?.participants.length + 1 + ''}`;
   if (isLoading) {
@@ -56,7 +56,7 @@ export default function FinishedDrawing() {
       </div>
       <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
-        <ShareButton />
+        <ShareButton id={id} />
       </div>
       {isOpen && (
         <div
