@@ -11,6 +11,7 @@ import PaletteModal from './PaletteModal';
 import PencilIcon from '@/public/svg/pencil.svg';
 import CircleBrushIcon from '@/public/svg/brush.svg';
 import EraserIcon from '@/public/svg/eraser.svg';
+
 const FabricCanvas = forwardRef((props: any, ref: any) => {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [color, setColor] = useState('#000000');
@@ -20,22 +21,35 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
   const canvasRef = useRef(null);
   const canvasInstance = useRef<fabric.Canvas | null>(null);
   const [showPalette, setShowPalette] = useState(false);
+
   useImperativeHandle(ref, () => ({
     getCanvas: () => canvasRef.current,
     canvasInstance: canvasInstance.current,
   }));
+
   useEffect(() => {
     if (!canvasRef.current) return;
+
     const canvas = new fabric.Canvas(canvasRef.current, {
       width: 350,
       height: 407,
       backgroundColor: 'white',
       isDrawingMode: isDrawingMode,
-      backgroundImage: props?.prevPicture,
     });
 
     canvasInstance.current = canvas;
+
+    if (props?.prevPicture) {
+      fabric.Image.fromURL(props.prevPicture, (img) => {
+        img.selectable = false;
+        img.evented = false;
+        canvas.add(img);
+        canvas.sendToBack(img);
+      });
+    }
+
     setupBrush();
+    lockPreviousDrawing(canvas);
 
     return () => {
       canvas.dispose();
@@ -46,8 +60,18 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     if (canvasInstance.current) {
       canvasInstance.current.isDrawingMode = isDrawingMode;
       setupBrush();
+      lockPreviousDrawing(canvasInstance.current);
     }
   }, [isDrawingMode, color, lineWidth, brushType]);
+
+  function lockPreviousDrawing(canvas: any) {
+    canvas.getObjects().forEach((obj: any) => {
+      if (obj.type !== 'image') {
+        obj.selectable = false;
+        obj.evented = false;
+      }
+    });
+  }
 
   function setupBrush() {
     const canvas = canvasInstance.current;
@@ -79,11 +103,15 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     brush.width = lineWidth;
     canvas.freeDrawingBrush = brush;
   }
+
   const handleClear = () => {
     const canvas = canvasInstance.current;
     if (!canvas) return;
-    canvas.clear();
-    canvas.backgroundColor = 'white';
+    canvas.getObjects().forEach((obj) => {
+      if (obj.type !== 'image') {
+        canvas.remove(obj);
+      }
+    });
     canvas.renderAll();
   };
 
@@ -102,6 +130,7 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
   const handleOpenPalette = () => {
     setShowPalette(true);
   };
+
   const handleClosePalette = () => {
     setShowPalette(false);
   };
@@ -113,10 +142,10 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
         id="canvas"
         width={350}
         height={407}
-        className=" rounded-lg"
+        className="rounded-lg"
       />
       <div className="ml-auto mr-auto mt-3 flex h-[45px] w-[350px] rounded-lg bg-[#EAEAEA]">
-        <span className=" ml-[18.5px] flex items-center text-base font-extrabold">
+        <span className="ml-[18.5px] flex items-center text-base font-extrabold">
           크기
         </span>
         <input
@@ -131,7 +160,7 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
           {lineWidth}
         </span>
       </div>
-      <div className=" mb-8 ml-auto mr-auto mt-[13px] flex h-16 w-[350px] flex-row items-center  rounded-lg bg-[#EAEAEA] px-[19px] py-[14px]">
+      <div className="mb-8 ml-auto mr-auto mt-[13px] flex h-16 w-[350px] flex-row items-center rounded-lg bg-[#EAEAEA] px-[19px] py-[14px]">
         <div id="colorPalette" className="flex">
           <button
             className="h-9 w-9 rounded-md"
@@ -164,11 +193,11 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
             <Image src="/svg/reset.svg" alt="reset" width={36} height={36} />
           </button>
           <button
-            className="ml-[100px]  flex h-[28px] w-[28px] self-center rounded-full border-[2px]  border-[#C4C4C4]"
+            className="ml-[100px] flex h-[28px] w-[28px] self-center rounded-full border-[2px] border-[#C4C4C4]"
             style={{ backgroundColor: `${color}` }}
             onClick={handleOpenPalette}
           ></button>
-          <div className=" relative w-[390px]">
+          <div className="relative w-[390px]">
             {showPalette && (
               <PaletteModal
                 onClose={handleClosePalette}
