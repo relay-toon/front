@@ -5,7 +5,7 @@ import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmall
 import dynamic from 'next/dynamic';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
@@ -28,14 +28,10 @@ console.log('ab:', ForwardRefCanvas);
 export default function RelayDrawing() {
   const { id } = useParams();
   const { data: myInfo } = useGetMyInfo();
-  const searchParam = useSearchParams();
-  const count = searchParam.get('count');
   const { data: toonData, isLoading } = useGetToonInfo(id);
   const { mutate: uploadToon } = usePutToon();
   const canvasRef = useRef<any>(null);
   const [painterName, setPainterName] = useState('');
-  // const [isDrawingMode, setIsDrawingMode] = useState(true);
-  // const [canvas, setCanvas] = useState<fabric.Canvas>();
 
   const [start, setStart] = useState(false);
   const [time, setTime] = useState(toonData?.timer);
