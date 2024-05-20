@@ -20,15 +20,16 @@ export default function HeaderSmallButton({
     const interval = setInterval(() => {
       if (time > 0 && time < 21 && !isComplete && start && setTime) {
         setTime(time - 1);
-      } else if (time === 0 && setIsComplete) {
-        setIsComplete(true);
+      } else if (time === 0) {
+        if (setIsComplete) {
+          setIsComplete(true);
+        }
+        clearInterval(interval);
       }
     }, 1000);
     return () => clearInterval(interval);
   }, [time, start, isComplete]);
-  // const onCompleteClick = () => {
-  //   router.push(`/finished-drawing/${toonId}?count=${count}`);
-  // };
+
   return (
     <div>
       <div className="mr-5 py-[6px]">

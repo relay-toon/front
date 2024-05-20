@@ -35,12 +35,12 @@ export const usePutToon = () => {
       });
       // router.push(
       //   `/finished-drawing/${data.id}?count=${data.participants.length}`,
-      // );
+      // );      
     },
 
-    onError: () => {
-      // ! 데이터는 다 정상적으로 들어오는데 에러가 뜸
-      console.log('custom hook err')
+    onError: (err: Error) => {
+      // ! 데이터는 다 정상적으로 들어오는데 에러가 뜸      
+      console.log('custom hook err', err);
       alert('에러가 발생했습니다. 다시 시도해주세요.');
     },
   });
