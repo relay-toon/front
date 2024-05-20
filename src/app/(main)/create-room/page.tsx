@@ -30,7 +30,6 @@ export default function CreateRoom() {
         timer: timeOption,
       };
       const result = await createMutation.mutateAsync(data);
-      // console.log(result);
       router?.push(`/drawing/${result.id}?count=1`);
     } catch (error) {
       console.error('에러:', error);
@@ -90,7 +89,7 @@ export default function CreateRoom() {
     setTimeOption(numericTime);
   };
   return (
-    <div className="bg-white overflow-x-hidden">
+    <div className="overflow-x-hidden bg-white">
       <BackHeader />
       <div className=" h-[844px] w-[390px] bg-white p-5">
         <div className="flex flex-col">

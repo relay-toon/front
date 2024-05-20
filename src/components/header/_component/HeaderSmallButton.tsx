@@ -44,7 +44,7 @@ export default function HeaderSmallButton({
             className="custom-waguri-font h-[36px] w-[70px] rounded-[6px] bg-black text-[#E0FF68]"
             onClick={onClick}
           >
-            {time}
+            {time}초
           </button>
         )}
       </div>
