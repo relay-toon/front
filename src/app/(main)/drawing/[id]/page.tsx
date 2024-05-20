@@ -33,8 +33,7 @@ export default function DrawingPage() {
   const router = useRouter();
   useEffect(() => {
     setTime(toonData?.timer);
-    console.log(painterName);
-  }, [toonData?.timer, painterName]);
+  }, [toonData?.timer]);
 
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
@@ -55,6 +54,7 @@ export default function DrawingPage() {
   }
   const onClick = async () => {
     if (!canvasRef.current || isLoading || !myInfo) {
+      console.log('somethig wrong');
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
@@ -84,9 +84,9 @@ export default function DrawingPage() {
       }
     }
   };
-  const onFinisheClick = ()=>{
-    setIsComplete(true)
-  }
+  const onFinisheClick = () => {
+    setIsComplete(true);
+  };
 
   return (
     <div className="overflow-x-hidden">
