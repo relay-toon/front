@@ -34,17 +34,18 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
       width: 350,
       height: 407,
       backgroundColor: 'white',
-      isDrawingMode: isDrawingMode,
+      isDrawingMode: isDrawingMode,      
+    
     });
-
+    
     canvasInstance.current = canvas;
-
     if (props?.prevPicture) {
       fabric.Image.fromURL(props.prevPicture, (img) => {
         img.selectable = false;
         img.evented = false;
+        img.crossOrigin = 'anonymous';        
         canvas.add(img);
-        canvas.sendToBack(img);
+        canvas.sendToBack(img);        
       });
     }
 

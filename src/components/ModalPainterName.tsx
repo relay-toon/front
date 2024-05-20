@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { ChangeEvent, SetStateAction, useState } from 'react';
+import { ChangeEvent, SetStateAction } from 'react';
 interface PainterName {
   setPainterName: React.Dispatch<SetStateAction<string>>;
   savePicture?: () => void;
