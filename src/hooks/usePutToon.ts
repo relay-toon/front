@@ -2,7 +2,6 @@ import { AxiosInstance } from 'axios';
 import { Toon } from '../types/Toon';
 import { useAxios } from '../lib/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 
 const putToon = async (toonData: Toon, axiosInstance: AxiosInstance) => {
   const formData = new FormData();
@@ -35,11 +34,11 @@ export const usePutToon = () => {
       });
       // router.push(
       //   `/finished-drawing/${data.id}?count=${data.participants.length}`,
-      // );      
+      // );
     },
 
     onError: (err: Error) => {
-      // ! 데이터는 다 정상적으로 들어오는데 에러가 뜸      
+      // ! 데이터는 다 정상적으로 들어오는데 에러가 뜸
       console.log('custom hook err', err);
       alert('에러가 발생했습니다. 다시 시도해주세요.');
     },

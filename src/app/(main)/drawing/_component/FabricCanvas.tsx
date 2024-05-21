@@ -15,12 +15,13 @@ import EraserIcon from '@/public/svg/eraser.svg';
 const FabricCanvas = forwardRef((props: any, ref: any) => {
   const [isDrawingMode, setIsDrawingMode] = useState(true);
   const [color, setColor] = useState('#000000');
-  const [iconColor, setIconColor] = useState('#B4B4B4');
   const [lineWidth, setLineWidth] = useState(4);
   const [brushType, setBrushType] = useState('pencil');
   const canvasRef = useRef(null);
   const canvasInstance = useRef<fabric.Canvas | null>(null);
   const [showPalette, setShowPalette] = useState(false);
+
+  const timestamp = useRef(new Date().getTime()).current;
 
   useImperativeHandle(ref, () => ({
     getCanvas: () => canvasRef.current,
@@ -34,23 +35,21 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
       width: 350,
       height: 407,
       backgroundColor: 'white',
-      isDrawingMode: isDrawingMode,      
-    
+      isDrawingMode: isDrawingMode,
     });
-    
+
     canvasInstance.current = canvas;
     if (props?.prevPicture) {
       fabric.Image.fromURL(props.prevPicture, (img) => {
         img.selectable = false;
         img.evented = false;
-        img.crossOrigin = 'anonymous';        
+        img.crossOrigin = 'anonymous';
         canvas.add(img);
-        canvas.sendToBack(img);        
+        canvas.sendToBack(img);
       });
     }
 
     setupBrush();
-    lockPreviousDrawing(canvas);
 
     return () => {
       canvas.dispose();
@@ -58,21 +57,32 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
   }, []);
 
   useEffect(() => {
+    if (props.prevPicture && canvasInstance.current) {
+      loadAndDrawImage(props.prevPicture, canvasInstance.current);
+    }
+  }, [props.prevPicture]);
+
+  function loadAndDrawImage(url: string, canvas: any) {
+    const timestampedUrl = `${url}?t=${timestamp}`;
+    fabric.Image.fromURL(
+      timestampedUrl,
+      (img) => {
+        img.set({ selectable: false, evented: false });
+        canvas.setWidth(img.width);
+        canvas.setHeight(img.height);
+        canvas.add(img);
+        canvas.sendToBack(img);
+      },
+      { crossOrigin: 'anonymous' },
+    );
+  }
+
+  useEffect(() => {
     if (canvasInstance.current) {
       canvasInstance.current.isDrawingMode = isDrawingMode;
       setupBrush();
-      lockPreviousDrawing(canvasInstance.current);
     }
   }, [isDrawingMode, color, lineWidth, brushType]);
-
-  function lockPreviousDrawing(canvas: any) {
-    canvas.getObjects().forEach((obj: any) => {
-      if (obj.type !== 'image') {
-        obj.selectable = false;
-        obj.evented = false;
-      }
-    });
-  }
 
   function setupBrush() {
     const canvas = canvasInstance.current;
