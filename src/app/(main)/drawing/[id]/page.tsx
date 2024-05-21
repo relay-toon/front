@@ -139,9 +139,7 @@ export default function DrawingPage() {
         <span>{toonData?.title}</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        {toonData && (
-          <ForwardRefCanvas ref={canvasRef} prevPicture={toonData?.image} />
-        )}
+        <ForwardRefCanvas ref={canvasRef} prevPicture={toonData?.image} />
       </div>
     </div>
   );

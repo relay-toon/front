@@ -19,7 +19,7 @@ export default function FinishedDrawing() {
   const { data: toon, isLoading } = useGetToonInfo(id);
 
   // 다음 그리는 사람이 전달받을 url
-  let nextURL = `/drawing/${id}?count=${toon?.participants.length + 1 + ''}`;
+  let nextURL = `/prevPicture/${id}?count=${toon?.participants.length + 1 + ''}`;
   if (isLoading) {
     return <LoadingSpinner />;
   }
