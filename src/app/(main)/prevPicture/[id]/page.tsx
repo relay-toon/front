@@ -17,7 +17,6 @@ export default function PrevPicture() {
 
   const searchParam = useSearchParams();
   let count = searchParam.get('count');
-  // let count = 0
   console.log(count);
 
   const onClick = () => {
