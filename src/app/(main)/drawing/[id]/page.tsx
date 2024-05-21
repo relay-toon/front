@@ -75,7 +75,6 @@ export default function DrawingPage() {
             id: toonData.id,
           };
           setIsComplete(true);
-          console.log(isComplete, toonUpdate, 'uploaded');
           uploadToon(toonUpdate);
 
           router.push(`/finished-drawing/${id}?count=${count}`);

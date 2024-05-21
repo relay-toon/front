@@ -21,8 +21,6 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
   const canvasInstance = useRef<fabric.Canvas | null>(null);
   const [showPalette, setShowPalette] = useState(false);
 
-  const timestamp = useRef(new Date().getTime()).current;
-
   useImperativeHandle(ref, () => ({
     getCanvas: () => canvasRef.current,
     canvasInstance: canvasInstance.current,
@@ -39,15 +37,6 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     });
 
     canvasInstance.current = canvas;
-    if (props?.prevPicture) {
-      fabric.Image.fromURL(props.prevPicture, (img) => {
-        img.selectable = false;
-        img.evented = false;
-        img.crossOrigin = 'anonymous';
-        canvas.add(img);
-        canvas.sendToBack(img);
-      });
-    }
 
     setupBrush();
 
@@ -62,16 +51,25 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
     }
   }, [props.prevPicture]);
 
-  function loadAndDrawImage(url: string, canvas: any) {
-    const timestampedUrl = `${url}?t=${timestamp}`;
+  function loadAndDrawImage(url: string, canvas: fabric.Canvas) {
+    const timestampedUrl = `${url}?t=${new Date().getTime()}`;
     fabric.Image.fromURL(
       timestampedUrl,
       (img) => {
-        img.set({ selectable: false, evented: false });
-        canvas.setWidth(img.width);
-        canvas.setHeight(img.height);
-        canvas.add(img);
-        canvas.sendToBack(img);
+        if (canvas && img) {
+          img.set({ selectable: false, evented: false });
+
+          img.on('load', () => {
+            canvas.setDimensions({
+              width: img.width || 0,
+              height: img.height || 0,
+            });
+            canvas.add(img);
+            canvas.sendToBack(img);
+          });
+        } else {
+          console.error('Failed to load image');
+        }
       },
       { crossOrigin: 'anonymous' },
     );
