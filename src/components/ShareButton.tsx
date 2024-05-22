@@ -5,7 +5,7 @@ import ModalShare from './ModalShare';
 import { useGetToonInfo } from '../hooks/useGetToonInfo';
 
 interface IShare {
-  id: string | string[];
+  id: string | string[];  
 }
 
 export default function ShareButton({ id }: IShare) {
@@ -24,7 +24,7 @@ export default function ShareButton({ id }: IShare) {
         공유하기
       </button>
       {isShare && (
-        <ModalShare id={id} isShare={isShare} setIsShare={setIsShare} />
+        <ModalShare id={id} isShare={isShare} setIsShare={setIsShare} finished={true}/>
       )}
     </>
   );

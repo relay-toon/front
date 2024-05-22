@@ -6,17 +6,23 @@ interface ModalShare {
   id: string | string[];
   isShare: boolean;
   setIsShare: React.Dispatch<SetStateAction<boolean>>;
+  finished?: boolean;
 }
 
-export default function ModalShare({ id, isShare, setIsShare }: ModalShare) {
+export default function ModalShare({
+  id,
+  isShare,
+  setIsShare,
+  finished,
+}: ModalShare) {
   const searchParam = useSearchParams();
   const backgroundRef = useRef(null);
   const path = usePathname();
   const count = searchParam.get('count');
   const { data: toonData } = useGetToonInfo(id);
-console.log(toonData?.headCount, count, toonData?.headCount === count)
+  console.log(toonData?.headCount, count, toonData?.headCount === count);
   let currentUrl =
-    toonData?.headCount === Number(count) || toonData?.completed
+    toonData?.headCount === Number(count) || finished
       ? `localhost:3000/finished-drawing/${id}?count=${count}`
       : `localhost:3000/prevPicture/${id}?count=${Number(count) + 1}`;
 
@@ -40,7 +46,7 @@ console.log(toonData?.headCount, count, toonData?.headCount === count)
   return (
     <>
       <div
-        onClick={onBackgroundClick}        
+        onClick={onBackgroundClick}
         className="margin-auto fixed top-0 z-10 h-[100vh] w-[390px] overflow-hidden"
         style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
       ></div>
