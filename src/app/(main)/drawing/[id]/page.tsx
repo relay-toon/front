@@ -72,6 +72,7 @@ export default function DrawingPage() {
             ...toonData,
             image: imageFile,
             name: painterName,
+            userId: myInfo.id || '',
             id: toonData.id,
           };
           setIsComplete(true);

@@ -25,21 +25,15 @@ const putToon = async (toonData: Toon, axiosInstance: AxiosInstance) => {
 export const usePutToon = () => {
   const { axiosInstance } = useAxios();
   const queryClient = useQueryClient();
-  // const router = useRouter();
   return useMutation({
     mutationFn: (toonData: Toon) => putToon(toonData, axiosInstance),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('toon', data.id),
       });
-      // router.push(
-      //   `/finished-drawing/${data.id}?count=${data.participants.length}`,
-      // );
     },
 
-    onError: (err: Error) => {
-      // ! 데이터는 다 정상적으로 들어오는데 에러가 뜸
-      console.log('custom hook err', err);
+    onError: () => {
       alert('에러가 발생했습니다. 다시 시도해주세요.');
     },
   });
