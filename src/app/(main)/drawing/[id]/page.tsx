@@ -79,6 +79,19 @@ export default function DrawingPage() {
 
           router.push(`/finished-drawing/${id}?count=${count}`);
         }
+        if (toonData && toonData?.participants.length === toonData?.headCount) {
+          const toonUpdate = {
+            ...toonData,
+            image: imageFile,
+            name: painterName,
+            id: toonData.id,
+            isComplete: true,
+          };
+          setIsComplete(true);
+          uploadToon(toonUpdate);
+
+          router.push(`/finished-drawing/${id}?count=${count}`);
+        }
       } catch (error) {
         alert('에러가 발생했습니다. 다시 시도해주세요.');
       }

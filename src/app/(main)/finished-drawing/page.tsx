@@ -7,7 +7,7 @@ import MenuHeader from '@/src/components/header/MenuHeader';
 import { useState } from 'react';
 import MyPageSideBar from '@/src/components/MypageSidebar';
 import { useAuthStore } from '@/src/store/authStore';
-import { useSearchParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 
 export default function FinishedDrawing() {
   const isLoggedIn = useAuthStore((state) => ({
@@ -20,7 +20,8 @@ export default function FinishedDrawing() {
   };
   const searchParams = useSearchParams();
   const count = searchParams.get('count');
-  console.log(count);
+  const { id } = useParams();
+
   return (
     <div>
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
@@ -52,7 +53,7 @@ export default function FinishedDrawing() {
       </div>
       <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
-        <ShareButton />
+        <ShareButton id={id} />
       </div>
       {isOpen && (
         <div

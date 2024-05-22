@@ -12,7 +12,7 @@ export default function ItemPage({ params }: { params: { id: string } }) {
   const date = new Date(now).toLocaleDateString();
   const id = params.id;
   const { data: toon } = useGetToonInfo(id);
-  console.log(toon);
+  // console.log(toon);
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {

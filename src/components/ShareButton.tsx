@@ -2,6 +2,7 @@
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import ModalShare from './ModalShare';
+import { useGetToonInfo } from '../hooks/useGetToonInfo';
 
 interface IShare {
   id: string | string[];
@@ -9,7 +10,8 @@ interface IShare {
 
 export default function ShareButton({ id }: IShare) {
   const [isShare, setIsShare] = useState(false);
-
+  const {data: toonInfo} = useGetToonInfo(id)
+// console.log(toonInfo)
   const onClick = () => {
     setIsShare(true);
   };

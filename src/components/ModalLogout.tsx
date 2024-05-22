@@ -20,25 +20,36 @@ export default function ModalLogout({ isLogout, setIsLogout }: ModalLogout) {
     await logout();
   };
 
+  const onBackgroundClick = ()=>{
+    setIsLogout(false)
+  }
+
   return (
-    <div className="*:custom-pretendard-font absolute left-[12%] top-1/3 flex h-[189px] w-[300px] flex-col items-center rounded-[12px] bg-white">
-      <div className="flex h-[129px] w-[300px] items-center justify-center ">
-        <span className="text-[20px] ">로그아웃 하시겠어요?</span>
-      </div>
-      <div className=" flex h-[60px] border-t border-t-[#F2F2F2] text-[16px] font-bold ">
-        <div
-          className="flex w-[150px] cursor-pointer items-center justify-center"
-          onClick={onQuitClick}
-        >
-          <span>취소</span>
+    <>
+      <div
+      onClick={onBackgroundClick}
+        className="margin-auto fixed top-0 h-[100vh] w-[390px] overflow-hidden"
+        style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+      ></div>
+      <div className="*:custom-pretendard-font absolute left-[12%] top-1/3 flex h-[189px] w-[300px] flex-col items-center rounded-[12px] bg-white">
+        <div className="flex h-[129px] w-[300px] items-center justify-center ">
+          <span className="text-[20px] ">로그아웃 하시겠어요?</span>
         </div>
-        <div
-          className="flex w-[150px] cursor-pointer items-center justify-center text-[#D84D45]"
-          onClick={onLogoutClick}
-        >
-          <span>로그아웃</span>
+        <div className=" flex h-[60px] border-t border-t-[#F2F2F2] text-[16px] font-bold ">
+          <div
+            className="flex w-[150px] cursor-pointer items-center justify-center"
+            onClick={onQuitClick}
+          >
+            <span>취소</span>
+          </div>
+          <div
+            className="flex w-[150px] cursor-pointer items-center justify-center text-[#D84D45]"
+            onClick={onLogoutClick}
+          >
+            <span>로그아웃</span>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

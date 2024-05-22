@@ -174,7 +174,7 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
         </div>
       </div>
       <div className="mt-[56px] flex h-[141px] flex-col gap-[32px] *:font-semibold">
-        <button onClick={(e) => handleLinkClick(e, '/info')}>
+        <button onClick={(e) => handleLinkClick(e, '/coming-soon')}>
           <div className="flex h-[48px] w-[168px] items-center justify-center rounded-[8px] bg-[#EAEAEA]">
             공지사항
           </div>

@@ -18,12 +18,12 @@ export default function FinishedDrawing() {
   const { id } = useParams();
   const { data: toon, isLoading } = useGetToonInfo(id);
 
+  console.log(toon)
   // 다음 그리는 사람이 전달받을 url
   let nextURL = `/prevPicture/${id}?count=${toon?.participants.length + 1 + ''}`;
   if (isLoading) {
     return <LoadingSpinner />;
   }
-  console.log('다음 그리는 사람이 받을 URL : ', nextURL);
   return (
     <div>
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
