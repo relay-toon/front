@@ -15,8 +15,7 @@ body {
   justify-content: center;
   font-family: 'Pretendard Variable', sans-serif;
   min-height: 754px;
-  scroll-behavior: smooth;
-  height: 100%;  
+  scroll-behavior: smooth;  
 }
 
 @font-face {

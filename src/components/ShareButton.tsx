@@ -22,12 +22,7 @@ export default function ShareButton({ id }: IShare) {
         공유하기
       </button>
       {isShare && (
-        <div
-          className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
-          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
-        >
-          <ModalShare id={id} isShare={isShare} setIsShare={setIsShare} />
-        </div>
+        <ModalShare id={id} isShare={isShare} setIsShare={setIsShare} />
       )}
     </>
   );

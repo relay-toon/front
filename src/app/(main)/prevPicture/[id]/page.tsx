@@ -18,6 +18,7 @@ export default function PrevPicture() {
   const { id } = useParams();
   const searchParam = useSearchParams();
   let count = searchParam.get('count');
+  console.log(count);
 
   const onClick = () => {
     const canvas = canvasRef.current;

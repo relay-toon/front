@@ -8,7 +8,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
-const Canvas = dynamic(() => import('./_component/WraapedCanvas'), {
+const Canvas = dynamic(() => import('./_component/WrappedCanvas'), {
   ssr: false,
   loading: () => <LoadingSpinner />,
 });

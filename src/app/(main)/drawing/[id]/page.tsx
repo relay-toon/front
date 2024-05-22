@@ -9,10 +9,9 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
-import StartModal from '@/src/components/StartModal';
 import ModalPainterName from '@/src/components/ModalPainterName';
 
-const NoSSRCanvas = dynamic(() => import('../_component/WraapedCanvas'), {
+const NoSSRCanvas = dynamic(() => import('../_component/WrappedCanvas'), {
   ssr: false,
   loading: () => <LoadingSpinner />,
 });
@@ -20,6 +19,9 @@ const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
   return <NoSSRCanvas {...props} forwardRef={ref} />;
 });
 
+const StartModal = dynamic(() => import('@/src/components/StartModal'), {
+  ssr: false,
+});
 export default function DrawingPage() {
   const { id } = useParams();
   const { mutate: uploadToon } = usePutToon();
@@ -31,16 +33,13 @@ export default function DrawingPage() {
   const [painterName, setPainterName] = useState('');
   const canvasRef = useRef<any>(null);
   const router = useRouter();
-  useEffect(() => {
-    setTime(toonData?.timer);
-  }, [toonData?.timer]);
-
-  useEffect(() => {
-    canvasRef.current = null;
-  }, []);
 
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
+
+  useEffect(() => {
+    setTime(toonData?.timer);
+  }, [toonData?.timer]);
 
   function dataURLtoFile(dataUrl: string, filename: string) {
     const matches = dataUrl.match(/:(.*?);/);
@@ -56,7 +55,7 @@ export default function DrawingPage() {
     }
     return new File([u8arr], filename, { type: mime });
   }
-  const onClick = async () => {
+  const onClick = () => {
     if (!canvasRef.current || isLoading || !myInfo) {
       return;
     }
@@ -76,20 +75,22 @@ export default function DrawingPage() {
             id: toonData.id,
           };
           setIsComplete(true);
-          console.log(isComplete, toonUpdate, 'uploaded');
           uploadToon(toonUpdate);
 
           router.push(`/finished-drawing/${id}?count=${count}`);
         }
       } catch (error) {
-        console.log('drawing err');
         alert('에러가 발생했습니다. 다시 시도해주세요.');
       }
     }
   };
-  const onFinisheClick = () => {
+  const onFinishClick = () => {
     setIsComplete(true);
   };
+
+  if (isLoading || !toonData || !myInfo) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="overflow-x-hidden">
@@ -118,7 +119,7 @@ export default function DrawingPage() {
         <OnlyLogoHeader />
         <HeaderFinishedButton
           time={time}
-          onClick={onFinisheClick}
+          onClick={onFinishClick}
           setTime={setTime}
           isComplete={isComplete}
           setIsComplete={setIsComplete}
@@ -138,11 +139,7 @@ export default function DrawingPage() {
         <span>{toonData?.title}</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">
-        {toonData?.image ? (
-          <ForwardRefCanvas ref={canvasRef} prevPicture={toonData?.image} />
-        ) : (
-          <ForwardRefCanvas ref={canvasRef} />
-        )}
+        <ForwardRefCanvas ref={canvasRef} prevPicture={toonData?.image} />
       </div>
     </div>
   );
