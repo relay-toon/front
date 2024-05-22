@@ -85,7 +85,7 @@ export default function CreateRoom() {
 
   const handleTimeCheck = (time: string) => {
     const numericTime =
-      time === '제한없음' ? 99 : parseInt(time.replace('초', ''), 10);
+      time === '제한없음' ? 86400 : parseInt(time.replace('초', ''), 10);
     setTimeOption(numericTime);
   };
   return (

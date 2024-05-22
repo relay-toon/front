@@ -60,7 +60,7 @@ export default function DrawingPage() {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
-    if ((fabricCanvas && time === 0) || time === 99) {
+    if ((fabricCanvas && time === 0) || time === 86400) {
       const imageData = fabricCanvas.toDataURL({
         format: 'png',
         quality: 1.0,
@@ -72,6 +72,7 @@ export default function DrawingPage() {
             ...toonData,
             image: imageFile,
             name: painterName,
+            userId: myInfo.id || '',
             id: toonData.id,
           };
           setIsComplete(true);
