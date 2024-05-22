@@ -13,9 +13,7 @@ export const usePutMyName = () => {
   return useMutation({
     mutationFn: (name: string) => putMyName(name, axiosInstance),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        predicate: (query) => query.queryKey.includes('myInfo'),
-      });
+      queryClient.invalidateQueries({ queryKey: ['myInfo'] });
     },
   });
 };
