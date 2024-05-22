@@ -7,24 +7,27 @@ import MenuHeader from '@/src/components/header/MenuHeader';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 
 export default function PrevPicture() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams<{ id: string }>();
-
+  const router = useRouter();
+  const { id } = useParams();
   const searchParam = useSearchParams();
   let count = searchParam.get('count');
-  // let count = 0
-  console.log(count);
 
   const onClick = () => {
     const canvas = canvasRef.current;
     const data = canvas?.toDataURL();
     console.log(data);
     console.log(canvas);
+  };
+
+  const onDrawingClick = () => {
+    router.push(`/drawing/${id}?count=${count}`);
   };
 
   const { data: myCreatedToon, isLoading } = useGetToonInfo(params.id);
@@ -98,17 +101,17 @@ export default function PrevPicture() {
             <div className="h-[384px] w-[280px] bg-white" />
           )}
         </div>
-        <Link
-          href={{
-            pathname: `/drawing/${myCreatedToon.id}`,
-            query: { count: Number(count) },
-          }}
+        <div
           className="mt-4 flex justify-center"
         >
           <div className="py-[14px]">
-            <LargeBtn text="이어 그리기" active={true} />
+            <LargeBtn
+              text="이어 그리기"
+              onClick={onDrawingClick}
+              active={true}
+            />
           </div>
-        </Link>
+        </div>
         {isOpen && (
           <div
             className={`fixed -top-4 z-20 mt-[16px] h-full w-[390px] bg-gray-400 transition-all duration-200 ease-in-out `}

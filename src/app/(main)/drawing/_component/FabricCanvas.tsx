@@ -29,23 +29,22 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
 
   useEffect(() => {
     if (!canvasRef.current) return;
-
     const canvas = new fabric.Canvas(canvasRef.current, {
       width: 350,
       height: 407,
       backgroundColor: 'white',
-      isDrawingMode: isDrawingMode,      
-    
+      isDrawingMode: isDrawingMode,
     });
-    
+
     canvasInstance.current = canvas;
     if (props?.prevPicture) {
+      
       fabric.Image.fromURL(props.prevPicture, (img) => {
         img.selectable = false;
         img.evented = false;
-        img.crossOrigin = 'anonymous';        
+        img.crossOrigin = 'anonymous';                
         canvas.add(img);
-        canvas.sendToBack(img);        
+        canvas.sendToBack(img);
       });
     }
 
@@ -143,7 +142,7 @@ const FabricCanvas = forwardRef((props: any, ref: any) => {
         id="canvas"
         width={350}
         height={407}
-        className="rounded-lg"
+        className="rounded-lg"        
       />
       <div className="ml-auto mr-auto mt-3 flex h-[45px] w-[350px] rounded-lg bg-[#EAEAEA]">
         <span className="ml-[18.5px] flex items-center text-base font-extrabold">

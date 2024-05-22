@@ -35,9 +35,9 @@ export default function DrawingPage() {
     setTime(toonData?.timer);
   }, [toonData?.timer]);
 
-  useEffect(()=>{
-    canvasRef.current = null
-  },[])
+  useEffect(() => {
+    canvasRef.current = null;
+  }, []);
 
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
@@ -46,7 +46,7 @@ export default function DrawingPage() {
     const matches = dataUrl.match(/:(.*?);/);
     if (!matches) {
       throw new Error('Invalid data URL');
-    }    
+    }
     const mime = matches[1];
     const bstr = atob(dataUrl.split(',')[1]);
     let n = bstr.length;
@@ -57,16 +57,16 @@ export default function DrawingPage() {
     return new File([u8arr], filename, { type: mime });
   }
   const onClick = async () => {
-    if (!canvasRef.current || isLoading || !myInfo) {      
+    if (!canvasRef.current || isLoading || !myInfo) {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
     if ((fabricCanvas && time === 0) || time === 99) {
       const imageData = fabricCanvas.toDataURL({
         format: 'png',
-        quality: 1.0,        
+        quality: 1.0,
       });
-      const imageFile = dataURLtoFile(imageData, 'canvas_image.png');
+      const imageFile = dataURLtoFile(imageData, `canvas_image.png`);
       try {
         if (toonData) {
           const toonUpdate = {

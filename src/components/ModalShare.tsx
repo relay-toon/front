@@ -1,5 +1,6 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { SetStateAction } from 'react';
+import { useGetToonInfo } from '../hooks/useGetToonInfo';
 
 interface ModalShare {
   id: string | string[];
@@ -11,9 +12,13 @@ export default function ModalShare({ id, isShare, setIsShare }: ModalShare) {
   const searchParam = useSearchParams();
   const path = usePathname();
   const count = searchParam.get('count');
+  const { data: toonData } = useGetToonInfo(id);
 
-  let currentUrl = `localhost:3000/prevPicture/${id}?count=${Number(count) + 1}`;
-  console.log(currentUrl);
+  let currentUrl =
+    toonData?.headCount === count
+      ? `localhost:3000/fisished-drawing/${id}?count=${count}`
+      : `localhost:3000/prevPicture/${id}?count=${Number(count) + 1}`;
+
   const onClick = () => {
     let t = document.createElement('textarea');
     console.log(currentUrl);
