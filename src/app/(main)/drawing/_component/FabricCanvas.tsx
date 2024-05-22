@@ -82,6 +82,7 @@ const FabricCanvas = forwardRef<FabricCanvasHandle, FabricCanvasProps>(
             img.set({ selectable: false, evented: false });
             img.scaleToWidth(canvas.width!);
             img.scaleToHeight(canvas.height!);
+
             canvas.add(img);
             canvas.sendToBack(img);
             canvas.renderAll();
