@@ -21,19 +21,31 @@ const config: Config = {
         'share-button': '#E0FF68',
       },
       keyframes: {
-        spin: {
-          from: {
-            transform: 'rotate(0deg)',
-          },
-          to: {
-            transform: 'rotate(360deg)',
-          },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        pulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
+        },
+      },
+      animation: {
+        fadeIn: 'fadeIn 1s ease-in-out',
+        pulse: 'pulse 1s infinite',
+      },
+      spin: {
+        from: {
+          transform: 'rotate(0deg)',
+        },
+        to: {
+          transform: 'rotate(360deg)',
         },
       },
     },
-    animation: {
-      'spin-2s': 'spin 2s linear infinite',
-    },
+  },
+  animation: {
+    'spin-2s': 'spin 2s linear infinite',
   },
   plugins: [require('tailwind-scrollbar-hide')],
 };

@@ -34,9 +34,17 @@ export default function FinishedDrawing() {
         &nbsp;<span className="text-[#9B9B9B]">그림 완성!</span>
       </div>
       <div className="mt-3 text-lg">
-        <div className="flex justify-center">다음 순서로 그릴 멤버들에게</div>
         <div className="flex justify-center">
-          <span className="font-bold">링크를 공유</span>
+          {toon?.participants.length === toon.headCount
+            ? `완성된 그림을`
+            : `다음 순서로 그릴 멤버들에게`}
+        </div>
+        <div className="flex justify-center">
+          <span className="font-bold">
+            {toon?.participants.length === toon.headCount
+              ? `멤버들에게 공유`
+              : `링크를 공유`}
+          </span>
           해주세요!
         </div>
       </div>
