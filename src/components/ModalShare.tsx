@@ -20,7 +20,7 @@ export default function ModalShare({
   const path = usePathname();
   const count = searchParam.get('count');
   const { data: toonData } = useGetToonInfo(id);
-  console.log(toonData?.headCount, count, toonData?.headCount === count);
+  // console.log(toonData?.headCount, count, toonData?.headCount === count);
   let currentUrl =
     toonData?.headCount === Number(count) || finished
       ? `localhost:3000/finished-drawing/${id}?count=${count}`
