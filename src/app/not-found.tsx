@@ -1,8 +1,6 @@
-// pages/404.tsx
-import { NextPage } from 'next';
 import Link from 'next/link';
 
-const Custom404: NextPage = () => {
+export default function NotFoundPage() {
   return (
     <div className="from-primary to-secondary flex flex-col items-center justify-center bg-gradient-to-r text-black">
       <div className="animate-fadeIn text-center">
@@ -21,6 +19,4 @@ const Custom404: NextPage = () => {
       </div>
     </div>
   );
-};
-
-export default Custom404;
+}
