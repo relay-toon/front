@@ -17,7 +17,7 @@ export default function ModalShare({ id, isShare, setIsShare }: ModalShare) {
 console.log(toonData?.headCount, count, toonData?.headCount === count)
   let currentUrl =
     toonData?.headCount === Number(count)
-      ? `localhost:3000/fisished-drawing/${id}?count=${count}`
+      ? `localhost:3000/finished-drawing/${id}?count=${count}`
       : `localhost:3000/prevPicture/${id}?count=${Number(count) + 1}`;
 
   const onClick = () => {
