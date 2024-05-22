@@ -9,6 +9,21 @@ export default function MyGallery() {
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [completed, setCompleted] = useState(false);
+  const maxButtons = 5;
+  const halfMaxButtons = Math.floor(maxButtons / 2);
+
+  let startPage, endPage;
+
+  if (pageNumber <= halfMaxButtons) {
+    startPage = 1;
+    endPage = Math.min(totalPages, maxButtons);
+  } else if (pageNumber + halfMaxButtons >= totalPages) {
+    startPage = Math.max(1, totalPages - maxButtons + 1);
+    endPage = totalPages;
+  } else {
+    startPage = pageNumber - halfMaxButtons;
+    endPage = pageNumber + halfMaxButtons;
+  }
   const { data: myCreatedToon, refetch: refetchCreated } = useGetMyCreatedToon(
     pageNumber,
     completed,
@@ -26,6 +41,10 @@ export default function MyGallery() {
     if (newPage !== pageNumber) {
       setPageNumber(newPage);
     }
+    window.scrollTo({
+      top: window.scrollY,
+      behavior: 'auto',
+    });
   };
   useEffect(() => {
     if (pageNumber === 1) {
@@ -160,13 +179,13 @@ export default function MyGallery() {
       )}
 
       <div className="mt-5 flex justify-center">
-        {Array.from({ length: totalPages }, (_, i) => (
+        {Array.from({ length: endPage - startPage + 1 }, (_, i) => (
           <button
-            key={i + 1}
-            onClick={() => handlePageChange(i + 1)}
-            className={`mx-1 p-2 text-lg ${pageNumber === i + 1 ? 'font-bold' : 'font-normal'}`}
+            key={startPage + i}
+            onClick={() => handlePageChange(startPage + i)}
+            className={`mx-1 p-2 text-lg ${pageNumber === startPage + i ? 'font-bold' : 'font-normal'}`}
           >
-            {i + 1}
+            {startPage + i}
           </button>
         ))}
       </div>

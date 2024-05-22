@@ -7,16 +7,19 @@
   padding: 0;
   box-sizing: border-box;
 }
+*::-webkit-scrollbar {
+  display: none;
+}
+
 html,
 body {
   min-width: 24.375rem;
+  min-height: 754px;
   background-color: rgb(230, 230, 230);
   display: flex;
   justify-content: center;
   font-family: 'Pretendard Variable', sans-serif;
-  min-height: 754px;
   scroll-behavior: smooth;
-  height: 100%;  
 }
 
 @font-face {
