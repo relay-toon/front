@@ -60,7 +60,7 @@ export default function DrawingPage() {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
-    if ((fabricCanvas && time === 0) || time === 99) {
+    if ((fabricCanvas && time === 0) || time === 86400) {
       const imageData = fabricCanvas.toDataURL({
         format: 'png',
         quality: 1.0,

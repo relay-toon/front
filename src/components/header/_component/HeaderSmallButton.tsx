@@ -33,7 +33,7 @@ export default function HeaderSmallButton({
   return (
     <div>
       <div className="mr-5 py-[6px]">
-        {time === 99 || time === 0 ? (
+        {time === 86400 || time === 0 ? (
           <button
             className="custom-waguri-font h-[36px] w-[70px] rounded-[6px] bg-[#E0FF68] text-black"
             onClick={onClick}
