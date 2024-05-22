@@ -65,7 +65,7 @@ export default function DrawingPage() {
         format: 'png',
         quality: 1.0,
       });
-      const imageFile = dataURLtoFile(imageData, 'canvas_image.png');
+      const imageFile = dataURLtoFile(imageData, `canvas_image.png`);
       try {
         if (toonData) {
           const toonUpdate = {

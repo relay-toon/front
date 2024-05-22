@@ -25,7 +25,7 @@ export default function ItemPage({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="relative mb-[100px]">
+    <div className="mb-[100px]">
       {showModal && (
         <div
           className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50"
@@ -72,9 +72,9 @@ export default function ItemPage({ params }: { params: { id: string } }) {
           />
         </div>
       </div>
-      <div className="relative mt-5 flex justify-center gap-[14px]">
+      <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
-        <ShareButton />
+        <ShareButton id={id} />
       </div>
     </div>
   );
