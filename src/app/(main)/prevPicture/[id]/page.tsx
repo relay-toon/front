@@ -5,8 +5,8 @@ import LoadingSpinner from '@/src/components/LoadingSpinner';
 import MyPageSideBar from '@/src/components/MypageSidebar';
 import MenuHeader from '@/src/components/header/MenuHeader';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
+import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useRef, useState } from 'react';
 
@@ -17,8 +17,9 @@ export default function PrevPicture() {
   const router = useRouter();
   const { id } = useParams();
   const searchParam = useSearchParams();
+  const { data: ToonInfo, isLoading } = useGetToonInfo(params.id);
+  const { data: MyInfo } = useGetMyInfo();
   let count = searchParam.get('count');
-  console.log(count);
 
   const onClick = () => {
     const canvas = canvasRef.current;
@@ -26,19 +27,19 @@ export default function PrevPicture() {
     console.log(data);
     console.log(canvas);
   };
-
   const onDrawingClick = () => {
+    if (ToonInfo.participants.filter((id: string) => id === MyInfo.id)) {
+      alert('이미 참여한 그림입니다!');
+      return;
+    }
     router.push(`/drawing/${id}?count=${count}`);
   };
-
-  const { data: myCreatedToon, isLoading } = useGetToonInfo(params.id);
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
-  console.log('myCreatedToon : ', myCreatedToon);
 
-  const headCount = new Array(myCreatedToon.headCount).fill(0);
+  const headCount = new Array(ToonInfo.headCount).fill(0);
 
   return (
     <div>
@@ -48,16 +49,14 @@ export default function PrevPicture() {
       <div className="mb-[1rem] mt-[48px] flex flex-col">
         <div className=" mt-[7px] flex flex-col items-center gap-[16px]">
           <div className="custom-waguri-font flex text-[24px] font-[400]">
-            <span>
-              {myCreatedToon?.participants.length + 1}번째로&nbsp;&nbsp;
-            </span>
+            <span>{ToonInfo?.participants.length + 1}번째로&nbsp;&nbsp;</span>
             <span className="text-[#9B9B9B]">그리기</span>
           </div>
           <div className="custom-pretendard-font flex h-[44px] flex-col items-center text-[14px] font-[600] leading-[22.4px]">
             <span>
               릴레이툰의 {}
               <span className="text-[#666666]">
-                {myCreatedToon.participants.length + 1}번째 주자
+                {ToonInfo.participants.length + 1}번째 주자
               </span>
               입니다
             </span>
@@ -90,9 +89,9 @@ export default function PrevPicture() {
           </div>
         </div>
         <div className="mt-[20px] flex justify-center">
-          {myCreatedToon.image ? (
+          {ToonInfo.image ? (
             <Image
-              src={myCreatedToon.image}
+              src={ToonInfo.image}
               width={280}
               height={364}
               alt="prevImage"
@@ -102,9 +101,7 @@ export default function PrevPicture() {
             <div className="h-[384px] w-[280px] bg-white" />
           )}
         </div>
-        <div
-          className="mt-4 flex justify-center"
-        >
+        <div className="mt-4 flex justify-center">
           <div className="py-[14px]">
             <LargeBtn
               text="이어 그리기"

@@ -6,20 +6,27 @@ import Image from 'next/image';
 import { useState } from 'react';
 import MemberModal from '../_component/MemberModal';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
+import { useDeleteToon } from '@/src/hooks/useDeleteToon';
+import { useRouter } from 'next/navigation';
 
 export default function ItemPage({ params }: { params: { id: string } }) {
   const now = Date.now();
   const date = new Date(now).toLocaleDateString();
   const id = params.id;
   const { data: toon } = useGetToonInfo(id);
-  // console.log(toon);
   const [showModal, setShowModal] = useState(false);
+  const { mutate: deleteToon } = useDeleteToon();
+  const router = useRouter();
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setShowModal(false);
     }
   };
 
+  const handleDeleteToon = () => {
+    confirm('정말 삭제하시겠습니까?');
+    deleteToon(id);
+  };
   const handleOpenModal = () => {
     setShowModal(true);
   };
@@ -63,7 +70,7 @@ export default function ItemPage({ params }: { params: { id: string } }) {
           className=" flex cursor-pointer flex-row items-center"
           onClick={handleOpenModal}
         >
-          {toon?.participants.length}명
+          {toon?.participants?.length}명
           <Image
             src="/svg/right-arrow.svg"
             alt="arrow"
@@ -72,6 +79,7 @@ export default function ItemPage({ params }: { params: { id: string } }) {
           />
         </div>
       </div>
+      <button onClick={handleDeleteToon}>삭제하기</button>
       <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
         <ShareButton id={id} />

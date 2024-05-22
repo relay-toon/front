@@ -14,7 +14,7 @@ export default function StartModal({ setStart, time }: IStartModal) {
 
   return (
     <div className="absolute bottom-0 z-50 flex h-[367px] w-[391px] flex-col rounded-t-3xl bg-white">
-      {time !== 99 ? (
+      {time !== 86400 ? (
         <>
           {' '}
           <div className="custom-pretendard-font mt-12 flex justify-center text-center font-semibold">
@@ -48,7 +48,7 @@ export default function StartModal({ setStart, time }: IStartModal) {
               src="/svg/timer.svg"
               alt="timer"
               width={40.4}
-              height={30.97}  
+              height={30.97}
               className="ml-[30px]"
             />
 
