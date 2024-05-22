@@ -28,9 +28,7 @@ export const usePutToon = () => {
   return useMutation({
     mutationFn: (toonData: Toon) => putToon(toonData, axiosInstance),
     onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        predicate: (query) => query.queryKey.includes('toon', data.id),
-      });
+      queryClient.invalidateQueries({ queryKey: ['toon', data.id] });
     },
 
     onError: () => {
