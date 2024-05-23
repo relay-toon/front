@@ -3,8 +3,9 @@ import BackHeader from '@/src/components/header/BackHeader';
 import { useGetMyCreatedToon } from '@/src/hooks/useGetMyCreatedToon';
 import { useGetMyParticipatedToon } from '@/src/hooks/useGetMyParticipatedToon';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useDeleteToon } from '@/src/hooks/useDeleteToon';
 
 export default function MyGallery() {
   const searchParams = useSearchParams();
@@ -88,7 +89,53 @@ export default function MyGallery() {
 
   const createdToons = myCreatedToon?.toons || [];
   const participatedToons = myParticipatedToon?.toons || [];
+  const { mutate: deleteToon } = useDeleteToon();
+  const [isDelete, setIsDelete] = useState(false);
+  const [selectedToons, setSelectedToons] = useState<string[]>([]);
 
+  const onClickIsDelte = () => {
+    setIsDelete((prev) => !prev);
+    setSelectedToons([]);
+  };
+
+  const selectAll = () => {
+    const all = document.getElementById('all') as HTMLInputElement;
+    const toons = document.querySelectorAll(
+      'input[name=toon]',
+    ) as NodeListOf<HTMLInputElement>;
+
+    if (all.checked) {
+      const allToonIds = createdToons.map((toon: any) => toon.id);
+      setSelectedToons(allToonIds);
+      toons.forEach((toon) => (toon.checked = true));
+    } else {
+      setSelectedToons([]);
+      toons.forEach((toon) => (toon.checked = false));
+    }
+    console.log(selectedToons);
+  };
+
+  const onCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setSelectedToons((prev) =>
+      e.target.checked ? [...prev, value] : prev.filter((id) => id !== value),
+    );
+    console.log(selectedToons);
+  };
+  const onDeleteClick = () => {
+    if (selectedToons.length !== 0) {
+      confirm('정말 삭제하시겠습니까?');
+      deleteToon(selectedToons, {
+        onSuccess: () => {
+          refetchCreated();
+          setSelectedToons([]);
+          setIsDelete(false);
+        },
+      });
+    } else {
+      alert('삭제할 그림을 선택하세요');
+    }
+  };
   return (
     <div className="min-h-[754px]">
       <div className="flex">
@@ -127,8 +174,18 @@ export default function MyGallery() {
       <hr className="border-1 border-solid border-[#C7C7C7]" />
       {tab === 'create' ? (
         <>
-          <div className="ml-5 mt-[29px] font-bold">
+          <div className="mt-[29px] flex justify-between px-5 font-bold">
             <span>총 {createdToons.length}장</span>
+            <div className="cursor-pointer">
+              {isDelete ? (
+                <div>
+                  <span onClick={onDeleteClick}>Delete</span>
+                  <input id="all" type="checkbox" onClick={selectAll} />
+                </div>
+              ) : (
+                <span onClick={onClickIsDelte}>Edit</span>
+              )}
+            </div>
           </div>
           <div className="flex flex-col items-center">
             {createdToons.map((toon: any, index: number) => {
@@ -155,6 +212,14 @@ export default function MyGallery() {
                     <div className="text-base font-semibold text-[#9E9E9E]">
                       {formattedDate}
                     </div>
+                    {isDelete && (
+                      <input
+                        name="toon"
+                        type="checkbox"
+                        value={toon.id}
+                        onChange={onCheckboxClick}
+                      />
+                    )}
                   </div>
                 </div>
               );

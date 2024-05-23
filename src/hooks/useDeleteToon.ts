@@ -3,12 +3,19 @@ import { useAxios } from '../lib/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-const deleteToon = async (toonId: string, axiosInstance: AxiosInstance) => {
-  const response = await axiosInstance.delete(`/toons/${toonId}`);
-  if (response.status === 204) {
-    return {};
+const deleteToon = async (toonId: string[], axiosInstance: AxiosInstance) => {
+  if(toonId.length === 0){
+    alert('삭제할 그림을 선택하세요')
+    return;
   }
-  return response.data;
+  const deleteAll = toonId.map((id) => axiosInstance.delete(`/toons/${id}`));
+  const response = await Promise.all(deleteAll);
+  
+  return response.every((response) => response.status === 204);
+  // if (response.status === 204) {
+  //   return {};
+  // }
+  // return response.data;
 };
 
 export const useDeleteToon = () => {
@@ -17,7 +24,7 @@ export const useDeleteToon = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (toonId: string) => deleteToon(toonId, axiosInstance),
+    mutationFn: (toonId: string[]) => deleteToon(toonId, axiosInstance),    
     onSuccess: () => {
       queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('myCreatedToon'),
