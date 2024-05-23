@@ -33,7 +33,7 @@ export default function DrawingPage() {
   const [painterName, setPainterName] = useState('');
   const canvasRef = useRef<any>(null);
   const router = useRouter();
-
+  console.log(toonData);
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
 
