@@ -49,6 +49,7 @@ export default function MyGallery() {
     if (newPage !== pageNumber && newPage >= 1 && newPage <= totalPages) {
       setPageNumber(newPage);
       router.push(`?tab=${tab}&page=${newPage}`);
+      window.scrollTo(0, 0);
     }
   };
 
