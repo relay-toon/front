@@ -8,7 +8,7 @@ import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGetLock } from '@/src/hooks/useGetLock';
 
 export default function PrevPicture() {
@@ -17,27 +17,34 @@ export default function PrevPicture() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const searchParam = useSearchParams();
-  const { data: ToonInfo } = useGetToonInfo(params.id);
-  const { data: MyInfo } = useGetMyInfo();
+  const { data: toonInfo } = useGetToonInfo(params.id);
+  const { data: myInfo } = useGetMyInfo();
   const { refetch: GetLock } = useGetLock(params.id);
   let count = searchParam.get('count');
-  console.log(ToonInfo);
-  console.log(MyInfo);
+
+  useEffect(() => {
+    if (toonInfo && toonInfo?.participants?.length === toonInfo.headCount) {
+      alert('이미 완성된 그림입니다.');
+      router.push('/');
+    }
+  }, []);
+  if (!toonInfo || !myInfo) {
+    return <LoadingSpinner />;
+  }
+
   const onClick = () => {
     const canvas = canvasRef.current;
     const data = canvas?.toDataURL();
     console.log(data);
     console.log(canvas);
   };
-  if (!ToonInfo || !MyInfo) {
-    return <LoadingSpinner />;
-  }
+
   const onDrawingClick = async () => {
-    if (ToonInfo.participants.includes(MyInfo.id)) {
-      alert('이미 참여한 그림입니다!');
+    if (toonInfo.participants.includes(myInfo.id)) {
+      alert('이미 참여한 그림입니다.');
       return router.push('/');
     }
-    if (ToonInfo.lockId !== null) {
+    if (toonInfo.lockId !== null) {
       alert('현재 누군가 열심히 그리고 있습니다.');
       return;
     } else {
@@ -48,7 +55,7 @@ export default function PrevPicture() {
     }
   };
 
-  const headCount = new Array(ToonInfo.headCount).fill(0);
+  const headCount = new Array(toonInfo.headCount).fill(0);
 
   return (
     <div>
@@ -58,14 +65,14 @@ export default function PrevPicture() {
       <div className="mb-[1rem] mt-[48px] flex flex-col">
         <div className=" mt-[7px] flex flex-col items-center gap-[16px]">
           <div className="custom-waguri-font flex text-[24px] font-[400]">
-            <span>{ToonInfo?.participants.length + 1}번째로&nbsp;&nbsp;</span>
+            <span>{toonInfo?.participants.length + 1}번째로&nbsp;&nbsp;</span>
             <span className="text-[#9B9B9B]">그리기</span>
           </div>
           <div className="custom-pretendard-font flex h-[44px] flex-col items-center text-[14px] font-[600] leading-[22.4px]">
             <span>
               릴레이툰의 {}
               <span className="text-[#666666]">
-                {ToonInfo.participants.length + 1}번째 주자
+                {toonInfo.participants.length + 1}번째 주자
               </span>
               입니다
             </span>
@@ -98,9 +105,9 @@ export default function PrevPicture() {
           </div>
         </div>
         <div className="mt-[20px] flex justify-center">
-          {ToonInfo.image ? (
+          {toonInfo.image ? (
             <Image
-              src={ToonInfo.image}
+              src={toonInfo.image}
               width={280}
               height={364}
               alt="prevImage"
@@ -112,8 +119,8 @@ export default function PrevPicture() {
         </div>
         <div className="mt-4 flex justify-center">
           <div className="py-[14px]">
-            {ToonInfo.participants.includes(MyInfo.id) ||
-            ToonInfo.lockId !== null ? (
+            {toonInfo.participants.includes(myInfo.id) ||
+            toonInfo.lockId !== null ? (
               <LargeBtn
                 text="이어 그리기"
                 onClick={onDrawingClick}
