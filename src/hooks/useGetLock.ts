@@ -12,5 +12,6 @@ export const useGetLock = (toonId: string) => {
   return useQuery({
     queryKey: ['getLock', toonId],
     queryFn: () => getLock(toonId, axiosInstance),
+    enabled: false,
   });
 };
