@@ -6,10 +6,12 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ModalLogout from '@/src/components/ModalLogout';
 import ModalCancelAccount from '@/src/components/ModalCancelAccount';
+import { useAuthStore } from '@/src/store/authStore';
 
 export default function Mypage() {
   const [isDelete, setIsDelete] = useState(false);
   const [isLogout, setIsLogout] = useState(false);
+  const { isLoggedIn } = useAuthStore();
 
   const router = useRouter();
   const onClick = () => {
@@ -22,6 +24,15 @@ export default function Mypage() {
 
   const deleteAccount = () => {
     setIsDelete(true);
+  };
+
+  const handleLinkClick = (e: React.MouseEvent, path: string) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      router.push('/login');
+    } else {
+      router.push(path);
+    }
   };
   return (
     <div className="relative h-screen bg-[#F7F7F7]">
@@ -67,13 +78,19 @@ export default function Mypage() {
 
         <div className="flex h-[183px] flex-col gap-6 bg-white px-5 py-[28px]">
           <span className="text-[14px] text-[#9B9B9B]">기타</span>
-          <div className="flex items-center justify-between">
+          <div
+            onClick={(e) => handleLinkClick(e, '/coming-soon')}
+            className="flex cursor-pointer items-center justify-between"
+          >
             <span className="text-[18px] font-semibold">약관 및 정책</span>
             <div className="h-[18px] w-[16px]">
               <Image src="/img/right.png" width={16} height={18} alt="right" />
             </div>
           </div>
-          <div className="flex items-center justify-between">
+          <div
+            onClick={(e) => handleLinkClick(e, '/coming-soon')}
+            className="flex cursor-pointer items-center justify-between"
+          >
             <span className="text-[18px] font-semibold">
               개인 정보 처리 방침
             </span>
@@ -84,19 +101,9 @@ export default function Mypage() {
         </div>
       </div>
       {isDelete ? (
-        <div
-          className="margin-auto fixed top-0 h-[100vh] w-[390px] overflow-hidden"
-          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
-        >
-          <ModalCancelAccount setIsDelete={setIsDelete} />
-        </div>
+        <ModalCancelAccount setIsDelete={setIsDelete} />
       ) : isLogout ? (
-        <div
-          className="margin-auto fixed top-0 h-[100vh] w-[390px] overflow-hidden"
-          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
-        >
-          <ModalLogout isLogout={isLogout} setIsLogout={setIsLogout} />
-        </div>
+        <ModalLogout isLogout={isLogout} setIsLogout={setIsLogout} />
       ) : null}
     </div>
   );

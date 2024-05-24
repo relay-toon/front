@@ -9,35 +9,44 @@ import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useRef, useState } from 'react';
+import { useGetLock } from '@/src/hooks/useGetLock';
 
 export default function PrevPicture() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const { id } = useParams();
   const searchParam = useSearchParams();
-  const { data: ToonInfo, isLoading } = useGetToonInfo(params.id);
+  const { data: ToonInfo } = useGetToonInfo(params.id);
   const { data: MyInfo } = useGetMyInfo();
+  const { refetch: GetLock } = useGetLock(params.id);
   let count = searchParam.get('count');
-
+  console.log(ToonInfo);
+  console.log(MyInfo);
   const onClick = () => {
     const canvas = canvasRef.current;
     const data = canvas?.toDataURL();
     console.log(data);
     console.log(canvas);
   };
-  const onDrawingClick = () => {
-    if (ToonInfo.participants.filter((id: string) => id === MyInfo.id)) {
-      alert('이미 참여한 그림입니다!');
-      return;
-    }
-    router.push(`/drawing/${id}?count=${count}`);
-  };
-
-  if (isLoading) {
+  if (!ToonInfo || !MyInfo) {
     return <LoadingSpinner />;
   }
+  const onDrawingClick = async () => {
+    if (ToonInfo.participants.includes(MyInfo.id)) {
+      alert('이미 참여한 그림입니다!');
+      return router.push('/');
+    }
+    if (ToonInfo.lockId !== null) {
+      alert('현재 누군가 열심히 그리고 있습니다.');
+      return;
+    } else {
+      const lockResponse = await GetLock();
+      if (lockResponse.data) {
+        router.push(`/drawing/${params.id}?count=${count}`);
+      }
+    }
+  };
 
   const headCount = new Array(ToonInfo.headCount).fill(0);
 
@@ -103,11 +112,20 @@ export default function PrevPicture() {
         </div>
         <div className="mt-4 flex justify-center">
           <div className="py-[14px]">
-            <LargeBtn
-              text="이어 그리기"
-              onClick={onDrawingClick}
-              active={true}
-            />
+            {ToonInfo.participants.includes(MyInfo.id) ||
+            ToonInfo.lockId !== null ? (
+              <LargeBtn
+                text="이어 그리기"
+                onClick={onDrawingClick}
+                active={false}
+              />
+            ) : (
+              <LargeBtn
+                text="이어 그리기"
+                onClick={onDrawingClick}
+                active={true}
+              />
+            )}
           </div>
         </div>
         {isOpen && (

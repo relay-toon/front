@@ -33,7 +33,7 @@ export default function DrawingPage() {
   const [painterName, setPainterName] = useState('');
   const canvasRef = useRef<any>(null);
   const router = useRouter();
-
+  console.log(toonData);
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
 
@@ -74,6 +74,19 @@ export default function DrawingPage() {
             name: painterName,
             userId: myInfo.id || '',
             id: toonData.id,
+          };
+          setIsComplete(true);
+          uploadToon(toonUpdate);
+
+          router.push(`/finished-drawing/${id}?count=${count}`);
+        }
+        if (toonData && toonData?.participants.length === toonData?.headCount) {
+          const toonUpdate = {
+            ...toonData,
+            image: imageFile,
+            name: painterName,
+            id: toonData.id,
+            isComplete: true,
           };
           setIsComplete(true);
           uploadToon(toonUpdate);
