@@ -1,5 +1,4 @@
-import { usePathname, useSearchParams } from 'next/navigation';
-import { SetStateAction, useRef } from 'react';
+import { SetStateAction } from 'react';
 import { useGetToonInfo } from '../hooks/useGetToonInfo';
 
 interface ModalShare {
@@ -8,10 +7,7 @@ interface ModalShare {
 }
 
 export default function ModalShare({ id, setIsShare }: ModalShare) {
-  const searchParam = useSearchParams();
-  const count = searchParam.get('count');
   const { data: toonData } = useGetToonInfo(id);
-  console.log(toonData);
   let currentUrl =
     toonData?.headCount === toonData?.participants?.length
       ? `/item/${toonData.id}`
@@ -19,7 +15,6 @@ export default function ModalShare({ id, setIsShare }: ModalShare) {
 
   const onClick = () => {
     let t = document.createElement('textarea');
-    console.log(currentUrl);
     document.body.appendChild(t);
     t.value = currentUrl;
     t.select();
