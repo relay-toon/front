@@ -1,5 +1,6 @@
 import { SetStateAction } from 'react';
 import { useGetToonInfo } from '../hooks/useGetToonInfo';
+import LoadingSpinner from './LoadingSpinner';
 
 interface ModalShare {
   id: string | string[];
@@ -7,10 +8,13 @@ interface ModalShare {
 }
 
 export default function ModalShare({ id, setIsShare }: ModalShare) {
-  const { data: toonData } = useGetToonInfo(id);
+  const { data: toonData, isLoading } = useGetToonInfo(id);
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
   let currentUrl =
     toonData?.headCount === toonData?.participants?.length
-      ? `/item/${toonData.id}`
+      ? `/item/${toonData?.id}`
       : `/prevPicture/${id}?count=${toonData?.participants?.length + 1}`;
 
   const onClick = () => {

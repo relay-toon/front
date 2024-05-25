@@ -7,7 +7,6 @@ import { useState } from 'react';
 import MemberModal from '../_component/MemberModal';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
-import { useRouter } from 'next/navigation';
 
 export default function ItemPage({ params }: { params: { id: string } }) {
   const now = Date.now();
@@ -16,12 +15,12 @@ export default function ItemPage({ params }: { params: { id: string } }) {
   const { data: toon } = useGetToonInfo(id);
   const [showModal, setShowModal] = useState(false);
   const { mutate: deleteToon } = useDeleteToon();
-  const router = useRouter();
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setShowModal(false);
     }
   };
+  console.log(toon);
 
   const handleDeleteToon = () => {
     confirm('정말 삭제하시겠습니까?');

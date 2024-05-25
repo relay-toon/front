@@ -13,13 +13,14 @@ const getMyCreatedToon = async (
       completed,
     },
   });
+  console.log(response.data);
   return response.data;
 };
 
 export const useGetMyCreatedToon = (page: number, completed: boolean) => {
   const { axiosInstance } = useAxios();
   return useQuery({
-    queryKey: ['myCreatedToon', page],
+    queryKey: ['myCreatedToon', page, completed],
     queryFn: () => getMyCreatedToon(axiosInstance, page, completed),
     staleTime: 1000 * 60 * 30,
   });
