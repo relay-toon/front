@@ -88,6 +88,7 @@ const FabricCanvas = forwardRef<FabricCanvasHandle, FabricCanvasProps>(
             canvas.renderAll();
           } else {
             setError('이미지를 불러오는 중 오류가 발생했습니다.');
+            alert(error);
           }
         },
         { crossOrigin: 'anonymous' },
@@ -175,7 +176,6 @@ const FabricCanvas = forwardRef<FabricCanvasHandle, FabricCanvasProps>(
           height={407}
           className="rounded-lg"
         />
-        {error && <div className="error">{error}</div>}
         <div className="ml-auto mr-auto mt-3 flex h-[45px] w-[350px] rounded-lg bg-[#EAEAEA]">
           <span className="ml-[18.5px] flex items-center text-base font-extrabold">
             크기

@@ -21,13 +21,13 @@ export default function PrevPicture() {
   const { data: myInfo } = useGetMyInfo();
   const { refetch: GetLock } = useGetLock(params.id);
   let count = searchParam.get('count');
-
   useEffect(() => {
-    if (toonInfo && toonInfo?.participants?.length === toonInfo.headCount) {
+    if (toonInfo && toonInfo.completed === true) {
       alert('이미 완성된 그림입니다.');
       router.push('/');
     }
-  }, []);
+    console.log(toonInfo);
+  }, [toonInfo]);
   if (!toonInfo || !myInfo) {
     return <LoadingSpinner />;
   }
@@ -40,7 +40,10 @@ export default function PrevPicture() {
   };
 
   const onDrawingClick = async () => {
-    if (toonInfo.participants.includes(myInfo.id)) {
+    if (
+      toonInfo.ownerId === myInfo.id ||
+      toonInfo.participants.includes(myInfo.id)
+    ) {
       alert('이미 참여한 그림입니다.');
       return router.push('/');
     }
