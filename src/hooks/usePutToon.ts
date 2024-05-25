@@ -27,8 +27,8 @@ export const usePutToon = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (toonData: Toon) => putToon(toonData, axiosInstance),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['toon', data.id] });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myParticipatedToon'] });
     },
 
     onError: () => {

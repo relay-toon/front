@@ -1,6 +1,10 @@
 import { AxiosInstance } from 'axios';
 import { useAxios } from '../lib/axios';
-import { useMutation, UseMutationOptions } from '@tanstack/react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 interface ToonData {
   title: string;
@@ -23,11 +27,15 @@ const postToon = async (
 
 export const usePostToon = () => {
   const { axiosInstance } = useAxios();
+  const queryClient = useQueryClient();
 
   const mutationFn = (toonData: ToonData) => postToon(axiosInstance, toonData);
 
   const options: UseMutationOptions<any, Error, ToonData, unknown> = {
     mutationFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myCreatedToon'] });
+    },
   };
 
   return useMutation<any, Error, ToonData, unknown>(options);

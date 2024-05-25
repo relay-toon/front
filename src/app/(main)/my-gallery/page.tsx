@@ -37,7 +37,7 @@ export default function MyGallery() {
 
   const { data: myParticipatedToon, refetch: refetchParticipated } =
     useGetMyParticipatedToon(pageNumber, completed);
-
+  console.log(myParticipatedToon);
   const handleTabChange = (newTab: 'create' | 'participate') => {
     if (newTab !== tab) {
       setTab(newTab);
@@ -244,8 +244,8 @@ export default function MyGallery() {
                         src={toon.image}
                         alt={toon.title}
                         width={350}
-                        height={204}
                         className="mt-5 rounded-xl"
+                        style={{ height: 204 }}
                       />
                     ) : (
                       <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
