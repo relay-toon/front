@@ -15,7 +15,7 @@ export default function MyGallery() {
   const [tab, setTab] = useState<'create' | 'participate'>(initialTab);
   const [pageNumber, setPageNumber] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [isAll, setIsAll] = useState(false);
   const [completed, setCompleted] = useState(false);
   const maxButtons = 5;
 
@@ -37,7 +37,7 @@ export default function MyGallery() {
 
   const { data: myParticipatedToon, refetch: refetchParticipated } =
     useGetMyParticipatedToon(pageNumber, completed);
-  console.log(myParticipatedToon);
+
   const handleTabChange = (newTab: 'create' | 'participate') => {
     if (newTab !== tab) {
       setTab(newTab);
@@ -112,7 +112,6 @@ export default function MyGallery() {
       setSelectedToons([]);
       toons.forEach((toon) => (toon.checked = false));
     }
-    console.log(selectedToons);
   };
 
   const onCheckboxClick = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -120,18 +119,20 @@ export default function MyGallery() {
     setSelectedToons((prev) =>
       e.target.checked ? [...prev, value] : prev.filter((id) => id !== value),
     );
-    console.log(selectedToons);
   };
   const onDeleteClick = () => {
     if (selectedToons.length !== 0) {
-      confirm('정말 삭제하시겠습니까?');
-      deleteToon(selectedToons, {
-        onSuccess: () => {
-          refetchCreated();
-          setSelectedToons([]);
-          setIsDelete(false);
-        },
-      });
+      if (confirm('정말 삭제하시겠습니까?')) {
+        deleteToon(selectedToons, {
+          onSuccess: () => {
+            refetchCreated();
+            setSelectedToons([]);
+            setIsDelete(false);
+          },
+        });
+      } else {
+        return;
+      }
     } else {
       alert('삭제할 그림을 선택하세요');
     }
@@ -175,15 +176,59 @@ export default function MyGallery() {
       {tab === 'create' ? (
         <>
           <div className="mt-[29px] flex justify-between px-5 font-bold">
-            <span>총 {createdToons.length}장</span>
-            <div className="cursor-pointer">
+            <div className="flex items-center">
+              <span>총 {createdToons.length}장</span>
+              {isDelete && (
+                <div className='flex gap-2 items-center'>
+                  <input
+                    id="all"
+                    type="checkbox"
+                    className="ml-3 size-5 accent-[#E0FF68]"
+                    onClick={selectAll}
+                  />
+                  <div className="cursor-pointer" onClick={onDeleteClick}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div>
               {isDelete ? (
-                <div>
-                  <span onClick={onDeleteClick}>Delete</span>
-                  <input id="all" type="checkbox" onClick={selectAll} />
+                <div className="flex w-[150px] items-center justify-end gap-3">
+                  <div className="cursor-pointer" onClick={onClickIsDelte}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636"
+                      />
+                    </svg>
+                  </div>
                 </div>
               ) : (
-                <span onClick={onClickIsDelte}>Edit</span>
+                <span className="cursor-pointer" onClick={onClickIsDelte}>
+                  Edit
+                </span>
               )}
             </div>
           </div>
@@ -207,18 +252,25 @@ export default function MyGallery() {
                   ) : (
                     <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
                   )}
-                  <div className="align-center mt-4 flex flex-row justify-between">
+                  <div className="align-center relative mt-4 flex flex-row justify-between">
                     <div className="text-base font-semibold">{toon.title}</div>
                     <div className="text-base font-semibold text-[#9E9E9E]">
                       {formattedDate}
                     </div>
                     {isDelete && (
-                      <input
-                        name="toon"
-                        type="checkbox"
-                        value={toon.id}
-                        onChange={onCheckboxClick}
-                      />
+                      <div className="absolute top-[-220px]">
+                        <div
+                          className="z-10 h-[204px] w-[350px] overflow-hidden rounded-xl "
+                          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+                        />
+                        <input
+                          name="toon"
+                          type="checkbox"
+                          value={toon.id}
+                          onChange={onCheckboxClick}
+                          className="z-60 absolute left-[46%] top-[41%] size-[40px] rounded-xl accent-[#E0FF68] opacity-50 "
+                        />
+                      </div>
                     )}
                   </div>
                 </div>
