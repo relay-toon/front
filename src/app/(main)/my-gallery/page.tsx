@@ -3,7 +3,7 @@ import BackHeader from '@/src/components/header/BackHeader';
 import { useGetMyCreatedToon } from '@/src/hooks/useGetMyCreatedToon';
 import { useGetMyParticipatedToon } from '@/src/hooks/useGetMyParticipatedToon';
 import Link from 'next/link';
-import { MouseEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
 
@@ -15,7 +15,6 @@ export default function MyGallery() {
   const [tab, setTab] = useState<'create' | 'participate'>(initialTab);
   const [pageNumber, setPageNumber] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-  const [isAll, setIsAll] = useState(false);
   const [completed, setCompleted] = useState(false);
   const maxButtons = 5;
 
@@ -179,7 +178,7 @@ export default function MyGallery() {
             <div className="flex items-center">
               <span>총 {createdToons.length}장</span>
               {isDelete && (
-                <div className='flex gap-2 items-center'>
+                <div className="flex items-center gap-2">
                   <input
                     id="all"
                     type="checkbox"
@@ -250,7 +249,9 @@ export default function MyGallery() {
                       />
                     </Link>
                   ) : (
-                    <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
+                    <Link href={`/item/${toon.id}`} key={index}>
+                      <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
+                    </Link>
                   )}
                   <div className="align-center relative mt-4 flex flex-row justify-between">
                     <div className="text-base font-semibold">{toon.title}</div>
@@ -300,7 +301,9 @@ export default function MyGallery() {
                         style={{ height: 204 }}
                       />
                     ) : (
-                      <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
+                      <Link href={`/item/${toon.id}`} key={index}>
+                        <div className="mt-5 h-[204px] w-[350px] rounded-xl bg-white"></div>
+                      </Link>
                     )}
                     <div className="align-center mt-4 flex flex-row justify-between">
                       <div className="text-base font-semibold">

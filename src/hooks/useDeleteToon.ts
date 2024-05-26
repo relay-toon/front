@@ -8,15 +8,11 @@ const deleteToon = async (
   axiosInstance: AxiosInstance,
 ) => {
   //  배열이면 그대로, 아니면 배열로 만들어서 전달
-  const ids = Array.isArray(toonId) ? toonId : [toonId]
+  const ids = Array.isArray(toonId) ? toonId : [toonId];
   const deleteAll = ids.map((id) => axiosInstance.delete(`/toons/${id}`));
   const response = await Promise.all(deleteAll);
 
   return response.every((response) => response.status === 204);
-  // if (response.status === 204) {
-  //   return {};
-  // }
-  // return response.data;
 };
 
 export const useDeleteToon = () => {
@@ -25,7 +21,8 @@ export const useDeleteToon = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (toonId: string | string[]) => deleteToon(toonId, axiosInstance),
+    mutationFn: (toonId: string | string[]) =>
+      deleteToon(toonId, axiosInstance),
     onSuccess: () => {
       queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('myCreatedToon'),

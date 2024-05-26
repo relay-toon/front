@@ -33,7 +33,6 @@ export default function DrawingPage() {
   const [painterName, setPainterName] = useState('');
   const canvasRef = useRef<any>(null);
   const router = useRouter();
-  console.log(toonData);
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
 
@@ -71,30 +70,22 @@ export default function DrawingPage() {
           const toonUpdate = {
             ...toonData,
             image: imageFile,
-            name: painterName,
+            name: myInfo?.name || painterName,
             userId: myInfo.id || '',
             id: toonData.id,
           };
           setIsComplete(true);
-          uploadToon(toonUpdate);
-
-          router.push(`/finished-drawing/${id}?count=${count}`);
-        }
-        if (toonData && toonData?.participants.length === toonData?.headCount) {
-          const toonUpdate = {
-            ...toonData,
-            image: imageFile,
-            name: painterName,
-            id: toonData.id,
-            isComplete: true,
-          };
-          setIsComplete(true);
-          uploadToon(toonUpdate);
-
-          router.push(`/finished-drawing/${id}?count=${count}`);
+          uploadToon(toonUpdate, {
+            onSuccess: () => {
+              router.push(`/finished-drawing/${id}?count=${count}`);
+            },
+            onError: () => {
+              alert('에러가 발생했습니다. 다시 시도해주세요.');
+            },
+          });
         }
       } catch (error) {
-        alert('에러가 발생했습니다. 다시 시도해주세요.');
+        console.log(error);
       }
     }
   };

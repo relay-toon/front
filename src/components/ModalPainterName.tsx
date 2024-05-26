@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { ChangeEvent, SetStateAction } from 'react';
+import { ChangeEvent, SetStateAction, useEffect } from 'react';
 import { useGetMyInfo } from '../hooks/useGetMyInfo';
 interface PainterName {
   setPainterName: React.Dispatch<SetStateAction<string>>;
@@ -18,6 +18,11 @@ export default function ModalPainterName({
     setPainterName(e.target.value);
   };
   const { data: myInfo } = useGetMyInfo();
+  useEffect(() => {
+    if (myInfo && myInfo?.name) {
+      setPainterName(myInfo.name);
+    }
+  }, []);
   return (
     <div className="absolute left-[12%] top-1/3 z-40 flex h-[280px] w-[296px] flex-col items-center justify-center rounded-[12px] bg-white px-5 py-3">
       <div className="custom-waguri-font flex flex-col items-center gap-2">
@@ -39,8 +44,8 @@ export default function ModalPainterName({
       <input
         required={true}
         maxLength={12}
-        value={myInfo?.name || painterName}
-        placeholder="이름/닉네임을 입력해주세요!"
+        value={painterName}
+        placeholder={myInfo?.name || '이름/닉네임을 입력해주세요!'}
         onChange={onNameChange}
         type="text"
         className="mt-[2px] h-[54px] w-[216px] rounded-lg border border-[#DEDEDE] p-4 placeholder:border placeholder:border-[#DEDEDE] placeholder:text-[16px] focus:ring-1 focus:ring-black"
