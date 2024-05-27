@@ -45,7 +45,7 @@ export default function ModalPainterName({
         required={true}
         maxLength={12}
         value={painterName}
-        placeholder={myInfo?.name || '이름/닉네임을 입력해주세요!'}
+        placeholder={'이름/닉네임을 입력해주세요!'}
         onChange={onNameChange}
         type="text"
         className="mt-[2px] h-[54px] w-[216px] rounded-lg border border-[#DEDEDE] p-4 placeholder:border placeholder:border-[#DEDEDE] placeholder:text-[16px] focus:ring-1 focus:ring-black"

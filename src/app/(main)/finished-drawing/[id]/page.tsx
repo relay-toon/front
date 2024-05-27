@@ -3,7 +3,7 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import SaveButton from '@/src/components/SaveButton';
 import ShareButton from '@/src/components/ShareButton';
 import MenuHeader from '@/src/components/header/MenuHeader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MyPageSideBar from '@/src/components/MypageSidebar';
 import { useParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
@@ -11,7 +11,9 @@ import LoadingSpinner from '@/src/components/LoadingSpinner';
 
 export default function FinishedDrawing() {
   const [isOpen, setIsOpen] = useState(false);
-
+  useEffect(() => {
+    console.log(toon);
+  });
   const onClick = () => {
     setIsOpen(false);
   };
