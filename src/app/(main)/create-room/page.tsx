@@ -88,6 +88,7 @@ export default function CreateRoom() {
       time === '제한없음' ? 86400 : parseInt(time.replace('초', ''), 10);
     setTimeOption(numericTime);
   };
+
   return (
     <div className="overflow-x-hidden bg-white">
       <BackHeader />

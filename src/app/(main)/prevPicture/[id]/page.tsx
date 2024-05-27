@@ -10,9 +10,12 @@ import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useGetLock } from '@/src/hooks/useGetLock';
+import ModalIsLoggedIn from '@/src/components/ModalIsLoggedIn';
 
 export default function PrevPicture() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams<{ id: string }>();
   const router = useRouter();
@@ -40,6 +43,9 @@ export default function PrevPicture() {
   };
 
   const onDrawingClick = async () => {
+    if (!myInfo) {
+      setIsLoggedIn(true);
+    }
     if (
       toonInfo.ownerId === myInfo.id ||
       toonInfo.participants.includes(myInfo.id)
@@ -57,7 +63,6 @@ export default function PrevPicture() {
       }
     }
   };
-
   const headCount = new Array(toonInfo.headCount).fill(0);
 
   return (
@@ -122,20 +127,24 @@ export default function PrevPicture() {
         </div>
         <div className="mt-4 flex justify-center">
           <div className="py-[14px]">
-            {toonInfo.participants.includes(myInfo.id) ||
-            toonInfo.lockId !== null ? (
-              <LargeBtn
-                text="이어 그리기"
-                onClick={onDrawingClick}
-                active={false}
-              />
-            ) : (
-              <LargeBtn
-                text="이어 그리기"
-                onClick={onDrawingClick}
-                active={true}
-              />
-            )}
+            <LargeBtn
+              text={
+                toonInfo.participants.includes(myInfo.id) ||
+                toonInfo.ownerId === myInfo.id
+                  ? '이미 참여하신 그림입니다'
+                  : toonInfo.lockId !== null
+                    ? '누군가 열심히 그리고 있어요!'
+                    : '이어 그리기'
+              }
+              onClick={onDrawingClick}
+              active={
+                toonInfo.participants.includes(myInfo.id) ||
+                toonInfo.lockId !== null ||
+                toonInfo.ownerId === myInfo.id
+                  ? false
+                  : true
+              }
+            />
           </div>
         </div>
         {isOpen && (
@@ -146,6 +155,13 @@ export default function PrevPicture() {
           >
             <MyPageSideBar setIsOpen={setIsOpen} isOpen={isOpen} />
           </div>
+        )}
+        {isLoggedIn && (
+          <ModalIsLoggedIn
+            params={params.id}
+            count={count}
+            setIsLoggedIn={setIsLoggedIn}
+          />
         )}
       </div>
     </div>

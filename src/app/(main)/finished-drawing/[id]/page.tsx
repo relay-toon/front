@@ -20,6 +20,7 @@ export default function FinishedDrawing() {
   if (isLoading) {
     return <LoadingSpinner />;
   }
+  console.log(toon)
   return (
     <div>
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />

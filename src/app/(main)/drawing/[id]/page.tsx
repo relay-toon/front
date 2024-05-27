@@ -10,6 +10,7 @@ import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import ModalPainterName from '@/src/components/ModalPainterName';
+import ModalConfirmBack from '@/src/components/ModalConfirmBack';
 
 const NoSSRCanvas = dynamic(() => import('../_component/WrappedCanvas'), {
   ssr: false,
@@ -35,11 +36,36 @@ export default function DrawingPage() {
   const router = useRouter();
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
+  const [isBack, setIsBack] = useState(false);
+  const [startModal, setStartModal] = useState(true);
 
   useEffect(() => {
     setTime(toonData?.timer);
   }, [toonData?.timer]);
 
+  const confirmBack = () => {
+    setStart(false);
+    setIsBack(true);
+  };
+
+  function useConstomBack(customback: () => void) {
+    const browserPreventEvent = (event: () => void) => {
+      // history.pushState(null, '', location.href);
+      event();
+    };
+    useEffect(() => {
+      history.pushState(null, '', location.href);
+      window.addEventListener('popstate', () => {
+        browserPreventEvent(customback);
+      });
+      return () => {
+        window.removeEventListener('popstate', () => {
+          browserPreventEvent(customback);
+        });
+      };
+    }, []);
+  }
+  useConstomBack(confirmBack);
   function dataURLtoFile(dataUrl: string, filename: string) {
     const matches = dataUrl.match(/:(.*?);/);
     if (!matches) {
@@ -81,6 +107,7 @@ export default function DrawingPage() {
             },
             onError: () => {
               alert('에러가 발생했습니다. 다시 시도해주세요.');
+              router.push(`/prevPicture/${id}?count=${count}`);
             },
           });
         }
@@ -99,12 +126,16 @@ export default function DrawingPage() {
 
   return (
     <div className="overflow-x-hidden">
-      {!start && (
+      {startModal && (
         <div
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
         >
-          <StartModal setStart={setStart} time={time} />
+          <StartModal
+            setStartModal={setStartModal}
+            setStart={setStart}
+            time={time}
+          />
         </div>
       )}
       {isComplete && (
@@ -119,6 +150,13 @@ export default function DrawingPage() {
             onClick={onClick}
           />
         </div>
+      )}
+      {isBack && (
+        <ModalConfirmBack
+          setStart={setStart}
+          setIsBack={setIsBack}
+          isBack={isBack}
+        />
       )}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />
