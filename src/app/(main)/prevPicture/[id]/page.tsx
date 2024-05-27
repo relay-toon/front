@@ -31,7 +31,7 @@ export default function PrevPicture() {
     }
     console.log(toonInfo);
   }, [toonInfo]);
-  if (!toonInfo || !myInfo) {
+  if (!toonInfo) {
     return <LoadingSpinner />;
   }
 
@@ -43,15 +43,14 @@ export default function PrevPicture() {
   };
 
   const onDrawingClick = async () => {
-    if (!myInfo) {
-      setIsLoggedIn(true);
-    }
-    if (
-      toonInfo.ownerId === myInfo.id ||
-      toonInfo.participants.includes(myInfo.id)
-    ) {
-      alert('이미 참여한 그림입니다.');
-      return router.push('/');
+    if (myInfo) {
+      if (
+        toonInfo.ownerId === myInfo.id ||
+        toonInfo.participants.includes(myInfo.id)
+      ) {
+        alert('이미 참여한 그림입니다.');
+        return router.push('/');
+      }
     }
     if (toonInfo.lockId !== null) {
       alert('현재 누군가 열심히 그리고 있습니다.');
@@ -127,24 +126,21 @@ export default function PrevPicture() {
         </div>
         <div className="mt-4 flex justify-center">
           <div className="py-[14px]">
-            <LargeBtn
-              text={
-                toonInfo.participants.includes(myInfo.id) ||
-                toonInfo.ownerId === myInfo.id
-                  ? '이미 참여하신 그림입니다'
-                  : toonInfo.lockId !== null
-                    ? '누군가 열심히 그리고 있어요!'
-                    : '이어 그리기'
-              }
-              onClick={onDrawingClick}
-              active={
-                toonInfo.participants.includes(myInfo.id) ||
-                toonInfo.lockId !== null ||
-                toonInfo.ownerId === myInfo.id
-                  ? false
-                  : true
-              }
-            />
+            {myInfo &&
+            (toonInfo?.participants?.includes(myInfo.id) ||
+              toonInfo.lockId !== null) ? (
+              <LargeBtn
+                text="이어 그리기"
+                onClick={onDrawingClick}
+                active={false}
+              />
+            ) : (
+              <LargeBtn
+                text="이어 그리기"
+                onClick={onDrawingClick}
+                active={true}
+              />
+            )}
           </div>
         </div>
         {isOpen && (

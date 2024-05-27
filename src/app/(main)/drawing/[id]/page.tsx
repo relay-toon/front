@@ -81,7 +81,7 @@ export default function DrawingPage() {
     return new File([u8arr], filename, { type: mime });
   }
   const onClick = () => {
-    if (!canvasRef.current || isLoading || !myInfo) {
+    if (!canvasRef.current || isLoading) {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
@@ -97,7 +97,7 @@ export default function DrawingPage() {
             ...toonData,
             image: imageFile,
             name: myInfo?.name || painterName,
-            userId: myInfo.id || '',
+            userId: myInfo?.id || '',
             id: toonData.id,
           };
           setIsComplete(true);
@@ -120,7 +120,7 @@ export default function DrawingPage() {
     setIsComplete(true);
   };
 
-  if (isLoading || !toonData || !myInfo) {
+  if (isLoading || !toonData) {
     return <LoadingSpinner />;
   }
 
