@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 interface ModalConfirmBack {
   setIsBack: React.Dispatch<React.SetStateAction<boolean>>;
   isBack: boolean;
-  setStart: React.Dispatch<React.SetStateAction<boolean>>;
+  setStart?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ModalConfirmBack({
@@ -14,21 +14,24 @@ export default function ModalConfirmBack({
 }: ModalConfirmBack) {
   const onQuitClick = () => {
     setIsBack(false);
-    setStart(true);
+    if (setStart) {
+      setStart(true);
+    }
   };
   const router = useRouter();
   // const url = usePathname();
 
   const onBackgroundClick = () => {
     setIsBack(false);
-    setStart(true);
+
+    if(setStart){
+      setStart(true);
+    }
   };
   const onBackCLick = () => {
-    // history.pushState(null, '', location.href);
-    router.back();
-    // router.back();
-    // router.back();
-    // setIsBack(false);
+    history.pushState(null, '', location.href);
+    history.go(-3);
+    setIsBack(false);
   };
 
   return (
