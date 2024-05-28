@@ -50,7 +50,7 @@ export default function DrawingPage() {
 
   function useConstomBack(customback: () => void) {
     const browserPreventEvent = (event: () => void) => {
-      // history.pushState(null, '', location.href);
+      history.pushState(null, '', location.href);
       event();
     };
     useEffect(() => {

@@ -1,7 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface ModalConfirmBack {
   setIsBack: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,7 +9,6 @@ interface ModalConfirmBack {
 }
 
 export default function ModalConfirmBack({
-  isBack,
   setIsBack,
   setStart,
 }: ModalConfirmBack) {
@@ -19,19 +17,18 @@ export default function ModalConfirmBack({
     setStart(true);
   };
   const router = useRouter();
-  const url = usePathname();
+  // const url = usePathname();
 
   const onBackgroundClick = () => {
     setIsBack(false);
     setStart(true);
   };
   const onBackCLick = () => {
-    history.pushState(null, '', location.href);
-    // console.log(url, document.referrer);
-    router.replace(document.referrer);
-    setIsBack(false);
-
-    // router.replace(ROUTER.MISSION.DETAIL(id))
+    // history.pushState(null, '', location.href);
+    router.back();
+    // router.back();
+    // router.back();
+    // setIsBack(false);
   };
 
   return (

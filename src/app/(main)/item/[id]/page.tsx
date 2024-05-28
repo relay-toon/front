@@ -7,6 +7,7 @@ import { useState } from 'react';
 import MemberModal from '../_component/MemberModal';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
+import { useGetMyCreatedToon } from '@/src/hooks/useGetMyCreatedToon';
 
 export default function ItemPage({ params }: { params: { id: string } }) {
   const now = Date.now();
@@ -15,15 +16,27 @@ export default function ItemPage({ params }: { params: { id: string } }) {
   const { data: toon } = useGetToonInfo(id);
   const [showModal, setShowModal] = useState(false);
   const { mutate: deleteToon } = useDeleteToon();
+
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setShowModal(false);
     }
   };
+  const [selectedToons, setSelectedToons] = useState<string[]>([]);
+
+  const [isDelete, setIsDelete] = useState(false);
 
   const handleDeleteToon = () => {
-    confirm('정말 삭제하시겠습니까?');
-    deleteToon(id);
+    if (confirm('정말 삭제하시겠습니까?')) {
+      deleteToon(selectedToons, {
+        onSuccess: () => {
+          setSelectedToons([]);
+          setIsDelete(false);
+        },
+      });
+    } else {
+      return;
+    }
   };
   const handleOpenModal = () => {
     setShowModal(true);

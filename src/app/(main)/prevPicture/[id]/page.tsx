@@ -29,7 +29,7 @@ export default function PrevPicture() {
       alert('이미 완성된 그림입니다.');
       router.push('/');
     }
-    console.log(toonInfo);
+    console.log(toonInfo, myInfo);
   }, [toonInfo]);
   if (!toonInfo) {
     return <LoadingSpinner />;
@@ -112,9 +112,9 @@ export default function PrevPicture() {
           </div>
         </div>
         <div className="mt-[20px] flex justify-center">
-          {toonInfo.image ? (
+          {toonInfo?.image ? (
             <Image
-              src={toonInfo.image}
+              src={toonInfo?.image}
               width={280}
               height={364}
               alt="prevImage"
@@ -128,9 +128,10 @@ export default function PrevPicture() {
           <div className="py-[14px]">
             {myInfo &&
             (toonInfo?.participants?.includes(myInfo.id) ||
+              toonInfo?.ownerId === myInfo.id ||
               toonInfo.lockId !== null) ? (
               <LargeBtn
-                text="이어 그리기"
+                text="이미 참여한 그림입니다"
                 onClick={onDrawingClick}
                 active={false}
               />

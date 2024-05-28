@@ -37,12 +37,12 @@ export default function MyGallery() {
   const { data: myParticipatedToon, refetch: refetchParticipated } =
     useGetMyParticipatedToon(pageNumber, completed);
 
-  console.log(
-    'myParticipatedToon : ',
-    myParticipatedToon,
-    'myCreatedToon: ',
-    myCreatedToon,
-  );
+  // console.log(
+  //   'myParticipatedToon : ',
+  //   myParticipatedToon,
+  //   'myCreatedToon: ',
+  //   myCreatedToon,
+  // );
   const handleTabChange = (newTab: 'create' | 'participate') => {
     if (newTab !== tab) {
       setTab(newTab);
