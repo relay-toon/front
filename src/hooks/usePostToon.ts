@@ -10,6 +10,7 @@ interface ToonData {
   title: string;
   headCount: number;
   timer: number;
+  id: string;
 }
 
 const postToon = async (

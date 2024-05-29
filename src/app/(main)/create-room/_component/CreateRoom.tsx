@@ -8,6 +8,12 @@ import { usePostToon } from '@/src/hooks/usePostToon';
 import { CreateToonData } from '@/src/types/CreateToon';
 import { useRouter } from 'next/navigation';
 
+interface ToonData {
+  title: string;
+  headCount: number;
+  timer: number;
+  id: string;
+}
 export default function CreateRoom() {
   const [subjectText, setSubjectText] = useState('');
   const [memberOption, setMemberOption] = useState(0);
@@ -29,7 +35,7 @@ export default function CreateRoom() {
         headCount: memberOption,
         timer: timeOption,
       };
-      const result = await createMutation.mutateAsync(data);
+      const result = await createMutation.mutateAsync(data as ToonData);
       router?.push(`/drawing/${result.id}?count=1`);
     } catch (error) {
       console.error('에러:', error);
