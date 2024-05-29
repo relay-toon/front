@@ -15,7 +15,7 @@ interface ToonData {
 const postToon = async (
   axiosInstance: AxiosInstance,
   toonData: ToonData,
-): Promise<any> => {
+): Promise<ToonData> => {
   const formData = new FormData();
   formData.append('title', toonData.title);
   formData.append('headCount', toonData.headCount.toString());

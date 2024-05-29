@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 export default function CreateRoom() {
   const [subjectText, setSubjectText] = useState('');
   const [memberOption, setMemberOption] = useState(0);
-  const [timeOption, setTimeOption] = useState<any>(0);
+  const [timeOption, setTimeOption] = useState<number>(0);
 
   const maxLength = 25;
   let hashtagArr = ['#어디에서', '#누가', '#무엇을', '#어떻게', '#하는것'];

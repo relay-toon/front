@@ -14,7 +14,7 @@ export default function ItemPage({ id }: ItemProps) {
   const now = Date.now();
   const date = new Date(now).toLocaleDateString();
 
-  const { data: toon } = useGetToonInfo(id);
+  const { data: toon, refetch } = useGetToonInfo(id);
   const [showModal, setShowModal] = useState(false);
   const { mutate: deleteToon } = useDeleteToon();
 
@@ -25,14 +25,14 @@ export default function ItemPage({ id }: ItemProps) {
   };
   const [selectedToons, setSelectedToons] = useState<string[]>([]);
 
-  const [isDelete, setIsDelete] = useState(false);
+  // const [isDelete, setIsDelete] = useState(false);
 
   const handleDeleteToon = () => {
+    setSelectedToons([id]);
     if (confirm('정말 삭제하시겠습니까?')) {
-      deleteToon(selectedToons, {
+      deleteToon(id, {
         onSuccess: () => {
-          setSelectedToons([]);
-          setIsDelete(false);
+          refetch();
         },
       });
     } else {
