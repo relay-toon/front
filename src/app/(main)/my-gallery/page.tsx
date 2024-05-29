@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
+import { Metadata, ResolvingMetadata } from 'next';
 
 export default function MyGallery() {
   const searchParams = useSearchParams();
