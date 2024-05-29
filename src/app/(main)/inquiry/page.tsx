@@ -7,7 +7,6 @@ import { PostInquiry } from '@/src/types/CreateInquiry';
 import { ChangeEvent, useState } from 'react';
 
 export default function Inquiry() {
-  const [isActive, setIsActive] = useState(true);
   const [content, setContent] = useState<string>('');
   const [isInquiryComplete, setIsInquiryComplete] = useState<boolean>(false);
   const postInquiry = usePostInquiry();
@@ -53,7 +52,7 @@ export default function Inquiry() {
             <div className="mt-[150px]">
               <LargeBtn
                 text="등록하기"
-                active={content.length ? isActive : !isActive}
+                active={content.length > 0}
                 onClick={handleSubmit}
               />
             </div>

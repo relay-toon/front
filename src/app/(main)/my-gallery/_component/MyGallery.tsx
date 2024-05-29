@@ -73,7 +73,7 @@ export default function MyGallery() {
           : myParticipatedToon?.totalPage) || 1;
       setTotalPages(newTotalPages);
     }
-  }, [tab, myCreatedToon, myParticipatedToon]);
+  }, [tab, myCreatedToon, myParticipatedToon, pageNumber]);
 
   useEffect(() => {
     if (tab === 'create') {
@@ -335,8 +335,8 @@ export default function MyGallery() {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            {participatedToons.map((toon: any, index: number) => {
-              const date = new Date(toon.createdAt);
+            {participatedToons.map((toon: Toon, index: number) => {
+              const date = new Date(toon.createdAt + '');
               const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
               return (

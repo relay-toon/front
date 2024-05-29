@@ -8,12 +8,11 @@ import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetLock } from '@/src/hooks/useGetLock';
 import ModalIsLoggedIn from '@/src/components/ModalIsLoggedIn';
 
 export default function PrevPicture() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -29,18 +28,10 @@ export default function PrevPicture() {
       alert('이미 완성된 그림입니다.');
       router.push('/');
     }
-    console.log(toonInfo, myInfo);
-  }, [toonInfo]);
+  }, [toonInfo, myInfo]);
   if (!toonInfo) {
     return <LoadingSpinner />;
   }
-
-  const onClick = () => {
-    const canvas = canvasRef.current;
-    const data = canvas?.toDataURL();
-    console.log(data);
-    console.log(canvas);
-  };
 
   const onDrawingClick = async () => {
     if (myInfo) {
@@ -146,9 +137,10 @@ export default function PrevPicture() {
         </div>
         {isOpen && (
           <div
-            className={`fixed -top-4 z-20 mt-[16px] h-full w-[390px] bg-gray-400 transition-all duration-200 ease-in-out `}
+            className={
+              'fixed -top-4 z-20 mt-[16px] h-full w-[390px] bg-gray-400 transition-all duration-200 ease-in-out'
+            }
             style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
-            onClick={onClick}
           >
             <MyPageSideBar setIsOpen={setIsOpen} isOpen={isOpen} />
           </div>

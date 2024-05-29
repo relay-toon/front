@@ -7,9 +7,9 @@ interface IsOpen {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function MenuHeader({ isOpen, setIsOpen }: IsOpen) {
+export default function MenuHeader({ setIsOpen }: IsOpen) {
   const onClick = () => {
-    setIsOpen((prev) => !prev);    
+    setIsOpen((prev) => !prev);
   };
   return (
     <div className="relative flex w-[390px] flex-row px-5 py-[10px] ">

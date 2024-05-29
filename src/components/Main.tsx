@@ -157,7 +157,7 @@ export default function Main() {
       </div>
       {isOpen && (
         <div
-          className={`fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out`}
+          className="fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out"
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
           onClick={onClick}
         >

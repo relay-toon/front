@@ -14,9 +14,9 @@ export default function CreateRoom() {
   const [timeOption, setTimeOption] = useState<number>(0);
 
   const maxLength = 25;
-  let hashtagArr = ['#어디에서', '#누가', '#무엇을', '#어떻게', '#하는것'];
-  let memberNumArr = new Array(6).fill(0);
-  let drawingTime = ['제한없음', '12초', '16초', '20초'];
+  const hashtagArr = ['#어디에서', '#누가', '#무엇을', '#어떻게', '#하는것'];
+  const memberNumArr = new Array(6).fill(0);
+  const drawingTime = ['제한없음', '12초', '16초', '20초'];
   const sliderRef = useRef<HTMLDivElement>(null);
   const timeSetSliderRef = useRef<HTMLDivElement>(null);
   const createMutation = usePostToon();

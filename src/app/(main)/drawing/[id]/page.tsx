@@ -63,7 +63,7 @@ export default function DrawingPage() {
           browserPreventEvent(customback);
         });
       };
-    }, []);
+    });
   }
   useConstomBack(confirmBack);
   function dataURLtoFile(dataUrl: string, filename: string) {

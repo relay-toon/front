@@ -1,6 +1,6 @@
 'use client';
 
-import { useDelteUser } from '../hooks/useDeleteUser';
+import { useDeleteUser } from '../hooks/useDeleteUser';
 import { useAxios } from '../lib/axios';
 
 interface ModalCancelAccount {
@@ -10,15 +10,16 @@ interface ModalCancelAccount {
 export default function ModalCancelAccount({
   setIsDelete,
 }: ModalCancelAccount) {
+  const { axiosInstance } = useAxios();
+  const deleteUser = useDeleteUser(axiosInstance);
   const onQuitClick = () => {
     setIsDelete(false);
   };
 
-  const { axiosInstance } = useAxios();
-  const useDelete = useDelteUser(axiosInstance);
+  const useDelete = useDeleteUser(axiosInstance);
 
   const onUserDeleteClick = async () => {
-    await useDelete();
+    await deleteUser();
   };
   const onBackgroundClick = () => {
     setIsDelete(false);

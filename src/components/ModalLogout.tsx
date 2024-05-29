@@ -8,7 +8,7 @@ interface ModalLogout {
   setIsLogout: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ModalLogout({ isLogout, setIsLogout }: ModalLogout) {
+export default function ModalLogout({ setIsLogout }: ModalLogout) {
   const onQuitClick = () => {
     setIsLogout(false);
   };
@@ -20,14 +20,14 @@ export default function ModalLogout({ isLogout, setIsLogout }: ModalLogout) {
     await logout();
   };
 
-  const onBackgroundClick = ()=>{
-    setIsLogout(false)
-  }
+  const onBackgroundClick = () => {
+    setIsLogout(false);
+  };
 
   return (
     <>
       <div
-      onClick={onBackgroundClick}
+        onClick={onBackgroundClick}
         className="margin-auto fixed top-0 h-[100vh] w-[390px] overflow-hidden"
         style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
       ></div>

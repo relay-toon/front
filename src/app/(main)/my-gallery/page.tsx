@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import MyGallery from './_component/MyGallery';
+import { Suspense } from 'react';
 
 interface MyGalleryPageProps {
   params: {
@@ -26,5 +27,9 @@ export async function generateMetadata({
   };
 }
 export default function MyGalleryPage() {
-  return <MyGallery />;
+  return (
+    <Suspense>
+      <MyGallery />;
+    </Suspense>
+  );
 }

@@ -3,7 +3,6 @@
 import LargeBtn from '@/src/components/LargeBtn';
 import MyPageSideBar from '@/src/components/MypageSidebar';
 import MenuHeader from '@/src/components/header/MenuHeader';
-import { useAuthStore } from '@/src/store/authStore';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -13,10 +12,7 @@ export default function WaitingPage() {
   const onClick = () => {
     router.refresh();
   };
-  const isLoggedIn = useAuthStore((state) => ({
-    isLoggedIn: state.isLoggedIn,
-    setIsLoggedIn: state.setIsLoggedIn,
-  }));
+
   const [isOpen, setIsOpen] = useState(false);
   const onClickMenu = () => {
     setIsOpen(false);
@@ -68,15 +64,11 @@ export default function WaitingPage() {
       </div>
       {isOpen && (
         <div
-          className={`fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out`}
+          className="fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out"
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
           onClick={onClickMenu}
         >
-          <MyPageSideBar
-            setIsOpen={setIsOpen}
-            isOpen={isOpen}
-            isLoggedIn={isLoggedIn ? true : false}
-          />
+          <MyPageSideBar setIsOpen={setIsOpen} isOpen={isOpen} />
         </div>
       )}
     </div>
