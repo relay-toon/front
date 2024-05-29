@@ -10,6 +10,7 @@ import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import ModalPainterName from '@/src/components/ModalPainterName';
+import ModalConfirmBack from '@/src/components/ModalConfirmBack';
 
 const NoSSRCanvas = dynamic(() => import('../_component/WrappedCanvas'), {
   ssr: false,
@@ -33,14 +34,38 @@ export default function DrawingPage() {
   const [painterName, setPainterName] = useState('');
   const canvasRef = useRef<any>(null);
   const router = useRouter();
-  console.log(toonData);
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
+  const [isBack, setIsBack] = useState(false);
+  const [startModal, setStartModal] = useState(true);
 
   useEffect(() => {
     setTime(toonData?.timer);
   }, [toonData?.timer]);
 
+  const confirmBack = () => {
+    setStart(false);
+    setIsBack(true);
+  };
+
+  function useConstomBack(customback: () => void) {
+    const browserPreventEvent = (event: () => void) => {
+      history.pushState(null, '', location.href);
+      event();
+    };
+    useEffect(() => {
+      history.pushState(null, '', location.href);
+      window.addEventListener('popstate', () => {
+        browserPreventEvent(customback);
+      });
+      return () => {
+        window.removeEventListener('popstate', () => {
+          browserPreventEvent(customback);
+        });
+      };
+    }, []);
+  }
+  useConstomBack(confirmBack);
   function dataURLtoFile(dataUrl: string, filename: string) {
     const matches = dataUrl.match(/:(.*?);/);
     if (!matches) {
@@ -56,7 +81,7 @@ export default function DrawingPage() {
     return new File([u8arr], filename, { type: mime });
   }
   const onClick = () => {
-    if (!canvasRef.current || isLoading || !myInfo) {
+    if (!canvasRef.current || isLoading) {
       return;
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
@@ -71,30 +96,23 @@ export default function DrawingPage() {
           const toonUpdate = {
             ...toonData,
             image: imageFile,
-            name: painterName,
-            userId: myInfo.id || '',
+            name: myInfo?.name || painterName,
+            userId: myInfo?.id || '',
             id: toonData.id,
           };
           setIsComplete(true);
-          uploadToon(toonUpdate);
-
-          router.push(`/finished-drawing/${id}?count=${count}`);
-        }
-        if (toonData && toonData?.participants.length === toonData?.headCount) {
-          const toonUpdate = {
-            ...toonData,
-            image: imageFile,
-            name: painterName,
-            id: toonData.id,
-            isComplete: true,
-          };
-          setIsComplete(true);
-          uploadToon(toonUpdate);
-
-          router.push(`/finished-drawing/${id}?count=${count}`);
+          uploadToon(toonUpdate, {
+            onSuccess: () => {
+              router.push(`/finished-drawing/${id}?count=${count}`);
+            },
+            onError: () => {
+              alert('에러가 발생했습니다. 다시 시도해주세요.');
+              router.push(`/prevPicture/${id}?count=${count}`);
+            },
+          });
         }
       } catch (error) {
-        alert('에러가 발생했습니다. 다시 시도해주세요.');
+        console.log(error);
       }
     }
   };
@@ -102,18 +120,22 @@ export default function DrawingPage() {
     setIsComplete(true);
   };
 
-  if (isLoading || !toonData || !myInfo) {
+  if (isLoading || !toonData) {
     return <LoadingSpinner />;
   }
 
   return (
     <div className="overflow-x-hidden">
-      {!start && (
+      {startModal && (
         <div
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
         >
-          <StartModal setStart={setStart} time={time} />
+          <StartModal
+            setStartModal={setStartModal}
+            setStart={setStart}
+            time={time}
+          />
         </div>
       )}
       {isComplete && (
@@ -128,6 +150,13 @@ export default function DrawingPage() {
             onClick={onClick}
           />
         </div>
+      )}
+      {isBack && (
+        <ModalConfirmBack
+          setStart={setStart}
+          setIsBack={setIsBack}
+          isBack={isBack}
+        />
       )}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />

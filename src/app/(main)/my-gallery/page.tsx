@@ -14,8 +14,6 @@ export default function MyGallery() {
   const [tab, setTab] = useState<'create' | 'participate'>(initialTab);
   const [pageNumber, setPageNumber] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(1);
-
-  const [completed, setCompleted] = useState(false);
   const maxButtons = 5;
 
   const router = useRouter();
@@ -29,14 +27,11 @@ export default function MyGallery() {
 
   const { startPage, endPage } = calculatePageRange();
 
-  const { data: myCreatedToon, refetch: refetchCreated } = useGetMyCreatedToon(
-    pageNumber,
-    completed,
-  );
+  const { data: myCreatedToon, refetch: refetchCreated } =
+    useGetMyCreatedToon(pageNumber);
 
   const { data: myParticipatedToon, refetch: refetchParticipated } =
-    useGetMyParticipatedToon(pageNumber, completed);
-  console.log(myParticipatedToon);
+    useGetMyParticipatedToon(pageNumber);
   const handleTabChange = (newTab: 'create' | 'participate') => {
     if (newTab !== tab) {
       setTab(newTab);
