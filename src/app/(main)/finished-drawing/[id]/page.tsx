@@ -3,11 +3,12 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import SaveButton from '@/src/components/SaveButton';
 import ShareButton from '@/src/components/ShareButton';
 import MenuHeader from '@/src/components/header/MenuHeader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MyPageSideBar from '@/src/components/MypageSidebar';
 import { useParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
+import { useRouter } from 'next/navigation';
 
 export default function FinishedDrawing() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,6 +21,29 @@ export default function FinishedDrawing() {
   if (isLoading) {
     return <LoadingSpinner />;
   }
+  console.log(toon);
+  const router = useRouter();
+  const confirmBack = () => {
+    router.replace('/');
+  };
+  function useConstomBack(customback: () => void) {
+    const browserPreventEvent = (event: () => void) => {
+      history.pushState(null, '', location.href);
+      event();
+    };
+    useEffect(() => {
+      history.pushState(null, '', location.href);
+      window.addEventListener('popstate', () => {
+        browserPreventEvent(customback);
+      });
+      return () => {
+        window.removeEventListener('popstate', () => {
+          browserPreventEvent(customback);
+        });
+      };
+    }, []);
+  }
+  useConstomBack(confirmBack);
   return (
     <div>
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />

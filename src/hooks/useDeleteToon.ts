@@ -3,12 +3,16 @@ import { useAxios } from '../lib/axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
-const deleteToon = async (toonId: string, axiosInstance: AxiosInstance) => {
-  const response = await axiosInstance.delete(`/toons/${toonId}`);
-  if (response.status === 204) {
-    return {};
-  }
-  return response.data;
+const deleteToon = async (
+  toonId: string | string[],
+  axiosInstance: AxiosInstance,
+) => {
+  //  배열이면 그대로, 아니면 배열로 만들어서 전달
+  const ids = Array.isArray(toonId) ? toonId : [toonId];
+  const deleteAll = ids.map((id) => axiosInstance.delete(`/toons/${id}`));
+  const response = await Promise.all(deleteAll);
+
+  return response.every((response) => response.status === 204);
 };
 
 export const useDeleteToon = () => {
@@ -17,7 +21,8 @@ export const useDeleteToon = () => {
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (toonId: string) => deleteToon(toonId, axiosInstance),
+    mutationFn: (toonId: string | string[]) =>
+      deleteToon(toonId, axiosInstance),
     onSuccess: () => {
       queryClient.invalidateQueries({
         predicate: (query) => query.queryKey.includes('myCreatedToon'),

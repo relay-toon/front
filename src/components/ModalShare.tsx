@@ -5,15 +5,17 @@ import LoadingSpinner from './LoadingSpinner';
 interface ModalShare {
   id: string | string[];
   setIsShare: React.Dispatch<SetStateAction<boolean>>;
+  prevPage: string;
 }
 
-export default function ModalShare({ id, setIsShare }: ModalShare) {
+export default function ModalShare({ id, setIsShare, prevPage }: ModalShare) {
   const { data: toonData, isLoading } = useGetToonInfo(id);
   if (isLoading) {
     return <LoadingSpinner />;
   }
   let currentUrl =
-    toonData?.headCount === toonData?.participants?.length
+    toonData?.headCount === toonData?.participants?.length ||
+    prevPage === 'item'
       ? `/item/${toonData?.id}`
       : `/prevPicture/${id}?count=${toonData?.participants?.length + 1}`;
 

@@ -1,17 +1,19 @@
 'use client';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useState } from 'react';
 import ModalShare from './ModalShare';
 import { useGetToonInfo } from '../hooks/useGetToonInfo';
 
 interface IShare {
-  id: string | string[];  
+  id: string | string[];
 }
 
 export default function ShareButton({ id }: IShare) {
+  const pathname = usePathname();
+  const prevPage = pathname.split('/')[1];
   const [isShare, setIsShare] = useState(false);
-  const {data: toonInfo} = useGetToonInfo(id)
-// console.log(toonInfo)
+  const { data: toonInfo } = useGetToonInfo(id);
+  // console.log(toonInfo)
   const onClick = () => {
     setIsShare(true);
   };
@@ -24,7 +26,7 @@ export default function ShareButton({ id }: IShare) {
         공유하기
       </button>
       {isShare && (
-        <ModalShare id={id} isShare={isShare} setIsShare={setIsShare} finished={true}/>
+        <ModalShare id={id} prevPage={prevPage} setIsShare={setIsShare} />
       )}
     </>
   );

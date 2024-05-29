@@ -10,9 +10,12 @@ import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useGetLock } from '@/src/hooks/useGetLock';
+import ModalIsLoggedIn from '@/src/components/ModalIsLoggedIn';
 
 export default function PrevPicture() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams<{ id: string }>();
   const router = useRouter();
@@ -26,9 +29,9 @@ export default function PrevPicture() {
       alert('이미 완성된 그림입니다.');
       router.push('/');
     }
-    console.log(toonInfo);
+    console.log(toonInfo, myInfo);
   }, [toonInfo]);
-  if (!toonInfo || !myInfo) {
+  if (!toonInfo) {
     return <LoadingSpinner />;
   }
 
@@ -40,12 +43,14 @@ export default function PrevPicture() {
   };
 
   const onDrawingClick = async () => {
-    if (
-      toonInfo.ownerId === myInfo.id ||
-      toonInfo.participants.includes(myInfo.id)
-    ) {
-      alert('이미 참여한 그림입니다.');
-      return router.push('/');
+    if (myInfo) {
+      if (
+        toonInfo.ownerId === myInfo.id ||
+        toonInfo.participants.includes(myInfo.id)
+      ) {
+        alert('이미 참여한 그림입니다.');
+        return router.push('/');
+      }
     }
     if (toonInfo.lockId !== null) {
       alert('현재 누군가 열심히 그리고 있습니다.');
@@ -57,7 +62,6 @@ export default function PrevPicture() {
       }
     }
   };
-
   const headCount = new Array(toonInfo.headCount).fill(0);
 
   return (
@@ -108,9 +112,9 @@ export default function PrevPicture() {
           </div>
         </div>
         <div className="mt-[20px] flex justify-center">
-          {toonInfo.image ? (
+          {toonInfo?.image ? (
             <Image
-              src={toonInfo.image}
+              src={toonInfo?.image}
               width={280}
               height={364}
               alt="prevImage"
@@ -122,10 +126,12 @@ export default function PrevPicture() {
         </div>
         <div className="mt-4 flex justify-center">
           <div className="py-[14px]">
-            {toonInfo.participants.includes(myInfo.id) ||
-            toonInfo.lockId !== null ? (
+            {myInfo &&
+            (toonInfo?.participants?.includes(myInfo.id) ||
+              toonInfo?.ownerId === myInfo.id ||
+              toonInfo.lockId !== null) ? (
               <LargeBtn
-                text="이어 그리기"
+                text="이미 참여한 그림입니다"
                 onClick={onDrawingClick}
                 active={false}
               />
@@ -146,6 +152,13 @@ export default function PrevPicture() {
           >
             <MyPageSideBar setIsOpen={setIsOpen} isOpen={isOpen} />
           </div>
+        )}
+        {isLoggedIn && (
+          <ModalIsLoggedIn
+            params={params.id}
+            count={count}
+            setIsLoggedIn={setIsLoggedIn}
+          />
         )}
       </div>
     </div>

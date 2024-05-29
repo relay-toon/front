@@ -3,12 +3,18 @@ import LargeBtn from './LargeBtn';
 import { SetStateAction } from 'react';
 
 interface IStartModal {
+  setStartModal: React.Dispatch<SetStateAction<boolean>>;
   setStart: React.Dispatch<SetStateAction<boolean>>;
   time: number;
 }
 
-export default function StartModal({ setStart, time }: IStartModal) {
+export default function StartModal({
+  setStart,
+  setStartModal,
+  time,
+}: IStartModal) {
   const onStartClick = () => {
+    setStartModal(false);
     setStart(true);
   };
 
