@@ -3,7 +3,7 @@ interface BtnText {
 }
 export default function ModalBtn({ text }: BtnText) {
   return (
-    <button className="w-[140px] h-[50px] bg-black text-white text-lg font-bold rounded-md text-center flex justify-center items-center ">
+    <button className="flex h-[50px] w-[140px] items-center justify-center rounded-md bg-black text-center text-lg font-bold text-white ">
       {text}
     </button>
   );

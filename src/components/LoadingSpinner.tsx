@@ -8,7 +8,7 @@ export default function LoadingSpinner() {
         alt="loading"
         width={82}
         height={79}
-        className="ml-auto mr-auto flex h-full animate-spin-2s items-center"
+        className="animate-spin-2s ml-auto mr-auto flex h-full items-center"
       />
     </div>
   );

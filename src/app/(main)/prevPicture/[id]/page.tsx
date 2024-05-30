@@ -22,7 +22,7 @@ export default function PrevPicture() {
   const { data: toonInfo } = useGetToonInfo(params.id);
   const { data: myInfo } = useGetMyInfo();
   const { refetch: GetLock } = useGetLock(params.id);
-  let count = searchParam.get('count');
+  const count = searchParam.get('count');
   useEffect(() => {
     if (toonInfo && toonInfo.completed === true) {
       alert('이미 완성된 그림입니다.');

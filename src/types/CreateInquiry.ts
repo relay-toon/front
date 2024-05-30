@@ -1,3 +1,3 @@
-export interface PostInquiry {    
-    content: string
+export interface PostInquiry {
+  content: string;
 }

@@ -16,8 +16,6 @@ export default function ModalCancelAccount({
     setIsDelete(false);
   };
 
-  const useDelete = useDeleteUser(axiosInstance);
-
   const onUserDeleteClick = async () => {
     await deleteUser();
   };
