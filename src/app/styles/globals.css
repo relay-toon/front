@@ -23,7 +23,7 @@ body {
 
 @font-face {
   font-family: 'Waguri';
-  src: local('/fonts/Waguri.ttf') format('ttf');
+  src: url('/fonts/Waguri.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
