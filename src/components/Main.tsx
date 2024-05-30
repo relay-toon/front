@@ -125,10 +125,10 @@ export default function Main() {
         <div className="mb-28 mt-4 flex h-44 items-center rounded-xl bg-white">
           <div className="flex h-full w-full flex-col p-5">
             <div className="flex justify-between">
-              <span className="custom-waguri-font flex w-72 text-base">
+              <span className="custom-waguri-font flex w-80 text-base">
                 3. 그림은 타임어택! 초 정하기
               </span>
-              <span className="flex w-32 items-center justify-center rounded-xl bg-[#E0FF68] px-1 py-0.5 text-xs font-bold">
+              <span className="flex w-32 items-center justify-center rounded-xl bg-[#E0FF68] text-xs font-bold">
                 최대 인당 28초
               </span>
             </div>
