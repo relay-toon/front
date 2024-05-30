@@ -3,7 +3,7 @@ import DrawingOrder from '@/src/components/DrawingOrder';
 import OnlyLogoHeader from '@/src/components/header/OnlyLogoHeader';
 import HeaderFinishedButton from '@/src/components/header/_component/HeaderSmallButton';
 import dynamic from 'next/dynamic';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
@@ -12,13 +12,25 @@ import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import ModalPainterName from '@/src/components/ModalPainterName';
 import ModalConfirmBack from '@/src/components/ModalConfirmBack';
 
+interface FabricCanvasHandle {
+  getCanvas: () => HTMLCanvasElement | null;
+  canvasInstance: fabric.Canvas | null;
+}
+
+interface ForwardRefCanvasProps {
+  prevPicture?: string;
+}
+
 const NoSSRCanvas = dynamic(() => import('../_component/WrappedCanvas'), {
   ssr: false,
   loading: () => <LoadingSpinner />,
 });
-const ForwardRefCanvas = forwardRef((props: any, ref: any) => {
-  return <NoSSRCanvas {...props} forwardRef={ref} />;
-});
+const ForwardRefCanvas = forwardRef<FabricCanvasHandle, ForwardRefCanvasProps>(
+  (props, ref: ForwardedRef<FabricCanvasHandle>) => {
+    return <NoSSRCanvas {...props} forwardRef={ref} />;
+  },
+);
+ForwardRefCanvas.displayName = 'ForwardRefCanvas';
 
 const StartModal = dynamic(() => import('@/src/components/StartModal'), {
   ssr: false,
@@ -32,7 +44,7 @@ export default function DrawingPage() {
   const [time, setTime] = useState(toonData?.timer);
   const { data: myInfo } = useGetMyInfo();
   const [painterName, setPainterName] = useState('');
-  const canvasRef = useRef<any>(null);
+  const canvasRef = useRef<FabricCanvasHandle>(null);
   const router = useRouter();
   const searchParam = useSearchParams();
   const count = searchParam.get('count');
@@ -63,7 +75,7 @@ export default function DrawingPage() {
           browserPreventEvent(customback);
         });
       };
-    }, []);
+    });
   }
   useConstomBack(confirmBack);
   function dataURLtoFile(dataUrl: string, filename: string) {
@@ -86,11 +98,11 @@ export default function DrawingPage() {
     }
     const fabricCanvas = canvasRef.current.canvasInstance;
     if ((fabricCanvas && time === 0) || time === 86400) {
-      const imageData = fabricCanvas.toDataURL({
+      const imageData = fabricCanvas!.toDataURL({
         format: 'png',
         quality: 1.0,
       });
-      const imageFile = dataURLtoFile(imageData, `canvas_image.png`);
+      const imageFile = dataURLtoFile(imageData, 'canvas_image.png');
       try {
         if (toonData) {
           const toonUpdate = {

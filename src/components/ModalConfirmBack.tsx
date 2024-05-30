@@ -1,7 +1,3 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
-
 interface ModalConfirmBack {
   setIsBack: React.Dispatch<React.SetStateAction<boolean>>;
   isBack: boolean;
@@ -18,13 +14,11 @@ export default function ModalConfirmBack({
       setStart(true);
     }
   };
-  const router = useRouter();
-  // const url = usePathname();
 
   const onBackgroundClick = () => {
     setIsBack(false);
 
-    if(setStart){
+    if (setStart) {
       setStart(true);
     }
   };

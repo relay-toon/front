@@ -1,9 +1,6 @@
 'use client';
 
 import { SetStateAction } from 'react';
-import { useDelteUser } from '../hooks/useDeleteUser';
-import { useAxios } from '../lib/axios';
-import { useDeleteToon } from '../hooks/useDeleteToon';
 
 interface ToonDelete {
   setConfirmDelte: React.Dispatch<SetStateAction<boolean>>;
@@ -12,10 +9,7 @@ export default function ModalToonDelete({ setConfirmDelte }: ToonDelete) {
   const onQuitClick = () => {
     setConfirmDelte(false);
   };
-  const { axiosInstance } = useAxios();
-  const onDelte = () => {
-    useDeleteToon(axiosInstance, id)
-  };
+
   return (
     <>
       <div

@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import {
   useEffect,
   useState,
@@ -12,18 +15,18 @@ import PencilIcon from '@/public/svg/pencil.svg';
 import CircleBrushIcon from '@/public/svg/brush.svg';
 import EraserIcon from '@/public/svg/eraser.svg';
 
-interface FabricCanvasProps {
+export interface FabricCanvasProps {
   prevPicture?: string;
 }
 
-interface FabricCanvasHandle {
+export interface FabricCanvasHandle {
   getCanvas: () => HTMLCanvasElement | null;
   canvasInstance: fabric.Canvas | null;
 }
 
 const FabricCanvas = forwardRef<FabricCanvasHandle, FabricCanvasProps>(
   (props, ref) => {
-    const [isDrawingMode, setIsDrawingMode] = useState(true);
+    const [isDrawingMode] = useState(true);
     const [color, setColor] = useState('#000000');
     const [lineWidth, setLineWidth] = useState(4);
     const [brushType, setBrushType] = useState('pencil');
@@ -112,6 +115,7 @@ const FabricCanvas = forwardRef<FabricCanvasHandle, FabricCanvasProps>(
           brush = new fabric.PencilBrush(canvas);
           break;
         case 'circle':
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           //@ts-ignore
           brush = new fabric.CircleBrush(canvas);
           break;
@@ -136,7 +140,8 @@ const FabricCanvas = forwardRef<FabricCanvasHandle, FabricCanvasProps>(
     const handleClear = () => {
       const canvas = canvasInstance.current;
       if (!canvas) return;
-      canvas.getObjects().forEach((obj) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      canvas.getObjects().forEach((obj: any) => {
         if (obj.type !== 'image') {
           canvas.remove(obj);
         }
@@ -243,5 +248,6 @@ const FabricCanvas = forwardRef<FabricCanvasHandle, FabricCanvasProps>(
     );
   },
 );
+FabricCanvas.displayName = 'FabricCanvas';
 
 export default FabricCanvas;

@@ -22,7 +22,7 @@ export default function ModalPainterName({
     if (myInfo && myInfo?.name) {
       setPainterName(myInfo.name);
     }
-  }, []);
+  }, [myInfo, setPainterName]);
   return (
     <div className="absolute left-[12%] top-1/3 z-40 flex h-[280px] w-[296px] flex-col items-center justify-center rounded-[12px] bg-white px-5 py-3">
       <div className="custom-waguri-font flex flex-col items-center gap-2">

@@ -52,7 +52,7 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
 
   return (
     <div
-      className={`custom-pretendard-font absolute top-0 z-20 w-[310px] ${isOpen ? `right-0 transition-all duration-200 ease-in-out` : `right-[-320px] transition-transform duration-200 ease-in-out`} flex h-screen flex-col items-center bg-[#F7F7F7]`}
+      className={`custom-pretendard-font absolute top-0 z-20 w-[310px] ${isOpen ? 'right-0 transition-all duration-200 ease-in-out' : 'right-[-320px] transition-transform duration-200 ease-in-out'} flex h-screen flex-col items-center bg-[#F7F7F7]`}
     >
       <div className="relative mt-[58px] flex h-[48px] items-center justify-center text-lg ">
         <div

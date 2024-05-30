@@ -38,7 +38,7 @@ export default function FinishedDrawing() {
           browserPreventEvent(customback);
         });
       };
-    }, []);
+    });
   }
   useConstomBack(confirmBack);
   if (isLoading) {
@@ -49,21 +49,21 @@ export default function FinishedDrawing() {
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
         {toon?.participants.length === toon?.headCount
-          ? `마지막`
+          ? '마지막'
           : `${toon?.participants.length}번째`}
         &nbsp;<span className="text-[#9B9B9B]">그림 완성!</span>
       </div>
       <div className="mt-3 text-lg">
         <div className="flex justify-center">
           {toon?.participants.length === toon.headCount
-            ? `완성된 그림을`
-            : `다음 순서로 그릴 멤버들에게`}
+            ? '완성된 그림을'
+            : '다음 순서로 그릴 멤버들에게'}
         </div>
         <div className="flex justify-center">
           <span className="font-bold">
             {toon?.participants.length === toon.headCount
-              ? `멤버들에게 공유`
-              : `링크를 공유`}
+              ? '멤버들에게 공유'
+              : '링크를 공유'}
           </span>
           해주세요!
         </div>
@@ -79,6 +79,7 @@ export default function FinishedDrawing() {
       <div className="flex justify-center">
         <img
           src={toon?.image}
+          alt={toon?.title}
           className="h-[364px] w-[280px] rounded-[6.4px] border-2 border-[#E0FF68]"
         />
       </div>
@@ -88,7 +89,9 @@ export default function FinishedDrawing() {
       </div>
       {isOpen && (
         <div
-          className={`fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out`}
+          className={
+            'fixed top-0 z-10 h-[100vh] w-[390px] bg-gray-400 transition-all duration-200 ease-in-out'
+          }
           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
           onClick={onClick}
         >

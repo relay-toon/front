@@ -10,12 +10,13 @@ interface ToonData {
   title: string;
   headCount: number;
   timer: number;
+  id: string;
 }
 
 const postToon = async (
   axiosInstance: AxiosInstance,
   toonData: ToonData,
-): Promise<any> => {
+): Promise<ToonData> => {
   const formData = new FormData();
   formData.append('title', toonData.title);
   formData.append('headCount', toonData.headCount.toString());
@@ -31,12 +32,12 @@ export const usePostToon = () => {
 
   const mutationFn = (toonData: ToonData) => postToon(axiosInstance, toonData);
 
-  const options: UseMutationOptions<any, Error, ToonData, unknown> = {
+  const options: UseMutationOptions<ToonData, Error, ToonData, unknown> = {
     mutationFn,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myCreatedToon'] });
     },
   };
 
-  return useMutation<any, Error, ToonData, unknown>(options);
+  return useMutation<ToonData, Error, ToonData, unknown>(options);
 };

@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios';
 import { useAuthStore } from '../store/authStore';
 
-export const useDelteUser = (axiosInstance: AxiosInstance) => {
+export const useDeleteUser = (axiosInstance: AxiosInstance) => {
   const handleDelete = async () => {
     try {
       const serverDeleteUserResponse = await axiosInstance.delete('/users/me', {

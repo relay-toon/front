@@ -13,14 +13,14 @@ export default function ModalShare({ id, setIsShare, prevPage }: ModalShare) {
   if (isLoading) {
     return <LoadingSpinner />;
   }
-  let currentUrl =
+  const currentUrl =
     toonData?.headCount === toonData?.participants?.length ||
     prevPage === 'item'
       ? `/item/${toonData?.id}`
       : `/prevPicture/${id}?count=${toonData?.participants?.length + 1}`;
 
   const onClick = () => {
-    let t = document.createElement('textarea');
+    const t = document.createElement('textarea');
     document.body.appendChild(t);
     t.value = currentUrl;
     t.select();

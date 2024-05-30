@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
+import { Toon } from '@/src/types/Toon';
 
 export default function MyGallery() {
   const searchParams = useSearchParams();
@@ -72,7 +73,7 @@ export default function MyGallery() {
           : myParticipatedToon?.totalPage) || 1;
       setTotalPages(newTotalPages);
     }
-  }, [tab, myCreatedToon, myParticipatedToon]);
+  }, [tab, myCreatedToon, myParticipatedToon, pageNumber]);
 
   useEffect(() => {
     if (tab === 'create') {
@@ -80,7 +81,7 @@ export default function MyGallery() {
     } else {
       refetchParticipated();
     }
-  }, [pageNumber, tab]);
+  }, [pageNumber, tab, refetchCreated, refetchParticipated]);
 
   const createdToons = myCreatedToon?.toons || [];
   const participatedToons = myParticipatedToon?.toons || [];
@@ -99,7 +100,7 @@ export default function MyGallery() {
     ) as NodeListOf<HTMLInputElement>;
 
     if (all.checked) {
-      const allToonIds = createdToons.map((toon: any) => toon.id);
+      const allToonIds = createdToons.map((toon: Toon) => toon.id);
       setSelectedToons(allToonIds);
       toons.forEach((toon) => (toon.checked = true));
     } else {
@@ -227,8 +228,8 @@ export default function MyGallery() {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            {createdToons.map((toon: any, index: number) => {
-              const date = new Date(toon.createdAt);
+            {createdToons.map((toon: Toon, index: number) => {
+              const date = new Date(toon.createdAt + '');
               const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
               return (
@@ -334,8 +335,8 @@ export default function MyGallery() {
             </div>
           </div>
           <div className="flex flex-col items-center">
-            {participatedToons.map((toon: any, index: number) => {
-              const date = new Date(toon.createdAt);
+            {participatedToons.map((toon: Toon, index: number) => {
+              const date = new Date(toon.createdAt + '');
               const formattedDate = `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
 
               return (

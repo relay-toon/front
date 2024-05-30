@@ -1,7 +1,3 @@
-'use client';
-
-import { RefObject, useEffect, useRef, useState } from 'react';
-
 interface PaletteModalProps {
   onClose: () => void;
   onColorSelect: (color: string) => void;
@@ -10,8 +6,6 @@ export default function PaletteModal({
   onClose,
   onColorSelect,
 }: PaletteModalProps) {
-  const colorRef = useRef<HTMLButtonElement>(null);
-
   return (
     <div
       className="fixed inset-0 z-40 flex h-screen w-screen  justify-center bg-black bg-opacity-50"

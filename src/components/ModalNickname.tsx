@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { usePutMyName } from '../hooks/usePutMyName';
-
-export default function ModalNickname({ closeModal }: { closeModal: any }) {
+interface CloseModalProps {
+  closeModal: () => void;
+}
+export default function ModalNickname({ closeModal }: CloseModalProps) {
   const [nickname, setNickname] = useState('');
   const { mutate: putMyName } = usePutMyName();
   const onNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

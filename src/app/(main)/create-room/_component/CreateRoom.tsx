@@ -8,15 +8,21 @@ import { usePostToon } from '@/src/hooks/usePostToon';
 import { CreateToonData } from '@/src/types/CreateToon';
 import { useRouter } from 'next/navigation';
 
+interface ToonData {
+  title: string;
+  headCount: number;
+  timer: number;
+  id: string;
+}
 export default function CreateRoom() {
   const [subjectText, setSubjectText] = useState('');
   const [memberOption, setMemberOption] = useState(0);
-  const [timeOption, setTimeOption] = useState<any>(0);
+  const [timeOption, setTimeOption] = useState<number>(0);
 
   const maxLength = 25;
-  let hashtagArr = ['#어디에서', '#누가', '#무엇을', '#어떻게', '#하는것'];
-  let memberNumArr = new Array(6).fill(0);
-  let drawingTime = ['제한없음', '12초', '16초', '20초'];
+  const hashtagArr = ['#어디에서', '#누가', '#무엇을', '#어떻게', '#하는것'];
+  const memberNumArr = new Array(6).fill(0);
+  const drawingTime = ['제한없음', '12초', '16초', '20초'];
   const sliderRef = useRef<HTMLDivElement>(null);
   const timeSetSliderRef = useRef<HTMLDivElement>(null);
   const createMutation = usePostToon();
@@ -29,7 +35,7 @@ export default function CreateRoom() {
         headCount: memberOption,
         timer: timeOption,
       };
-      const result = await createMutation.mutateAsync(data);
+      const result = await createMutation.mutateAsync(data as ToonData);
       router?.push(`/drawing/${result.id}?count=1`);
     } catch (error) {
       console.error('에러:', error);
