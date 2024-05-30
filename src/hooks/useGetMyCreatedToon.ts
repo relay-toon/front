@@ -8,7 +8,6 @@ const getMyCreatedToon = async (axiosInstance: AxiosInstance, page: number) => {
       page,
     },
   });
-  // console.log(response.data);
   return response.data;
 };
 

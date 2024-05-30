@@ -81,7 +81,7 @@ export default function MyGallery() {
     } else {
       refetchParticipated();
     }
-  }, [pageNumber, tab]);
+  }, [pageNumber, tab, refetchCreated, refetchParticipated]);
 
   const createdToons = myCreatedToon?.toons || [];
   const participatedToons = myParticipatedToon?.toons || [];
