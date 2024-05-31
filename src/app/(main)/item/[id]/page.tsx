@@ -9,7 +9,7 @@ export async function generateMetadata({
   params,
 }: MyItemPageProps): Promise<Metadata> {
   const { id } = params;
-  const toon = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/toons/${id}`)
+  const toon = await fetch(`${process.env.BACKEND_URL}/toons/${id}`)
     .then((res) => res.json())
     .catch((error) => {
       console.error(error);

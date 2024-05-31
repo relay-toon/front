@@ -9,7 +9,7 @@ export const metadata = {
 export default function MyGalleryPage() {
   return (
     <Suspense>
-      <MyGallery />;
+      <MyGallery />
     </Suspense>
   );
 }

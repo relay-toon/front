@@ -37,8 +37,8 @@ export default function CreateRoom() {
       };
       const result = await createMutation.mutateAsync(data as ToonData);
       router?.push(`/drawing/${result.id}?count=1`);
-    } catch (error) {
-      console.error('에러:', error);
+    } catch {
+      alert('에러가 발생했습니다.');
     }
   };
 
@@ -122,10 +122,6 @@ export default function CreateRoom() {
                 <span>{hashtag}</span>
               </div>
             ))}
-          </div>
-          <div className="mt-[20px] flex h-[31px] w-[93px] items-center justify-center rounded-[4px] bg-[#F2F2F2] text-sm">
-            <button className="text-[#9B9B9B]">예시문장보기</button>
-            {/* 예시문장 들어갈 곳 */}
           </div>
         </div>
         <div className="mt-[64px] h-[94px] " onWheel={mouseOverHandler}>

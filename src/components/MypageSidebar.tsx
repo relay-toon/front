@@ -35,7 +35,7 @@ export default function MyPageSideBar({ isOpen, setIsOpen }: IsLoggedIn) {
   const suggestBody = encodeURIComponent('건의내용을 적어주세요.');
   const mailto = () => {
     if (isLoggedIn) {
-      window.location.href = `mailto:${process.env.NEXT_PUBLIC_SUGGEST_EMAIL}?body=${suggestBody}`;
+      window.location.href = `mailto:${process.env.SUGGEST_EMAIL}?body=${suggestBody}`;
     } else {
       router.push('/login');
     }
