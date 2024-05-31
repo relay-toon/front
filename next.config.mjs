@@ -25,16 +25,15 @@ const nextConfig = {
       };
 
       config.module.rules.forEach((rule) => {
-        if (rule.oneOf) {
-          rule.oneOf.forEach((oneOf) => {
-            if (oneOf.use) {
-              oneOf.use.forEach((use) => {
-                if (use.loader && use.loader.includes('css-loader')) {
-                  use.options.modules = {
-                    localIdentName: '[hash:base64:8]',
-                  };
-                }
-              });
+        if (rule.test && rule.test.toString().includes('css')) {
+          rule.use.forEach((use) => {
+            if (use.loader && use.loader.includes('css-loader')) {
+              use.options = {
+                ...use.options,
+                modules: {
+                  localIdentName: '[hash:base64:8]',
+                },
+              };
             }
           });
         }
