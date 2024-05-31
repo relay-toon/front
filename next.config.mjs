@@ -11,23 +11,34 @@ const nextConfig = {
           external.toString().indexOf('fabric') === -1,
       );
     }
+
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
     });
+
     if (!dev) {
       config.optimization.minimize = true;
       config.optimization.splitChunks = {
         chunks: 'all',
         minSize: 0,
       };
-      const cssLoader = config.module.rules
-        .find((rule) => rule.test && rule.test.test('.css'))
-        .use.find((use) => use.loader === 'css-loader');
 
-      cssLoader.options.modules = {
-        localIdentName: '[hash:base64:8]',
-      };
+      config.module.rules.forEach((rule) => {
+        if (rule.oneOf) {
+          rule.oneOf.forEach((oneOf) => {
+            if (oneOf.use) {
+              oneOf.use.forEach((use) => {
+                if (use.loader && use.loader.includes('css-loader')) {
+                  use.options.modules = {
+                    localIdentName: '[hash:base64:8]',
+                  };
+                }
+              });
+            }
+          });
+        }
+      });
     }
 
     return config;
