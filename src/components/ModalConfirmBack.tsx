@@ -1,3 +1,5 @@
+import { useRouter } from 'next/navigation';
+
 interface ModalConfirmBack {
   setIsBack: React.Dispatch<React.SetStateAction<boolean>>;
   isBack: boolean;
@@ -14,6 +16,7 @@ export default function ModalConfirmBack({
       setStart(true);
     }
   };
+  const router = useRouter();
 
   const onBackgroundClick = () => {
     setIsBack(false);
@@ -23,9 +26,8 @@ export default function ModalConfirmBack({
     }
   };
   const onBackCLick = () => {
-    history.pushState(null, '', location.href);
-    history.back();
     setIsBack(false);
+    router.back();
   };
 
   return (
