@@ -32,8 +32,6 @@ export default function ModalConfirmBack({
     } else if (currentURL.split('/')[1] === 'finished-drawing') {
       router.replace('/');
     }
-    setIsBack(false);
-    router.back();
   };
 
   return (
