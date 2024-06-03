@@ -16,8 +16,8 @@ export default function ModalShare({ id, setIsShare, prevPage }: ModalShare) {
   const currentUrl =
     toonData?.headCount === toonData?.participants?.length ||
     prevPage === 'item'
-      ? `/item/${toonData?.id}`
-      : `/prevPicture/${id}?count=${toonData?.participants?.length + 1}`;
+      ? `https://relaytoon.site/item/${toonData?.id}`
+      : `https://relaytoon.site/prevPicture/${id}?count=${toonData?.participants?.length + 1}`;
 
   const onClick = () => {
     const t = document.createElement('textarea');

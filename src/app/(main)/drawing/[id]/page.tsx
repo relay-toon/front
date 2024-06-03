@@ -75,7 +75,7 @@ export default function DrawingPage() {
           browserPreventEvent(customback);
         });
       };
-    });
+    }, []);
   }
   useConstomBack(confirmBack);
   function dataURLtoFile(dataUrl: string, filename: string) {
@@ -169,7 +169,6 @@ export default function DrawingPage() {
             setStart={setStart}
             setIsBack={setIsBack}
             isBack={isBack}
-            handleBackConfirm={handleBackConfirm}
           />
         </div>
       )}

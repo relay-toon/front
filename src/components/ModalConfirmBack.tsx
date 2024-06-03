@@ -16,16 +16,22 @@ export default function ModalConfirmBack({
       setStart(true);
     }
   };
-  const router = useRouter();
+
+  const currentURL = window.location.pathname;
 
   const onBackgroundClick = () => {
     setIsBack(false);
-
     if (setStart) {
       setStart(true);
     }
   };
+  const router = useRouter();
   const onBackCLick = () => {
+    if (currentURL.split('/')[1] === 'drawing') {
+      router.replace('/create-room');
+    } else if (currentURL.split('/')[1] === 'finished-drawing') {
+      router.replace('/');
+    }
     setIsBack(false);
     router.back();
   };

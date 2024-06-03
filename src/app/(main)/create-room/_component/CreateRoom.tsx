@@ -37,7 +37,8 @@ export default function CreateRoom() {
       };
       const result = await createMutation.mutateAsync(data as ToonData);
       router?.push(`/drawing/${result.id}?count=1`);
-    } catch {
+    } catch (err) {
+      console.log(err);
       alert('에러가 발생했습니다.');
     }
   };

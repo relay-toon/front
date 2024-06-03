@@ -8,10 +8,11 @@ import MyPageSideBar from '@/src/components/MypageSidebar';
 import { useParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
-import { useRouter } from 'next/navigation';
+import ModalConfirmBack from '@/src/components/ModalConfirmBack';
 
 export default function FinishedDrawing() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isBack, setIsBack] = useState(false);
 
   const onClick = () => {
     setIsOpen(false);
@@ -19,9 +20,8 @@ export default function FinishedDrawing() {
   const { id } = useParams();
   const { data: toon, isLoading } = useGetToonInfo(id);
 
-  const router = useRouter();
   const confirmBack = () => {
-    router.replace('/');
+    setIsBack(true);
   };
   function useConstomBack(customback: () => void) {
     const browserPreventEvent = (event: () => void) => {
@@ -38,7 +38,7 @@ export default function FinishedDrawing() {
           browserPreventEvent(customback);
         });
       };
-    });
+    }, []);
   }
   useConstomBack(confirmBack);
   if (isLoading) {
@@ -46,6 +46,7 @@ export default function FinishedDrawing() {
   }
   return (
     <div>
+      {isBack && <ModalConfirmBack setIsBack={setIsBack} isBack={isBack} />}
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
         {toon?.participants.length === toon?.headCount

@@ -5,25 +5,27 @@ interface MyItemPageProps {
     id: string;
   };
 }
+
 export async function generateMetadata({
   params,
 }: MyItemPageProps): Promise<Metadata> {
   const { id } = params;
+<<<<<<< HEAD
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/toons/${id}}`,
+  )
+=======
   const toon = await fetch(`${process.env.BACKEND_URL}/toons/${id}`)
+>>>>>>> cfa1220af09b8c4a64bea27f6db83241d2a63d27
     .then((res) => res.json())
-    .catch((error) => {
-      console.error(error);
-      return {
-        title: '릴레이툰',
-        description:
-          '릴레이툰에서 다양한 사용자와 함께 그림을 이어 그려보세요. 창의력을 발휘하고 재미있는 스토리를 완성하세요!',
-      };
-    });
+    .catch((err) => console.log(err));
+
   return {
-    title: `${toon.title} / 릴레이툰`,
-    description: `${toon.title} 그림입니다.`,
+    title: `${response.title}/relaytoon`,
+    description: response.title,
   };
 }
+
 export default function ItemPage({ params }: MyItemPageProps) {
   return <Item id={params.id} />;
 }
