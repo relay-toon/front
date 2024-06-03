@@ -164,11 +164,14 @@ export default function DrawingPage() {
         </div>
       )}
       {isBack && (
-        <ModalConfirmBack
-          setStart={setStart}
-          setIsBack={setIsBack}
-          isBack={isBack}
-        />
+        <div className="fixed z-50">
+          <ModalConfirmBack
+            setStart={setStart}
+            setIsBack={setIsBack}
+            isBack={isBack}
+            handleBackConfirm={handleBackConfirm}
+          />
+        </div>
       )}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />
