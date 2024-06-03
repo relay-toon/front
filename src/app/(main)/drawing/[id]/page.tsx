@@ -66,12 +66,12 @@ export default function DrawingPage() {
       event();
     };
     useEffect(() => {
-      history.pushState(null, "", location.href);
-      window.addEventListener("popstate", () => {
+      history.pushState(null, '', location.href);
+      window.addEventListener('popstate', () => {
         browserPreventEvent(customback);
       });
       return () => {
-        window.removeEventListener("popstate", () => {
+        window.removeEventListener('popstate', () => {
           browserPreventEvent(customback);
         });
       };
@@ -164,11 +164,13 @@ export default function DrawingPage() {
         </div>
       )}
       {isBack && (
-        <ModalConfirmBack
-          setStart={setStart}
-          setIsBack={setIsBack}
-          isBack={isBack}
-        />
+        <div className="fixed z-50">
+          <ModalConfirmBack
+            setStart={setStart}
+            setIsBack={setIsBack}
+            isBack={isBack}
+          />
+        </div>
       )}
       <div className="mb-[1rem] flex flex-row justify-between">
         <OnlyLogoHeader />

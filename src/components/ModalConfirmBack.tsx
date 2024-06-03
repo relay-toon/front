@@ -33,16 +33,17 @@ export default function ModalConfirmBack({
       router.replace('/');
     }
     setIsBack(false);
+    router.back();
   };
 
   return (
     <>
       <div
         onClick={onBackgroundClick}
-        className="margin-auto fixed top-0 z-40 h-[100vh] w-[390px] overflow-hidden"
+        className="fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
         style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
       ></div>
-      <div className="*:custom-pretendard-font absolute left-[33%] top-1/3 z-50 flex h-[189px] w-[300px] flex-col items-center rounded-[12px] bg-white">
+      <div className="*:custom-pretendard-font relative inset-0 left-10 top-60 z-50 flex h-[189px] w-[300px] flex-col items-center rounded-[12px] bg-white">
         <div className="flex h-[129px] w-[300px] flex-col items-center justify-center gap-[8px] font-medium">
           <span className="text-[20px] ">그리는 중이에요!</span>
           <span className="flex flex-col items-center text-[16px] text-[#9E9E9E]">
