@@ -66,16 +66,16 @@ export default function DrawingPage() {
       event();
     };
     useEffect(() => {
-      history.pushState(null, '', location.href);
-      window.addEventListener('popstate', () => {
+      history.pushState(null, "", location.href);
+      window.addEventListener("popstate", () => {
         browserPreventEvent(customback);
       });
       return () => {
-        window.removeEventListener('popstate', () => {
+        window.removeEventListener("popstate", () => {
           browserPreventEvent(customback);
         });
       };
-    });
+    }, []);
   }
   useConstomBack(confirmBack);
   function dataURLtoFile(dataUrl: string, filename: string) {
