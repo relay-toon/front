@@ -12,7 +12,6 @@ import { useRouter } from 'next/navigation';
 
 export default function FinishedDrawing() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isBack, setIsBack] = useState(false);
 
   const onClick = () => {
     setIsOpen(false);
