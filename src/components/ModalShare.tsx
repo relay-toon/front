@@ -19,16 +19,13 @@ export default function ModalShare({ id, setIsShare, prevPage }: ModalShare) {
       ? `https://relaytoon.site/item/${toonData?.id}`
       : `https://relaytoon.site/prevPicture/${id}?count=${toonData?.participants?.length + 1}`;
 
-  const onClick = () => {
-    const t = document.createElement('textarea');
-    document.body.appendChild(t);
-    t.value = currentUrl;
-    t.select();
-    document.execCommand('copy');
-    document.body.removeChild(t);
-
-    alert('클립보드에 복사되었습니다');
-    setIsShare(false);
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('클립보드에 링크가 복사되었습니다.');
+    } catch (e) {
+      alert('복사에 실패하였습니다');
+    }
   };
 
   const onBackgroundClick = () => {
@@ -53,7 +50,7 @@ export default function ModalShare({ id, setIsShare, prevPage }: ModalShare) {
         </div>
 
         <button
-          onClick={onClick}
+          onClick={() => handleCopyClipBoard(currentUrl)}
           className="h-[50px] w-[140px] rounded-[6px] bg-black text-lg font-bold text-white"
         >
           복사
