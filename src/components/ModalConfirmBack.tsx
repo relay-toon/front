@@ -40,11 +40,11 @@ export default function ModalConfirmBack({
 
   return (
     <>
-      <div
-        onClick={onBackgroundClick}
-        className="fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
-        style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
-      ></div>
+        <div
+          onClick={onBackgroundClick}
+          className="fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"
+          style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
+        ></div>
       <div className="*:custom-pretendard-font relative inset-0 left-10 top-60 z-50 flex h-[189px] w-[300px] flex-col items-center rounded-[12px] bg-white">
         <div className="flex h-[129px] w-[300px] flex-col items-center justify-center gap-[8px] font-medium">
           <span className="text-[20px] ">그리는 중이에요!</span>

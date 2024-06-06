@@ -7,14 +7,21 @@ import MenuHeader from '@/src/components/header/MenuHeader';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import Image from 'next/image';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useGetLock } from '@/src/hooks/useGetLock';
 import ModalIsLoggedIn from '@/src/components/ModalIsLoggedIn';
+import ModalLogin from '@/src/components/ModalLogIn';
+import ModlaConfrimLogin from '@/src/components/ModalConfirmLogin';
+import Cookies from 'js-cookie';
 
 export default function PrevPicture() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams<{ id: string }>();
   const router = useRouter();
@@ -22,6 +29,10 @@ export default function PrevPicture() {
   const { data: toonInfo } = useGetToonInfo(params.id);
   const { data: myInfo } = useGetMyInfo();
   const { refetch: GetLock } = useGetLock(params.id);
+  const [comfirmLoggedIn, setComfirmLoggedIn] = useState(false);
+  const cookie = Cookies.get('isLoggedIn');
+  const path = usePathname();
+
   const count = searchParam.get('count');
   useEffect(() => {
     if (toonInfo && toonInfo.completed === true) {
@@ -34,6 +45,10 @@ export default function PrevPicture() {
   }
 
   const onDrawingClick = async () => {
+    if (!cookie) {
+      setComfirmLoggedIn(true);
+      return;
+    }
     if (myInfo) {
       if (
         toonInfo.ownerId === myInfo.id ||
@@ -60,7 +75,7 @@ export default function PrevPicture() {
       <div className="flex justify-between">
         <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
-      <div className="mb-[1rem] mt-[48px] flex flex-col">
+      <div className="relative mb-[1rem] mt-[48px] flex flex-col">
         <div className=" mt-[7px] flex flex-col items-center gap-[16px]">
           <div className="custom-waguri-font flex text-[24px] font-[400]">
             <span>{toonInfo?.participants.length + 1}번째로&nbsp;&nbsp;</span>
@@ -150,6 +165,14 @@ export default function PrevPicture() {
             params={params.id}
             count={count}
             setIsLoggedIn={setIsLoggedIn}
+          />
+        )}
+        {comfirmLoggedIn && (
+          <ModlaConfrimLogin
+            params={params}
+            path={path}
+            count={count}
+            setComfirmLoggedIn={setComfirmLoggedIn}
           />
         )}
       </div>
