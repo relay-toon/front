@@ -1,5 +1,4 @@
 'use client';
-import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import ModalShare from './ModalShare';
 
@@ -8,8 +7,6 @@ interface IShare {
 }
 
 export default function ShareButton({ id }: IShare) {
-  const pathname = usePathname();
-  const prevPage = pathname.split('/')[1];
   const [isShare, setIsShare] = useState(false);
   const onClick = () => {
     setIsShare(true);
@@ -22,9 +19,7 @@ export default function ShareButton({ id }: IShare) {
       >
         공유하기
       </button>
-      {isShare && (
-        <ModalShare id={id} prevPage={prevPage} setIsShare={setIsShare} />
-      )}
+      {isShare && <ModalShare id={id} setIsShare={setIsShare} />}
     </>
   );
 }
