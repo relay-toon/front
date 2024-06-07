@@ -1,5 +1,4 @@
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '../store/authStore';
 interface ModalConfirmBack {
   setIsBack: React.Dispatch<React.SetStateAction<boolean>>;
   isBack: boolean;
@@ -10,7 +9,6 @@ export default function ModalConfirmBack({
   setIsBack,
   setStart,
 }: ModalConfirmBack) {
-  const { isLoggedIn } = useAuthStore();
   const onQuitClick = () => {
     setIsBack(false);
     if (setStart) {
@@ -27,8 +25,8 @@ export default function ModalConfirmBack({
     }
   };
   const router = useRouter();
-  const onBackCLick = () => {
-    if (currentURL.split('/')[1] === 'drawing' && isLoggedIn) {
+  const onBackClick = () => {
+    if (currentURL.split('/')[1] === 'drawing') {
       setIsBack(false);
       router.replace('/create-room');
     } else if (currentURL.split('/')[1] === 'finished-drawing') {
@@ -60,7 +58,7 @@ export default function ModalConfirmBack({
             <span>취소</span>
           </div>
           <div
-            onClick={onBackCLick}
+            onClick={onBackClick}
             className="flex w-[150px] cursor-pointer items-center justify-center text-[#D84D45]"
           >
             <span>뒤로가기</span>

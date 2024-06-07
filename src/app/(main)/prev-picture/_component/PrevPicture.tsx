@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useGetLock } from '@/src/hooks/useGetLock';
 import ModalIsLoggedIn from '@/src/components/ModalIsLoggedIn';
-import ModlaConfrimLogin from '@/src/components/ModalConfirmLogin';
+import ModalConfirmLogin from '@/src/components/ModalConfirmLogin';
 import Cookies from 'js-cookie';
 
 export default function PrevPicture() {
@@ -167,11 +167,11 @@ export default function PrevPicture() {
           />
         )}
         {comfirmLoggedIn && (
-          <ModlaConfrimLogin
+          <ModalConfirmLogin
             params={params}
             path={path}
             count={count}
-            setComfirmLoggedIn={setComfirmLoggedIn}
+            setConfirmLoggedIn={setComfirmLoggedIn}
           />
         )}
       </div>

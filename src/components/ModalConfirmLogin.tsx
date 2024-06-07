@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation';
 import { SetStateAction } from 'react';
 
-interface IModalConfrim {
-  setComfirmLoggedIn: React.Dispatch<SetStateAction<boolean>>;
+interface IModalConfirm {
+  setConfirmLoggedIn: React.Dispatch<SetStateAction<boolean>>;
   params: {
     id: string;
   };
@@ -10,16 +10,16 @@ interface IModalConfrim {
   path: string;
 }
 
-export default function ModlaConfrimLogin({
-  setComfirmLoggedIn,
+export default function ModalConfirmLogin({
+  setConfirmLoggedIn,
   params,
   count,
   path,
-}: IModalConfrim) {
+}: IModalConfirm) {
   const router = useRouter();
 
   const onBackgroundClick = () => {
-    setComfirmLoggedIn(false);
+    setConfirmLoggedIn(false);
   };
   const onDrawingClick = () => {
     router.push(`/drawing/${params.id}?count=${count}`);
