@@ -15,7 +15,7 @@ export default function ModalShare({ id, setIsShare }: ModalShare) {
   const currentUrl =
     toonData?.headCount === toonData?.participants?.length
       ? `https://relaytoon.site/item/${toonData?.id}`
-      : `https://relaytoon.site/prevPicture/${id}?count=${toonData?.participants?.length + 1}`;
+      : `https://relaytoon.site/prev-picture/${id}?count=${toonData?.participants?.length + 1}`;
 
   const handleCopyClipBoard = async (text: string) => {
     try {
