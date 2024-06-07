@@ -14,7 +14,6 @@ import ModalIsLoggedIn from '@/src/components/ModalIsLoggedIn';
 
 export default function PrevPicture() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams<{ id: string }>();
   const router = useRouter();
