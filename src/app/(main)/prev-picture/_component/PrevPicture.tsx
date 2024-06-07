@@ -16,7 +16,6 @@ import {
 import { useEffect, useState } from 'react';
 import { useGetLock } from '@/src/hooks/useGetLock';
 import ModalIsLoggedIn from '@/src/components/ModalIsLoggedIn';
-import ModalLogin from '@/src/components/ModalLogIn';
 import ModlaConfrimLogin from '@/src/components/ModalConfirmLogin';
 import Cookies from 'js-cookie';
 
