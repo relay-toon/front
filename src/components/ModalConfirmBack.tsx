@@ -28,7 +28,7 @@ export default function ModalConfirmBack({
   };
   const router = useRouter();
   const onBackCLick = () => {
-    if (currentURL.split('/')[1] === 'drawing' && isLoggedIn === true) {
+    if (currentURL.split('/')[1] === 'drawing' && isLoggedIn) {
       setIsBack(false);
       router.replace('/create-room');
     } else if (currentURL.split('/')[1] === 'finished-drawing') {
