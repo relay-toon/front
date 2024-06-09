@@ -4,7 +4,10 @@ import TerserPlugin from 'terser-webpack-plugin';
 
 const nextConfig = {
   images: {
-    domains: ['relaytoon-dev.s3.ap-northeast-2.amazonaws.com'],
+    domains: [
+      'relaytoon-dev.s3.ap-northeast-2.amazonaws.com',
+      'relaytoon-prod.s3.ap-northeast-2.amazonaws.com',
+    ],
   },
   env: {
     NEXT_PUBLIC_BACKEND_URL:

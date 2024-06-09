@@ -10,11 +10,24 @@ export async function generateMetadata({
   params,
 }: MyItemPageProps): Promise<Metadata> {
   const { id } = params;
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/toons/${id}}`,
-  )
-    .then((res) => res.json())
-    .catch((err) => console.log(err));
+  let response;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/toons/${id}`,
+    );
+    if (!res.ok) {
+      throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
+    }
+    response = await res.json();
+  } catch (err) {
+    console.error('error', err);
+    response = {
+      title: '알 수 없는 제목',
+    };
+  }
+
+  console.log(response);
 
   return {
     title: `${response.title}/relaytoon`,

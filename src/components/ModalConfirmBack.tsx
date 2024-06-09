@@ -1,5 +1,4 @@
 import { useRouter } from 'next/navigation';
-
 interface ModalConfirmBack {
   setIsBack: React.Dispatch<React.SetStateAction<boolean>>;
   isBack: boolean;
@@ -26,15 +25,13 @@ export default function ModalConfirmBack({
     }
   };
   const router = useRouter();
-  const onBackCLick = () => {
+  const onBackClick = () => {
     if (currentURL.split('/')[1] === 'drawing') {
       setIsBack(false);
       router.replace('/create-room');
-      // console.log('create-roon')
     } else if (currentURL.split('/')[1] === 'finished-drawing') {
       setIsBack(false);
       router.replace('/');
-      // console.log('finished-drawing')
     }
   };
 
@@ -61,7 +58,7 @@ export default function ModalConfirmBack({
             <span>취소</span>
           </div>
           <div
-            onClick={onBackCLick}
+            onClick={onBackClick}
             className="flex w-[150px] cursor-pointer items-center justify-center text-[#D84D45]"
           >
             <span>뒤로가기</span>

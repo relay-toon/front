@@ -5,8 +5,9 @@ import MenuHeader from './header/MenuHeader';
 import LargeBtn from './LargeBtn';
 import Link from 'next/link';
 import { useAuthStore } from '../store/authStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MyPageSideBar from './MypageSidebar';
+import { useRouter } from 'next/navigation';
 
 export default function Main() {
   const { isLoggedIn } = useAuthStore();
@@ -14,7 +15,17 @@ export default function Main() {
   const onClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) setIsOpen(false);
   };
-
+  const router = useRouter();
+  useEffect(() => {
+    if (localStorage.getItem('prevURL')) {
+      router.push(
+        `/drawing/${localStorage.getItem('params')}?count=${localStorage.getItem('count')}`,
+      );
+    }
+    localStorage.removeItem('prevURL');
+    localStorage.removeItem('params');
+    localStorage.removeItem('count');
+  }, []);
   return (
     <div className="relative overflow-x-hidden">
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />

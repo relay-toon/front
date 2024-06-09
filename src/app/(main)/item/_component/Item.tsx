@@ -7,6 +7,7 @@ import { useState } from 'react';
 import MemberModal from './MemberModal';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
+import LoadingSpinner from '@/src/components/LoadingSpinner';
 interface ItemProps {
   id: string;
 }
@@ -14,7 +15,7 @@ export default function ItemPage({ id }: ItemProps) {
   const now = Date.now();
   const date = new Date(now).toLocaleDateString();
 
-  const { data: toon, refetch } = useGetToonInfo(id);
+  const { data: toon, isLoading, error, refetch } = useGetToonInfo(id);
   const [showModal, setShowModal] = useState(false);
   const { mutate: deleteToon } = useDeleteToon();
 
@@ -38,7 +39,13 @@ export default function ItemPage({ id }: ItemProps) {
   const handleOpenModal = () => {
     setShowModal(true);
   };
-
+  if (error) {
+    console.error(error);
+    alert('에러가 발생했습니다. 다시 시도해주세요.');
+  }
+  if (isLoading || !toon) {
+    return <LoadingSpinner />;
+  }
   return (
     <div className="mb-[100px]">
       {showModal && (
