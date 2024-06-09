@@ -7,14 +7,17 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
 import { Toon } from '@/src/types/Toon';
+import FilterDropdown from './FilterDropdown';
 
 export default function MyGallery() {
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get('page') || '1', 10);
   const initialTab =
     (searchParams.get('tab') as 'create' | 'participate') || 'create';
+  const initialFilter = searchParams.get('filter') === 'true';
   const [tab, setTab] = useState<'create' | 'participate'>(initialTab);
   const [pageNumber, setPageNumber] = useState(initialPage);
+  const [filterType, setFilterType] = useState(initialFilter);
   const [totalPages, setTotalPages] = useState(1);
   const maxButtons = 5;
 
@@ -29,23 +32,26 @@ export default function MyGallery() {
 
   const { startPage, endPage } = calculatePageRange();
 
-  const { data: myCreatedToon, refetch: refetchCreated } =
-    useGetMyCreatedToon(pageNumber);
+  const { data: myCreatedToon, refetch: refetchCreated } = useGetMyCreatedToon(
+    pageNumber,
+    filterType,
+  );
 
   const { data: myParticipatedToon, refetch: refetchParticipated } =
-    useGetMyParticipatedToon(pageNumber);
+    useGetMyParticipatedToon(pageNumber, filterType);
+
   const handleTabChange = (newTab: 'create' | 'participate') => {
     if (newTab !== tab) {
       setTab(newTab);
       setPageNumber(1);
-      router.push(`?tab=${newTab}&page=1`);
+      router.push(`?tab=${newTab}&page=1&filter=false`);
     }
   };
 
   const handlePageChange = (newPage: number) => {
     if (newPage !== pageNumber && newPage >= 1 && newPage <= totalPages) {
       setPageNumber(newPage);
-      router.push(`?tab=${tab}&page=${newPage}`);
+      router.push(`?tab=${tab}&page=${newPage}&filter=${filterType}`);
       window.scrollTo(0, 0);
     }
   };
@@ -57,12 +63,15 @@ export default function MyGallery() {
   const handlePrevPageSet = () => {
     handlePageChange(pageNumber - 1);
   };
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const page = parseInt(params.get('page') || '1', 10);
     const tab = (params.get('tab') as 'create' | 'participate') || 'create';
+    const filter = params.get('filter') === 'true';
     setTab(tab);
     setPageNumber(page);
+    setFilterType(filter);
   }, [searchParams]);
 
   useEffect(() => {
@@ -81,14 +90,14 @@ export default function MyGallery() {
     } else {
       refetchParticipated();
     }
-  }, [pageNumber, tab, refetchCreated, refetchParticipated]);
+  }, [pageNumber, tab, filterType, refetchCreated, refetchParticipated]);
 
   const createdToons = myCreatedToon?.toons || [];
   const participatedToons = myParticipatedToon?.toons || [];
   const { mutate: deleteToon } = useDeleteToon();
   const [isDelete, setIsDelete] = useState(false);
   const [selectedToons, setSelectedToons] = useState<string[]>([]);
-  const onClickIsDelte = () => {
+  const onClickIsDelete = () => {
     setIsDelete((prev) => !prev);
     setSelectedToons([]);
   };
@@ -132,6 +141,13 @@ export default function MyGallery() {
       alert('삭제할 그림을 선택하세요');
     }
   };
+
+  const handleFilterChange = (value) => {
+    setFilterType(value);
+    setPageNumber(1);
+    router.push(`?tab=${tab}&page=1&filter=${value}`);
+  };
+
   return (
     <div className="min-h-[754px]">
       <div className="flex">
@@ -200,10 +216,11 @@ export default function MyGallery() {
                 </div>
               )}
             </div>
-            <div>
+
+            <div className="flex items-center">
               {isDelete ? (
-                <div className="flex w-[150px] items-center justify-end gap-3">
-                  <div className="cursor-pointer" onClick={onClickIsDelte}>
+                <div className="flex w-[150px] justify-end gap-3">
+                  <div className="cursor-pointer" onClick={onClickIsDelete}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -221,10 +238,16 @@ export default function MyGallery() {
                   </div>
                 </div>
               ) : (
-                <span className="cursor-pointer" onClick={onClickIsDelte}>
+                <span className="cursor-pointer" onClick={onClickIsDelete}>
                   Edit
                 </span>
               )}
+              <div className="ml-2">
+                <FilterDropdown
+                  selectedFilter={filterType}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
             </div>
           </div>
           <div className="flex flex-col items-center">
@@ -257,7 +280,7 @@ export default function MyGallery() {
                     {isDelete && (
                       <div className="absolute top-[-220px]">
                         <div
-                          className="z-10 h-[204px] w-[350px] overflow-hidden rounded-xl "
+                          className="z-10 h-[204px] w-[350px] overflow-hidden rounded-xl"
                           style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
                         />
                         <input
@@ -265,7 +288,7 @@ export default function MyGallery() {
                           type="checkbox"
                           value={toon.id}
                           onChange={onCheckboxClick}
-                          className="z-60 absolute left-[46%] top-[41%] size-[40px] rounded-xl accent-[#E0FF68] opacity-50 "
+                          className="z-60 absolute left-[46%] top-[41%] size-[40px] rounded-xl accent-[#E0FF68] opacity-50"
                         />
                       </div>
                     )}
@@ -308,9 +331,9 @@ export default function MyGallery() {
               )}
             </div>
             <div>
-              <div className="flex w-full items-center justify-end gap-3">
+              <div className="flex w-full items-center justify-end">
                 {isDelete ? (
-                  <div className="cursor-pointer" onClick={onClickIsDelte}>
+                  <div className="cursor-pointer" onClick={onClickIsDelete}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -327,10 +350,16 @@ export default function MyGallery() {
                     </svg>
                   </div>
                 ) : (
-                  <span className="cursor-pointer" onClick={onClickIsDelte}>
+                  <span className="cursor-pointer" onClick={onClickIsDelete}>
                     Edit
                   </span>
                 )}
+                <div className="ml-2">
+                  <FilterDropdown
+                    selectedFilter={filterType}
+                    onFilterChange={handleFilterChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -389,7 +418,9 @@ export default function MyGallery() {
           <button
             key={startPage + i}
             onClick={() => handlePageChange(startPage + i)}
-            className={`mx-1 p-2 text-lg ${pageNumber === startPage + i ? 'font-bold' : 'font-normal'}`}
+            className={`mx-1 p-2 text-lg ${
+              pageNumber === startPage + i ? 'font-bold' : 'font-normal'
+            }`}
           >
             {startPage + i}
           </button>

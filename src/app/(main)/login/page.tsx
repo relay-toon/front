@@ -18,12 +18,12 @@ export default function LoginPage() {
       </div>
       <div className="mt-7 flex flex-row">
         <a
-          href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/kakao&no_cache=${Date.now()}`}
+          href={`https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.KAKAO_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/kakao`}
         >
           <Image src="/svg/kakao.svg" alt="kakao" width={70} height={70} />
         </a>
         <a
-          href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NAVER_CLIENT_KEY}&state=STATE_STRING&redirect_uri=${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/naver&no_cache=${Date.now()}`}
+          href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NAVER_CLIENT_KEY}&state=STATE_STRING&redirect_uri=${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/naver`}
         >
           <Image
             src="/svg/naver.svg"
@@ -34,7 +34,7 @@ export default function LoginPage() {
           />
         </a>
         <a
-          href={`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.GOOGLE_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email&no_cache=${Date.now()}`}
+          href={`https://accounts.google.com/o/oauth2/auth?client_id=${process.env.GOOGLE_CLIENT_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`}
         >
           <Image
             src="/svg/google.svg"
