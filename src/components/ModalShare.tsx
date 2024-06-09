@@ -4,7 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 
 interface ModalShare {
   id: string | string[];
-  setIsShare: React.Dispatch<SetStateAction<boolean>>;
+  setIsShare: React.Dispatch<SetStateAction<boolean>>;  
 }
 
 export default function ModalShare({ id, setIsShare }: ModalShare) {
