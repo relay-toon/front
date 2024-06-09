@@ -37,7 +37,7 @@ export default function ModalShare({ id, setIsShare }: ModalShare) {
         className="margin-auto fixed top-0 z-10 h-[100vh] w-[390px] overflow-hidden"
         style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
       ></div>
-      <div className="absolute left-[34%] top-1/3 z-40 flex h-[280px] w-[296px] flex-col items-center justify-center gap-[34px] rounded-[12px] bg-white px-5 py-3">
+      <div className="absolute inset-0 left-10 top-[-580px] z-40 flex h-[280px] w-[296px] flex-col items-center justify-center gap-[34px] rounded-[12px] bg-white px-5 py-3">
         <div className="custom-waguri-font flex flex-col items-center gap-2">
           <span className="text-center text-xl">그림 공유하기</span>
         </div>
