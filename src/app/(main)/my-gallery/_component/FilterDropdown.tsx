@@ -20,7 +20,7 @@ export default function FilterDropdown({ selectedFilter, onFilterChange }) {
   return (
     <div className="relative">
       <button
-        className="flex h-9 w-20 items-center justify-center rounded-md border border-gray-300 bg-white px-2 text-base font-medium"
+        className="flex h-9 w-24 items-center justify-center rounded-md border  border-gray-300 bg-white px-2 text-base font-medium"
         onClick={toggleDropdown}
       >
         {filterTypeList.find((f) => f.value === selectedFilter)?.label}
