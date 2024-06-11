@@ -36,7 +36,7 @@ export default function FilterDropdown({ selectedFilter, onFilterChange }) {
           {filterTypeList.map((type) => (
             <button
               key={type.label}
-              className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
+              className="block w-full px-4 py-2 text-left text-[14px] text-gray-700 hover:bg-gray-100"
               onClick={() => handleFilterChange(type.value)}
             >
               {type.label}
