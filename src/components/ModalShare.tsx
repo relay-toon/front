@@ -21,6 +21,7 @@ export default function ModalShare({ id, setIsShare }: ModalShare) {
     try {
       await navigator.clipboard.writeText(text);
       alert('클립보드에 링크가 복사되었습니다.');
+      setIsShare(false);
     } catch (e) {
       alert('복사에 실패하였습니다');
     }
