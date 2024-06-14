@@ -4,12 +4,21 @@ import ModalInquiryComplete from '@/src/components/Modal-inquiryComplete';
 import BackHeader from '@/src/components/header/BackHeader';
 import { usePostInquiry } from '@/src/hooks/usePostInquiry';
 import { PostInquiry } from '@/src/types/CreateInquiry';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/src/store/authStore';
 
 export default function Inquiry() {
   const [content, setContent] = useState<string>('');
   const [isInquiryComplete, setIsInquiryComplete] = useState<boolean>(false);
   const postInquiry = usePostInquiry();
+  const router = useRouter();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  }, [isLoggedIn]);
   const handleSubmit = async () => {
     try {
       const data: PostInquiry = {

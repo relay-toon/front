@@ -2,8 +2,10 @@
 import ModalNickname from '@/src/components/ModalNickname';
 import BackHeader from '@/src/components/header/BackHeader';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
+import { useAuthStore } from '@/src/store/authStore';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function Mypage() {
   const [showNicknameModal, setShowNicknameModal] = useState(false);
@@ -16,11 +18,16 @@ export default function Mypage() {
     setShowNicknameModal(false);
   };
   const { data: myInfo } = useGetMyInfo();
-  console.log(myInfo);
+  const router = useRouter();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const onNicknameClick = () => {
     setShowNicknameModal(!showNicknameModal);
   };
-
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  }, [isLoggedIn]);
   return (
     <div className="flex h-screen w-full flex-col items-center">
       <BackHeader text="계정정보" />

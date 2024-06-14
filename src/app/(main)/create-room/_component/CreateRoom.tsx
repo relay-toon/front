@@ -7,6 +7,7 @@ import BackHeader from '@/src/components/header/BackHeader';
 import { usePostToon } from '@/src/hooks/usePostToon';
 import { CreateToonData } from '@/src/types/CreateToon';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/src/store/authStore';
 
 interface ToonData {
   title: string;
@@ -27,7 +28,12 @@ export default function CreateRoom() {
   const timeSetSliderRef = useRef<HTMLDivElement>(null);
   const createMutation = usePostToon();
   const router = useRouter();
-
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  }, [isLoggedIn]);
   const handleSubmit = async () => {
     try {
       const data: CreateToonData = {

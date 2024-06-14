@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
 import { Toon } from '@/src/types/Toon';
 import FilterDropdown from './FilterDropdown';
+import { useAuthStore } from '@/src/store/authStore';
 
 export default function MyGallery() {
   const searchParams = useSearchParams();
@@ -19,9 +20,15 @@ export default function MyGallery() {
   const [pageNumber, setPageNumber] = useState(initialPage);
   const [filterType, setFilterType] = useState(initialFilter);
   const [totalPages, setTotalPages] = useState(1);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const maxButtons = 5;
 
   const router = useRouter();
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  }, [isLoggedIn]);
 
   const calculatePageRange = () => {
     const currentSet = Math.ceil(pageNumber / maxButtons);
