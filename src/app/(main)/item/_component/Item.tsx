@@ -115,7 +115,7 @@ export default function ItemPage({ id }: ItemProps) {
       </div>
       <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
-        <ShareButton id={id} />
+        <ShareButton />
       </div>
     </div>
   );

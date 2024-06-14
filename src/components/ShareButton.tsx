@@ -3,7 +3,7 @@
 import { SetStateAction } from 'react';
 
 interface IShare {
-  setIsShare: React.Dispatch<SetStateAction<boolean>>;
+  setIsShare?: React.Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ShareButton({ setIsShare }: IShare) {

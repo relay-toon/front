@@ -192,7 +192,7 @@ export default function DrawingPage() {
           positionStyle={{ top: '0px', left: '150px', position: 'relative' }}
         />
       </div>
-      <div className="ml-auto mr-auto flex w-[350px] rounded-lg bg-white px-5 py-3 text-base">
+      <div className="ml-auto mr-auto flex w-[350px] rounded-lg bg-white px-5 py-3 text-lg font-extrabold ">
         <span>{toonData?.title}</span>
       </div>
       <div className="relative ml-auto mr-auto mt-3 w-[350px]">

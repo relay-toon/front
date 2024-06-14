@@ -4,7 +4,7 @@ import LoadingSpinner from './LoadingSpinner';
 
 interface ModalShare {
   id: string | string[];
-  setIsShare: React.Dispatch<SetStateAction<boolean>>;
+  setIsShare: React.Dispatch<SetStateAction<boolean>>;  
 }
 
 export default function ModalShare({ id, setIsShare }: ModalShare) {
@@ -21,6 +21,7 @@ export default function ModalShare({ id, setIsShare }: ModalShare) {
     try {
       await navigator.clipboard.writeText(text);
       alert('클립보드에 링크가 복사되었습니다.');
+      setIsShare(false);
     } catch (e) {
       alert('복사에 실패하였습니다');
     }
@@ -37,7 +38,7 @@ export default function ModalShare({ id, setIsShare }: ModalShare) {
         className="margin-auto fixed top-0 z-10 h-[100vh] w-[390px] overflow-hidden"
         style={{ backgroundColor: 'rgba(23, 23, 23, 0.5)' }}
       ></div>
-      <div className="absolute inset-0 left-10 top-[-580px] z-40 flex h-[280px] w-[296px] flex-col items-center justify-center gap-[34px] rounded-[12px] bg-white px-5 py-3">
+      <div className="absolute inset-0 left-[45px] top-[-580px] z-40 flex h-[280px] w-[296px] flex-col items-center justify-center gap-[34px] rounded-[12px] bg-white px-5 py-3">
         <div className="custom-waguri-font flex flex-col items-center gap-2">
           <span className="text-center text-xl">그림 공유하기</span>
         </div>

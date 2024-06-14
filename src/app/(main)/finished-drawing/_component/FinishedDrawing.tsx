@@ -90,7 +90,7 @@ export default function FinishedDrawing() {
       </div>
       {isShare && (
         <div className="fixed z-50">
-          <ModalShare id={id} setIsShare={setIsShare} isShare={isShare} />
+          <ModalShare id={id} setIsShare={setIsShare} />
         </div>
       )}
       {isOpen && (
