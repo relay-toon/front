@@ -8,6 +8,7 @@ import MemberModal from './MemberModal';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
+import ModalShare from '@/src/components/ModalShare';
 interface ItemProps {
   id: string;
 }
@@ -18,7 +19,7 @@ export default function ItemPage({ id }: ItemProps) {
   const { data: toon, isLoading, error, refetch } = useGetToonInfo(id);
   const [showModal, setShowModal] = useState(false);
   const { mutate: deleteToon } = useDeleteToon();
-
+  const [isShare, setIsShare] = useState(false);
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setShowModal(false);
@@ -115,8 +116,13 @@ export default function ItemPage({ id }: ItemProps) {
       </div>
       <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
-        <ShareButton />
+        <ShareButton setIsShare={setIsShare} />
       </div>
+      {isShare && (
+        <div className="fixed z-50">
+          <ModalShare id={id} setIsShare={setIsShare} />
+        </div>
+      )}
     </div>
   );
 }
