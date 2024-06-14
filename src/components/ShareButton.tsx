@@ -1,13 +1,12 @@
 'use client';
-import { useState } from 'react';
-import ModalShare from './ModalShare';
+
+import { SetStateAction } from 'react';
 
 interface IShare {
-  id: string | string[];
+  setIsShare: React.Dispatch<SetStateAction<boolean>>;
 }
 
-export default function ShareButton({ id }: IShare) {
-  const [isShare, setIsShare] = useState(false);
+export default function ShareButton({ setIsShare }: IShare) {
   const onClick = () => {
     setIsShare(true);
   };
@@ -19,7 +18,6 @@ export default function ShareButton({ id }: IShare) {
       >
         공유하기
       </button>
-      {isShare && <ModalShare id={id} setIsShare={setIsShare} />}
     </>
   );
 }

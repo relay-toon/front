@@ -9,9 +9,11 @@ import { useParams } from 'next/navigation';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
 import { useRouter } from 'next/navigation';
+import ModalShare from '@/src/components/ModalShare';
 
 export default function FinishedDrawing() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isShare, setIsShare] = useState(false);
 
   const onClick = () => {
     setIsOpen(false);
@@ -44,8 +46,7 @@ export default function FinishedDrawing() {
     return <LoadingSpinner />;
   }
   return (
-    <div>
-      {/* {isBack && <ModalConfirmBack setIsBack={setIsBack} isBack={isBack} />} */}
+    <div className="">
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
         {toon?.participants.length === toon?.headCount
@@ -85,8 +86,13 @@ export default function FinishedDrawing() {
       </div>
       <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
-        <ShareButton id={id} />
+        <ShareButton setIsShare={setIsShare} />
       </div>
+      {isShare && (
+        <div className="fixed z-50">
+          <ModalShare id={id} setIsShare={setIsShare} isShare={isShare} />
+        </div>
+      )}
       {isOpen && (
         <div
           className={
