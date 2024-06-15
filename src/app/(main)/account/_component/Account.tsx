@@ -1,10 +1,14 @@
 'use client';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalNickname from '@/src/components/ModalNickname';
 import BackHeader from '@/src/components/header/BackHeader';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/src/store/authStore';
 export default function AccountPage() {
+  const router = useRouter();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const [showNicknameModal, setShowNicknameModal] = useState(false);
   const { data: myInfo } = useGetMyInfo();
   const onNicknameClick = () => {
@@ -18,6 +22,11 @@ export default function AccountPage() {
       setShowNicknameModal(false);
     }
   };
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  }, [isLoggedIn]);
   return (
     <div>
       <BackHeader />

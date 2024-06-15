@@ -3,11 +3,14 @@ import SaveButton from '@/src/components/SaveButton';
 import ShareButton from '@/src/components/ShareButton';
 import BackHeader from '@/src/components/header/BackHeader';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MemberModal from './MemberModal';
 import { useGetToonInfo } from '@/src/hooks/useGetToonInfo';
 import { useDeleteToon } from '@/src/hooks/useDeleteToon';
 import LoadingSpinner from '@/src/components/LoadingSpinner';
+import ModalShare from '@/src/components/ModalShare';
+import { useAuthStore } from '@/src/store/authStore';
+import { useRouter } from 'next/navigation';
 interface ItemProps {
   id: string;
 }
@@ -18,13 +21,19 @@ export default function ItemPage({ id }: ItemProps) {
   const { data: toon, isLoading, error, refetch } = useGetToonInfo(id);
   const [showModal, setShowModal] = useState(false);
   const { mutate: deleteToon } = useDeleteToon();
-
+  const [isShare, setIsShare] = useState(false);
+  const router = useRouter();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const handleCloseModal = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setShowModal(false);
     }
   };
-
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  }, [isLoggedIn]);
   const handleDeleteToon = () => {
     if (confirm('정말 삭제하시겠습니까?')) {
       deleteToon(id, {
@@ -115,8 +124,13 @@ export default function ItemPage({ id }: ItemProps) {
       </div>
       <div className="mb-[116px] mt-9 flex flex-row justify-center gap-[14px]">
         <SaveButton />
-        <ShareButton />
+        <ShareButton setIsShare={setIsShare} />
       </div>
+      {isShare && (
+        <div className="fixed z-50">
+          <ModalShare id={id} setIsShare={setIsShare} />
+        </div>
+      )}
     </div>
   );
 }
