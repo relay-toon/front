@@ -15,7 +15,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const canonicalUrl = 'https://relaytoon.site$';
+  const canonicalUrl = 'https://relaytoon.site';
 
   return (
     <html lang="ko">
