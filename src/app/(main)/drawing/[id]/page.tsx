@@ -11,7 +11,7 @@ import { usePutToon } from '@/src/hooks/usePutToon';
 import { useGetMyInfo } from '@/src/hooks/useGetMyInfo';
 import ModalPainterName from '@/src/components/ModalPainterName';
 import ModalConfirmBack from '@/src/components/ModalConfirmBack';
-
+import WrappedCanvas from '../_component/WrappedCanvas';
 interface FabricCanvasHandle {
   getCanvas: () => HTMLCanvasElement | null;
   canvasInstance: fabric.Canvas | null;
@@ -21,13 +21,9 @@ interface ForwardRefCanvasProps {
   prevPicture?: string;
 }
 
-const NoSSRCanvas = dynamic(() => import('../_component/WrappedCanvas'), {
-  ssr: false,
-  loading: () => <LoadingSpinner />,
-});
 const ForwardRefCanvas = forwardRef<FabricCanvasHandle, ForwardRefCanvasProps>(
   (props, ref: ForwardedRef<FabricCanvasHandle>) => {
-    return <NoSSRCanvas {...props} forwardRef={ref} />;
+    return <WrappedCanvas {...props} forwardRef={ref} />;
   },
 );
 ForwardRefCanvas.displayName = 'ForwardRefCanvas';
