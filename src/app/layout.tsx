@@ -3,7 +3,7 @@ import './styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: '릴레이툰',
@@ -16,8 +16,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const router = useRouter();
-  const canonicalUrl = `https://relaytoon.site${router.asPath}`;
+  const pathname = usePathname();
+  const canonicalUrl = `https://relaytoon.site${pathname}`;
 
   return (
     <html lang="ko">
