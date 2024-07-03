@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './styles/globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import Head from 'next/head';
 
 export const metadata: Metadata = {
   title: '릴레이툰',
@@ -14,8 +15,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const canonicalUrl = 'https://relaytoon.site';
+
   return (
     <html lang="ko">
+      <Head>
+        <title>{metadata.title as string}</title>
+        <meta name="description" content={metadata.description} />
+        <meta name="robots" content="index, follow" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="keywords" content="릴레이툰, 그림, 창의력, 스토리" />
+
+        <meta property="og:title" content={metadata.title as string} />
+        <meta property="og:description" content={metadata.description} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="website" />
+
+        <link rel="canonical" href={canonicalUrl} />
+      </Head>
       <body>
         {children}
         <Analytics />
