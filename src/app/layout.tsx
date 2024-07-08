@@ -17,6 +17,15 @@ export default function RootLayout({
 }>) {
   const canonicalUrl = 'https://relaytoon.site';
 
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    url: canonicalUrl,
+    name: '릴레이툰',
+    description: metadata.description,
+    inLanguage: 'ko',
+  };
+
   return (
     <html lang="ko">
       <Head>
@@ -24,14 +33,19 @@ export default function RootLayout({
         <meta name="description" content={metadata.description} />
         <meta name="robots" content="index, follow" />
         <link rel="icon" href="/favicon.ico" />
-        <meta name="keywords" content="릴레이툰, 그림, 창의력, 스토리" />
-
+        <meta
+          name="keywords"
+          content="릴레이툰, 그림, 창의력, 스토리, relaytoon"
+        />
         <meta property="og:title" content={metadata.title as string} />
         <meta property="og:description" content={metadata.description} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="website" />
-
         <link rel="canonical" href={canonicalUrl} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </Head>
       <body>
         {children}
