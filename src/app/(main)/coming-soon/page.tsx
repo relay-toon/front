@@ -10,7 +10,7 @@ export default function ComingSoonPage() {
     router.back();
   };
   return (
-    <div>
+    <div className="h-screen">
       <OnlyLogoHeader />
       <div className="custom-waguri-font align-center mt-[141px] flex h-[41px] justify-center text-2xl">
         준비중
