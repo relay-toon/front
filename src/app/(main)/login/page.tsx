@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function LoginPage() {
   return (
-    <div className="mt-[97px] flex flex-col items-center justify-center">
+    <div className="mt-[97px] flex h-screen flex-col items-center justify-center">
       <Link href="/">
         <Image
           src="/img/login-image.png"
