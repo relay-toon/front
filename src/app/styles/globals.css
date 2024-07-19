@@ -19,6 +19,7 @@ body {
   display: flex;
   justify-content: center;
   font-family: 'Pretendard Variable', sans-serif;
+  height: 100vh;
 }
 
 @font-face {
