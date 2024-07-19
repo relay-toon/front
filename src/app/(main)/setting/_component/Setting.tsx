@@ -35,7 +35,7 @@ export default function Setting() {
     }
   };
   return (
-    <div className="relative h-screen bg-[#F7F7F7]">
+    <div className="relative h-screen bg-white">
       <div className=" flex h-[48px] items-center justify-center bg-white">
         <div
           onClick={onClick}

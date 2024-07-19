@@ -46,7 +46,7 @@ export default function FinishedDrawing() {
     return <LoadingSpinner />;
   }
   return (
-    <div className="">
+    <div className="h-screen">
       <MenuHeader isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="custom-waguri-font mt-4  flex justify-center text-2xl">
         {toon?.participants.length === toon?.headCount

@@ -133,7 +133,7 @@ export default function DrawingPage() {
   }
 
   return (
-    <div className="overflow-x-hidden">
+    <div className="h-screen overflow-x-hidden">
       {startModal && (
         <div
           className="margin-auto fixed top-0 z-50 h-[100vh] w-[390px] overflow-hidden"

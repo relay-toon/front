@@ -103,7 +103,7 @@ export default function CreateRoom() {
   };
 
   return (
-    <div className="overflow-x-hidden bg-white">
+    <div className="h-screen overflow-x-hidden bg-white">
       <BackHeader />
       <div className=" h-[844px] w-[390px] bg-white p-5">
         <div className="flex flex-col">

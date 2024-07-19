@@ -56,7 +56,7 @@ export default function ItemPage({ id }: ItemProps) {
     return <LoadingSpinner />;
   }
   return (
-    <div className="mb-[100px]">
+    <div className="mb-[100px] h-screen">
       {showModal && (
         <div
           className="fixed inset-0 z-30 flex items-center justify-center bg-black bg-opacity-50"
